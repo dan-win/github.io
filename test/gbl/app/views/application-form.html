@@ -1,0 +1,14 @@
+<section>
+    <div data-bind="compose:'snippets/application-tabs.html'" class="clearfix">
+        <!-- tabs -->
+    </div>
+
+    <div class="tab-content">
+        <div 
+        	data-bind="compose:{view: activePageView, onError: handleBindingError}" 
+        	role="tabpanel" 
+        	class="tab-pane active">
+	    	<!-- tab pane -->    	
+        </div>
+    </div>
+</section>

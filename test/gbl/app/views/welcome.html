@@ -1,0 +1,194 @@
+<section>
+    <!-- <h2 data-bind="text:displayName"></h2> -->
+    <!-- <blockquote data-bind="text:description"></blockquote> -->
+    <div>
+        <div class="clearfix">
+            <!-- tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active" role="presentation"><a href="javascript:void(0)">About You</a></li>
+                <li role="presentation"><a href="javascript:void(0)">About Your Guarantor</a></li>
+                <li role="presentation"><a href="javascript:void(0)">About Your Finances</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active">
+                <!-- tabs interior -->
+                <form>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">About Your Loan</h3></div>
+                        <div class="panel-body row">
+                            <div col="col-sm-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h4 style="text-align:center">Your Loan Summary</h4>
+                                        <div class="row loan-summary">
+                                            <div class="col-xs-6">You want to borrow</div>
+                                            <div class="col-xs-6">&pound;<span></span></div>
+                                            <div class="col-xs-6">Over a repayment period</div>
+                                            <div class="col-xs-6"><span></span> Months</div>
+                                            <div class="col-xs-6">Repaying (Per Month)</div>
+                                            <div class="col-xs-6">&pound;<span></span></div>
+                                            <div class="col-xs-6">Total Amount Repayable</div>
+                                            <div class="col-xs-6">&pound;<span></span></div>
+                                            <div class="col-xs-6">Fixed Representative APR</div>
+                                            <div class="col-xs-6"><span></span>%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col 1 -->
+                            <div class="form-group c25 col-xs-12 col-sm-4" data-cid="c25">
+                                <label class="control-label" for="c25">Loan Amount</label>
+                                <div class="input-group"><span class="input-group-addon left"><i class="glyphicon glyphicon-gbp"></i> </span>
+                                    <select class="form-control" id="c25" name="c25">
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- col 2 -->
+                            <div class="form-group c33 col-xs-12 col-sm-4" data-cid="c33">
+                                <label class="control-label" for="c33">Loan Term</label>
+                                <select class="form-control" id="c33" name="c33">
+                                </select>
+                            </div>
+                            <!-- col 3 -->
+                            <div class="form-group c38 col-xs-12 col-sm-4" data-cid="c38">
+                                <label class="control-label" for="c38">Loan Purpose</label>
+                                <select class="form-control" id="c38" name="c38">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">About You</h3></div>
+                        <div class="panel-body row">
+                            <div class="form-group c43 col-xs-12 col-sm-4" data-cid="c43">
+                                <label class="control-label" for="c43">Title</label>
+                                <select class="form-control" id="c43" name="c43">
+                                    <option selected value="Select...">Select...</option>
+                                    <option value="Miss">Miss</option>
+                                    <option value="Mr">Mr</option>
+                                    <option value="Mrs">Mrs</option>
+                                    <option value="Ms">Ms</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group c53 col-xs-12 col-sm-4" data-cid="c53">
+                                <label class="control-label" for="c53">First Name</label>
+                                <input type="text" class="form-control" id="c53" name="c53" value="" />
+                            </div>
+                            <div class="form-group c58 col-xs-12 col-sm-4" data-cid="c58">
+                                <label class="control-label" for="c58">Surname</label>
+                                <input type="text" class="form-control" id="c58" name="c58" value="" />
+                            </div>
+                            <div class="form-group c48 col-xs-12 col-sm-4" data-cid="c48">
+                                <label class="control-label" for="c48">Date of Birth</label>
+                                <div class="input-group date">
+                                    <input type="text" class="form-control datepicker" id="c48" name="c48" value="" data-datepicker-format="dd/mm/yyyy" data-datepicker-multidate="false" />
+                                    <span class="input-group-addon right"><i class="glyphicon glyphicon-th"></i> </span></div>
+                            </div>
+                            <div class="form-group c63 col-xs-12 col-sm-4" data-cid="c63">
+                                <label class="control-label" for="c63">Mobile Phone</label>
+                                <div class="input-group"><span class="input-group-addon left"><i class="glyphicon glyphicon-earphone"></i> </span>
+                                    <input type="tel" class="form-control" id="c63" name="c63" value="" placeholder="xxx-xxx-xxxx" data-rule-pattern="[0-9]{3,4}[ -.]*[0-9]{3,4}[ -.]*[0-9]{4}" data-msg-pattern="Invalid phone number" />
+                                </div>
+                            </div>
+                            <div class="form-group c74 col-xs-12 col-sm-4" data-cid="c74">
+                                <label class="control-label" for="c74">Home Phone</label>
+                                <div class="input-group"><span class="input-group-addon left"><i class="glyphicon glyphicon-earphone"></i> </span>
+                                    <input type="tel" class="form-control" id="c74" name="c74" value="" placeholder="xxx-xxx-xxxx" data-rule-pattern="[0-9]{3,4}[ -.]*[0-9]{3,4}[ -.]*[0-9]{4}" data-msg-pattern="Invalid phone number" />
+                                </div>
+                            </div>
+                            <div class="form-group c79 col-xs-12 col-sm-4" data-cid="c79">
+                                <label class="control-label" for="c79">Email</label>
+                                <div class="input-group"><span class="input-group-addon left"><span>@</span></span>
+                                    <input type="email" class="form-control" id="c79" name="c79" value="" data-rule-email="true" />
+                                </div>
+                            </div>
+                            <div class="form-group c84 col-xs-12 col-sm-4" data-cid="c84">
+                                <label class="control-label" for="c84">Employment Status</label>
+                                <select class="form-control" id="c84" name="c84">
+                                    <option value="">- Select -</option>
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                    <option value="Option 3">Option 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group c89 col-xs-12 col-sm-4" data-cid="c89">
+                                <label class="control-label" for="c89">Pay Frequency</label>
+                                <select class="form-control" id="c89" name="c89">
+                                    <option value="">- Select -</option>
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                    <option value="Option 3">Option 3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Current Address</h3></div>
+                        <div class="panel-body row">
+                            <div class="form-group c99 col-xs-12 col-sm-4" data-cid="c99">
+                                <label class="control-label" for="c99">Postcode Start typing to select</label>
+                                <input type="text" class="form-control typeahead" id="c99" name="c99" value="" aria-describedby="c99-help-block" />
+                                <p id="c99-help-block" class="description">Type to select</p>
+                            </div>
+                            <div class="form-group c104 col-xs-12 col-sm-4" data-cid="c104">
+                                <label class="control-label" for="c104">Address Line 1</label>
+                                <input type="text" class="form-control" id="c104" name="c104" value="" />
+                            </div>
+                            <div class="form-group c109 col-xs-12 col-sm-4" data-cid="c109">
+                                <label class="control-label" for="c109">Address Line 2</label>
+                                <input type="text" class="form-control" id="c109" name="c109" value="" />
+                            </div>
+                            <div class="form-group c114 col-xs-12 col-sm-4" data-cid="c114">
+                                <label class="control-label" for="c114">City/Town</label>
+                                <input type="text" class="form-control" id="c114" name="c114" value="" />
+                            </div>
+                            <div class="form-group c119 col-xs-12 col-sm-4" data-cid="c119">
+                                <label class="control-label" for="c119">Residential Status</label>
+                                <select class="form-control" id="c119" name="c119">
+                                </select>
+                            </div>
+                            <div class="form-group c81 col-xs-12 col-sm-4" data-cid="c81">
+                                <label class="control-label" for="c81">Time at this Address</label>
+                                <select class="form-control" id="c81" name="c81">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Previous Address</h3></div>
+                        <div class="panel-body row">
+                            <div class="form-group c87 col-xs-12 col-sm-4" data-cid="c87">
+                                <label class="control-label" for="c87">House Name/Number</label>
+                                <input type="text" class="form-control" id="c87" name="c87" value="" />
+                            </div>
+                            <div class="form-group c92 col-xs-12 col-sm-4" data-cid="c92">
+                                <label class="control-label" for="c92">Postcode</label>
+                                <input type="text" class="form-control" id="c92" name="c92" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Your Bank Details</h3></div>
+                        <div class="panel-body row">
+                            <div class="form-group c97 col-xs-12 col-sm-4" data-cid="c97">
+                                <label class="control-label" for="c97">Sort Code</label>
+                                <input type="text" class="form-control" id="c97" name="c97" value="" />
+                            </div>
+                            <div class="form-group c102 col-xs-12 col-sm-4" data-cid="c102">
+                                <label class="control-label" for="c102">Account Number</label>
+                                <input type="text" class="form-control" id="c102" name="c102" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

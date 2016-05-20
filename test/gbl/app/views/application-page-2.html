@@ -1,0 +1,65 @@
+<!-- App Page 2-->
+ <form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">About Your Guarantor</h3></div>
+        <div class="panel-body">
+            <div class="row">
+                <!-- col 1 -->
+                <div data-bind="form-group-dropdown: {
+				            		label:'Title', 
+				            		value: fields.GrntTitle,
+				            		options: fields.lkpTitle
+				            	}"></div>
+                <!-- col 2 -->
+                <div data-bind="form-group-text: {
+				            		label:'First Name', 
+				            		value: fields.GrntFirstName
+				            	}"></div>
+                <!-- col 3 -->
+                <div data-bind="form-group-text: {
+				            		label:'Surname', 
+				            		value: fields.GrntSurName
+				            	}"></div>
+            </div>
+
+            <div class="row">
+                <!-- col 1 -->
+                <div data-bind="form-group-text: {
+				            		label:'Mobile Phone', 
+				            		value: fields.GrntMobilePhone,
+				            		placeholder: 'xxx-xxx-xxxx',
+				            		pattern: '9999999'
+				            	}"></div>
+                <!-- col 2 -->
+                <div data-bind="form-group-text: {
+				            		label:'Home Phone', 
+				            		value: fields.GrntHomePhone,
+				            		placeholder: 'xxx-xxx-xxxx',
+				            		pattern: '9999999'
+				            	}"></div>
+                <!-- col 3 -->
+                <div data-bind="form-group-text: {
+				            		label:'Email Address', 
+				            		value: fields.GrntEmail,
+				            		placeholder: 'your@email.com',
+				            		pattern: ''
+				            	}"></div>
+
+            </div>
+
+            <div class="row">
+                <!-- col 1 -->
+                <div data-bind="form-group-dropdown: {
+				            		label:'Residential Status', 
+				            		value: fields.GrntResidentialStatus,
+				            		options:fields.lkpResidentialStatus
+				            	}"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button>
+
+</form>
