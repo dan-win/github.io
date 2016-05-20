@@ -1,0 +1,120 @@
+<div class="header">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <!-- topmost row -->
+        <div role="navigation" class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-collapse collapse top-nav">
+                    <ul class="nav navbar-nav links">
+                        <li class="first-child"><a href="/">Home</a>
+                        </li>
+                        <li><a href="/blogs">Blog</a>
+                        </li>
+                    </ul>
+                    <ul class="lenders-login">
+                        <li><a href="/admin-login" css="btn">Lenders Login</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav social-nav">
+                        <li class="social-link facebook first-child"><a title="Guarantor Loans specialist on Facebook" target="_blank" href="https://www.facebook.com/profile.php?id=842349775778225&amp;fref=ts">Facebook</a>
+                        </li>
+                        <li class="social-link twitter second-child"><a target="_blank" title="Guarantor Loans specialist on Twitter" href="https://www.twitter.com/guarantormyloan">Twitter</a>
+                        </li>
+                        <li class="social-link googleplus last-child"><a title="Guarantor Loans specialist on Google plus" target="_blank" href="https://plus.google.com/104282596185952587247/posts">Google Plus</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
+            <div class="navbar navbar-default main-navbar" role="navigation">
+                <div class="col-sm-5">
+                    <div id="GLlogo">
+                        <a href="/">
+                            <img alt="Guarantor my Loan" src="img/GLlogo374.png" class="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-7 main-nav-container" id="GLMainNav">
+                    <div class="navbar-collapse collapse main-nav">
+                        <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
+                            <li data-bind="css: { active: isActive }">
+                                <a data-bind="attr: { href: hash }, text: title"></a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="loader" data-bind="css: { active: router.isNavigating }">
+                                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>            
+        
+    </div>
+
+<!--     <div class="container-fluid">
+        <div class="row">
+            <div class="navbar navbar-default main-navbar" role="navigation">
+                <div class="col-sm-5">
+                    <div id="GLlogo">
+                        <a href="/">
+                            <img alt="Guarantor my Loan" src="img/GLlogo374.png" class="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-7 main-nav-container" id="GLMainNav">
+                    <div class="navbar-collapse collapse main-nav">
+                        <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
+                            <li data-bind="css: { active: isActive }">
+                                <a data-bind="attr: { href: hash }, text: title"></a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="loader" data-bind="css: { active: router.isNavigating }">
+                                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+ -->
+
+<!--                 <div class="navbar-header">
+                    <button data-target=".top-nav" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+ -->    
+</div>
+
+
+<!--     <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <i class="fa fa-home"></i>
+                <span>Guarantor Loan</span>
+            </a>
+        </div>
+    </nav>
+ -->
+<!--     <div class="container">
+        <div class="row">
+            <div class="page-host" data-bind="router: { transition:'entrance' }"></div>
+        </div>
+    </div>
+ -->
+     
+<div class="page-host" data-bind="router: { transition:'entrance' }"></div>

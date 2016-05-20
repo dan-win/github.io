@@ -1,0 +1,107 @@
+body {
+	padding-top: 0;
+}
+
+section {
+	margin: 0;
+}
+
+.page-host {
+/*	left: 20px;
+	right: 20px;
+*/	margin-top: 100px;
+	overflow-y: visible;
+	overflow-x: visible;
+}
+
+img.logo {
+	width:auto;
+}
+
+.header {
+	border-bottom:none;
+}
+
+.main-navbar {
+	top: 50px;
+}
+
+
+.nav-tabs {
+	width: 100%;
+	background: #007e77 none repeat scroll 0 0;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.nav-tabs > li > a {
+	/*background: inherit;*/
+	cursor: default;
+	text-transform: uppercase;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+	background: #272460 none repeat scroll 0 0;
+}
+
+.loan-summary div {
+	padding-left: 10%;
+}
+
+.form-group {
+	margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.panel {
+	padding-top: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.panel-default > .panel-heading {
+	padding-top: 20px;
+	background: transparent;
+	border-bottom: 0px;
+}
+
+.tab-content {
+	margin-left: 15px;
+	margin-right: 15px;
+
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+
+	border: 3px #272460 solid;
+	border-radius: 5px;
+
+	background: #272460 none repeat scroll 0 0;
+}
+
+.form-control, .input-group > span, .panel-default {
+	border: 1px solid #999;
+}
+
+.tab-content > .tab-pane > form > .panel-default {
+	border: none;
+	/*border: 3px #272460 solid;*/
+	background-color: white;
+	padding-top: 0px;
+	/*padding-bottom: 5px;*/
+	margin-bottom: 10px;
+}
+
+.proceed-button {
+	display:block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	width:100%;
+}
+
+.proceed-button:hover {
+	color: white;
+}
+

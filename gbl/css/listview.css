@@ -1,0 +1,10 @@
+.ys-listview {
+	display: block;
+	position: absolute;
+	margin-right: 3%;
+	margin-top: 15px;
+	width: 97%;
+	max-height: 70%;
+	overflow: hidden;
+	overflow-y: auto; 
+}

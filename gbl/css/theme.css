@@ -1,0 +1,53 @@
+body, *.page-host {
+	font-family: Helvetica, Arial
+}
+
+*.page-host > section > h2 {
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-top: 0;
+	padding: 20px;
+	margin-bottom: 30px;
+
+/*	color: rgb(255,255,255);
+	background-color: #57637d;
+*/
+	/*border-left: 1px solid #999999;*/
+}
+
+*.table > thead > tr > th {
+	border-bottom-width: 1px;
+}
+
+*.table > tbody > tr > td {
+	border-top-width: 0;
+}
+
+.navbar {
+	background-color: #00D5C3;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a {
+	color: #ffffff;
+}
+
+.navbar-default .navbar-nav > .active > a {
+	background-color: #57637d;
+}
+
+.ws-topbar, .ws-sidebar, .ws-sidebar a {
+	color: rgb(255,255,255);
+	background-color: #57637d;
+	/*background-color: #2C334D;*/
+}
+
+.ws-sidebar a:hover {
+	color: rgb(200,200,200);
+	background-color: inherit;
+}
+
+.ws-sidebar li.active a,
+.ws-sidebar li.active a:focus {
+	background-color: #00D5C3;
+}
