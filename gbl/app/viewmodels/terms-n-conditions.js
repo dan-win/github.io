@@ -2,7 +2,7 @@
 define(['durandal/app'], function (app) {
         var ctor = function () {
         this.displayName = 'Guarantor Loan';
-        this.description = '';
+        this.description = 'Under construction';
         this.features = [
         ];
         this.activate = function () {

@@ -1,9 +1,131 @@
-<section>
-    <h2 data-bind="text:displayName"></h2>
-    <!-- <blockquote data-bind="text:description"></blockquote> -->
+ <form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">About Your Loan</h3></div>
+        <div class="panel-body">
 
-    <div class="container">
-      <div class="row">
-      </div>
+
+            <!-- row 1, labels -->
+            <div class="row">
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			How much do you earn per month?</label>
+            	</div>
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			What is your total monthly household income?</label>
+            	</div>
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			Your Mortgage/Rent Payment</label>
+            	</div>
+            </div>
+
+
+            <!-- row 1, controls -->
+            <div class="row">
+                <!-- col 1 -->
+                <div data-bind="form-group-text: {
+            		value: fields.NetMonthlyIncome,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+                <!-- col 2 -->
+                <div data-bind="form-group-text: {
+            		value: fields.TotalHouseholdIncome,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+                <!-- col 3 -->
+                <div data-bind="form-group-text: {
+            		value: fields.MortgageRentPayment,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+            </div>
+
+
+
+            <!-- row 2, labels -->
+            <div class="row">
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			How much do you pay on your existing loans and credit cards?</label>
+            	</div>
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			How much do you spend on food per month?</label>
+            	</div>
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			How much do you spend on water, gas and electricity per month?</label>
+            	</div>
+            </div>
+
+
+            <!-- row 2, controls -->
+            <div class="row">
+                <!-- col 1 -->
+                <div data-bind="form-group-text: {
+            		value: fields.MonthlyLoanCommitments,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+                <!-- col 2 -->
+                <div data-bind="form-group-text: {
+            		value: fields.Food,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+                <!-- col 3 -->
+                <div data-bind="form-group-text: {
+            		value: fields.Utilities,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+            </div>
+
+
+            <!-- row 3, labels -->
+            <div class="row">
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			How much are your transport costs per month?</label>
+            	</div>
+            	<div class="col-xs-12 col-sm-4">
+            		<label class="control-label">
+            			How much do you spend on other regular monthly outgoings?</label>
+            	</div>
+            </div>
+
+
+            <!-- row 3, controls -->
+            <div class="row">
+                <!-- col 1 -->
+                <div data-bind="form-group-text: {
+            		value: fields.Transport,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+                <!-- col 2 -->
+                <div data-bind="form-group-text: {
+            		value: fields.OtherOutgoings,
+            		glyphicon:'glyphicon glyphicon-gbp',
+            		bootstrapColClass: 'col-xs-12 col-sm-4'
+            	}"></div>
+
+            </div>
+
+
+
+        </div>
     </div>
-</section>
+    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button>
+</form>

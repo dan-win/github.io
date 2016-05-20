@@ -194,6 +194,22 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore'], function (r
 
 
 			// Part III (About Your Finances)
+    		_field("NetMonthlyIncome",
+					{"mapTo":"", "appPage":3});
+    		_field("TotalHouseholdIncome",
+					{"mapTo":"", "appPage":3});
+    		_field("MortgageRentPayment",
+					{"mapTo":"", "appPage":3});
+    		_field("MonthlyLoanCommitments",
+					{"mapTo":"", "appPage":3});
+    		_field("Food",
+					{"mapTo":"", "appPage":3});
+    		_field("Utilities",
+					{"mapTo":"", "appPage":3});
+    		_field("Transport",
+					{"mapTo":"", "appPage":3});
+    		_field("OtherOutgoings",
+					{"mapTo":"", "appPage":3});
 
 			
 

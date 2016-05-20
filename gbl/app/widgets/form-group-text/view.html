@@ -1,5 +1,7 @@
 <div class="form-group" data-bind="css:settings.bootstrapColClass">
-    <label class="control-label" data-bind="attr:{'for':settings.name},html:settings.label">LABEL</label>
+    <section data-bind="if: settings.label">
+        <label class="control-label" data-bind="attr:{'for':settings.name},html:settings.label"></label>
+    </section>
     <section data-bind="if: settings.hasIcon">
         <!-- render "input group" -->
         <div class="input-group">

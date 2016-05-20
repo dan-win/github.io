@@ -14,7 +14,7 @@
             // assertDefined(settings, 'value');
 
             // optional:
-        	settings.label = settings.label || 'NONAME';
+        	settings.label = settings.label || null; // allow controls without labels
         	settings.name = settings.name || 'control_'+(++lastId);
         	settings.hasIcon = !!settings.glyphicon || !!settings.texticon;
         	settings.texticon = settings.texticon || null;
