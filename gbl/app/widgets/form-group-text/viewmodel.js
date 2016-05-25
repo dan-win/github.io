@@ -20,7 +20,9 @@
         	settings.texticon = settings.texticon || null;
         	settings.glyphicon = !settings.texticon && settings.glyphicon || '';
         	settings.placeholder = settings.placeholder || null;
-        	settings.pattern = settings.pattern || null;
+        	settings.mask = settings.mask || null;
+            settings.inputClass = settings.inputClass || '';
+            if (settings.required) settings.inputClass += ' required-field';
         	settings.bootstrapColClass = settings.bootstrapColClass || 'col-xs-12 col-sm-4';
 
             this.settings = settings;

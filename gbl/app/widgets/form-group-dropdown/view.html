@@ -17,10 +17,11 @@
         		attr:{
         			'name':settings.name,
         			'id':settings.name,
-        			'data-rule-pattern':settings.pattern
-        		}">      
+        			'data-mask-pattern':settings.mask
+        		}, css:settings.inputClass">      
             </select>
         </div>
+        <section class="user-message"></section>
     </section>
 
     <section data-bind="ifnot: settings.hasIcon">
@@ -35,9 +36,10 @@
             attr:{
                 'name':settings.name,
                 'id':settings.name,
-                'data-rule-pattern':settings.pattern
-            }">
+                'data-mask-pattern':settings.mask
+            }, css:settings.inputClass">
         </select>
+        <section class="user-message"></section>
     </section>
     
     <!-- ko if: settings.footerHtml -->

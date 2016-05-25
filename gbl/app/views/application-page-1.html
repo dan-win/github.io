@@ -1,4 +1,4 @@
-<!-- <div data-bind="form-group-text: {name:'My Widget', glyphicon:'glyphicon glyphicon-book', placeholder:'Place!', pattern:'000'}"></div>
+<!-- <div data-bind="form-group-text: {name:'My Widget', glyphicon:'glyphicon glyphicon-book', placeholder:'Place!', mask:'000'}"></div>
 <div data-bind="form-group-dropdown: {name:'My Widget', glyphicon:'glyphicon glyphicon-book', options:'function(){return{1,2,3}}'}"></div>
  -->
  <form>
@@ -41,7 +41,8 @@
             		options: fields.lkpLoanAmount,
             		optionsText: 'label',
             		optionsValue: 'value',
-            		glyphicon:'glyphicon glyphicon-gbp'
+            		glyphicon:'glyphicon glyphicon-gbp',
+                    required: true
             	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-dropdown: {
@@ -50,12 +51,14 @@
             		options: fields.lkpLoanTerm,
             		optionsText: 'label',
             		optionsValue: 'value',
+                    required: true
             	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-dropdown: {
             		label:'Loan Purpose', 
             		value: fields.LoanPurpose,
-            		options: fields.lkpLoanPurpose
+            		options: fields.lkpLoanPurpose,
+                    required: true
             	}"></div>
             </div>
         </div>
@@ -69,17 +72,20 @@
                 <div data-bind="form-group-dropdown: {
 				            		label:'Title', 
 				            		value: fields.Title,
-				            		options: fields.lkpTitle
+				            		options: fields.lkpTitle,
+                                    required: true
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'First Name', 
-				            		value: fields.FirstName
+				            		value: fields.FirstName,
+                                    required: true
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-text: {
 				            		label:'Surname', 
-				            		value: fields.SurName
+				            		value: fields.SurName,
+                                    required: true
 				            	}"></div>
             </div>
             <div class="row">
@@ -87,24 +93,28 @@
                 <div class="form-group col-xs-12 col-sm-4" data-cid="c48">
                     <label class="control-label">Date of Birth</label>
                     <div class="input-group date">
-                        <select data-bind="value:fields.BirthDate,options:fields.lkpBirthDate"></select>
-                        <select data-bind="value:fields.BirthMonth,options:fields.lkpBirthMonth"></select>
-                        <select data-bind="value:fields.BirthYear,options:fields.lkpBirthYear"></select>
+                        <select data-bind="value:fields.BirthDate,options:fields.lkpBirthDate,valueAllowUnset:true" class="required-field"></select>
+                        <select data-bind="value:fields.BirthMonth,options:fields.lkpBirthMonth,valueAllowUnset: true" class="required-field"></select>
+                        <select data-bind="value:fields.BirthYear,options:fields.lkpBirthYear,valueAllowUnset: true" class="required-field"></select>
+                        <section class="user-message"></section>
                     </div>
                 </div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'Mobile Phone', 
 				            		value: fields.MobilePhone,
-				            		placeholder: '07xxxxxxxxx',
-				            		pattern: '9999999'
+				            		placeholder: '07xxx xxxxxx',
+				            		mask: '07999 999999',
+                                    inputClass: 'mobile-phone',
+                                    required: true
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-text: {
 				            		label:'Home Phone', 
 				            		value: fields.HomePhone,
 				            		placeholder: '0xxxxxxxxx(x)',
-				            		pattern: '9999999'
+				            		mask: '(09999 99999)|(09999 999999)',
+                                    inputClass: 'landline-phone'
 				            	}"></div>
             </div>
             <div class="row">
@@ -113,19 +123,23 @@
 				            		label:'Email Address', 
 				            		value: fields.Email,
 				            		placeholder: 'your@email.com',
-				            		pattern: ''
+				            		mask: '',
+                                    inputClass: 'e-mail',
+                                    required: true
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-dropdown: {
 				            		label:'Employment Status', 
 				            		value: fields.EmploymentStatus,
-				            		options:fields.lkpEmploymentStatus
+				            		options:fields.lkpEmploymentStatus,
+                                    required: true
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-dropdown: {
 				            		label:'Pay Frequency', 
 				            		value: fields.PayFrequency,
-				            		options:fields.lkpPayFrequency
+				            		options:fields.lkpPayFrequency,
+                                    required: true
 				            	}"></div>
             </div>
         </div>
@@ -140,13 +154,16 @@
 				            		label:'Postcode <small>Start typing to select</small>', 
 				            		value: fields.Postcode,
 				            		placeholder: 'XXXXXXX',
-				            		pattern: '99999999',
-				            		footerHtml: 'Type to select'
+				            		mask: '99999999',
+				            		footerHtml: 'Type to select',
+                                    required: true,
+                                    inputClass: 'postcode'
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'Address Line 1', 
-				            		value: fields.AddressLine1
+				            		value: fields.AddressLine1,
+                                    required: true
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-text: {
@@ -164,13 +181,15 @@
                 <div data-bind="form-group-dropdown: {
 				            		label:'Residential Status', 
 				            		value: fields.ResidentialStatus,
-				            		options: fields.lkpResidentialStatus
+				            		options: fields.lkpResidentialStatus,
+                                    required: true
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-dropdown: {
 				            		label:'Time at this Address', 
 				            		value: fields.TimeAtAddress,
-				            		options: fields.lkpTimeAtAddress
+				            		options: fields.lkpTimeAtAddress,
+                                    required: true
 				            	}"></div>
             </div>
         </div>
@@ -190,7 +209,7 @@
 				            		label:'Postcode <small>Start typing to select</small>', 
 				            		value: fields.PreviousPostcode,
 				            		placeholder: 'XXXXXXX',
-				            		pattern: '99999999',
+				            		mask: '99999999',
 				            		footerHtml: 'Type to select'
 				            	}"></div>
             </div>
@@ -203,16 +222,18 @@
             <!-- col 1 -->
             <div data-bind="form-group-text: {
 			            		label:'Sort Code', 
-			            		value: fields.BankSortCode
+			            		value: fields.BankSortCode,
+                                required: true
 			            	}"></div>
             <!-- col 2 -->
             <div data-bind="form-group-text: {
 			            		label:'Account Number', 
-			            		value: fields.BankAccountNumber
+			            		value: fields.BankAccountNumber,
+                                required: true
 			            	}"></div>
         </div>
     </div>
-    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button>
+    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button><div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
     <div class="panel panel-default">
         <div class="panel-body row">
             <p>By clicking 'Click to Proceed' you agree to our <a href="#terms-n-conditions" target="_blank">Website Terms &amp; Conditions</a> and that we may contact you about your loan enquiry.</p>

@@ -13,9 +13,10 @@
     			'name':settings.name,
     			'id':settings.name,
     			'placeholder':settings.placeholder,
-    			'data-rule-pattern':settings.pattern
-    		}" />
+    			'data-mask-pattern':settings.mask
+    		}, css:settings.inputClass" />
         </div>
+        <section class="user-message"></section>
     </section>
     <section data-bind="ifnot: settings.hasIcon">
         <!-- render plain input -->
@@ -24,8 +25,9 @@
 			'name':settings.name,
 			'id':settings.name,
 			'placeholder':settings.placeholder,
-			'data-rule-pattern':settings.pattern
-		}" />
+			'data-mask-pattern':settings.mask
+		}, css:settings.inputClass" />
+        <section class="user-message"></section>
     </section>
 
     <!-- ko if: settings.footerHtml -->

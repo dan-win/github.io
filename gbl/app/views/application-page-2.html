@@ -9,7 +9,8 @@
                 <div data-bind="form-group-dropdown: {
 				            		label:'Title', 
 				            		value: fields.GrntTitle,
-				            		options: fields.lkpTitle
+				            		options: fields.lkpTitle,
+				            		required: true
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
@@ -28,22 +29,25 @@
                 <div data-bind="form-group-text: {
 				            		label:'Mobile Phone', 
 				            		value: fields.GrntMobilePhone,
-				            		placeholder: '07xxxxxxxxx',
-				            		pattern: '9999999'
+				            		placeholder: '07xxx xxxxxx',
+				            		mask: '07999 999999',
+				            		inputClass: 'landline-phone'
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'Home Phone', 
 				            		value: fields.GrntHomePhone,
 				            		placeholder: '0xxxxxxxxx(x)',
-				            		pattern: '9999999'
+				            		mask: '09999 99999Z',
+				            		inputClass: 'mobile-phone'
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-text: {
 				            		label:'Email Address', 
 				            		value: fields.GrntEmail,
 				            		placeholder: 'your@email.com',
-				            		pattern: ''
+				            		pattern: '',
+                                    inputClass: 'e-mail'
 				            	}"></div>
 
             </div>

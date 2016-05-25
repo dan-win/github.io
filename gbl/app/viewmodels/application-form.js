@@ -1,4 +1,5 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'underscore'], function (router, app, ko, _) {
+define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'jquery.inputmask'], 
+	function (router, app, ko, _, $, mask) {
 
 		// -- data models - forms
 
@@ -227,6 +228,8 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore'], function (r
         self.features = [
         ];
 
+        self.isComplete = ko.observable(true);
+
         self.fields = new FormModel();
 
         // switch for template binding (used in html with "data-bind='compose:activePageView' directive"):
@@ -264,20 +267,87 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore'], function (r
         	}
         }
 
+
+        var testComplete = function ($el) {
+        	// body...
+    		var complete = $el.val();
+    		if ($el.hasClass('masked-field'))
+    			complete = $el.inputmask('isComplete');
+    		return complete;
+        }
+
+        self.checkComplete = function () {
+        	var result = true;
+        	$('.required-field').each(function (index, el) {
+        		result = result && testComplete($(el));
+        	});
+        	self.isComplete(result);
+        }
+
+        self.compositionComplete = function () {
+        	console.log('compositionComplete');
+        	// apply jQuery plugin after composition is complete
+        	$('input.landline-phone').each(function (index, el) {
+        		var $el=$(el), mask = $el.attr('data-mask-pattern');
+        		$el.inputmask(mask).addClass('masked-field'); 
+        		console.log('applying mask landline', el, $el);
+        	});
+        	$('input.mobile-phone').each(function (index, el) {
+        		var $el=$(el), mask = $el.attr('data-mask-pattern');
+        		$el.inputmask(mask).addClass('masked-field'); 
+        		console.log('applying mask mobile', el, $el);
+        	});
+        	$('input.e-mail').inputmask({
+			    mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+			    greedy: false,
+			    onBeforePaste: function (pastedValue, opts) {
+			      pastedValue = pastedValue.toLowerCase();
+			      return pastedValue.replace("mailto:", "");
+			    },
+			    definitions: {
+			      '*': {
+			        validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~\-]",
+			        cardinality: 1,
+			        casing: "lower"
+			      }
+			    }
+			  }).addClass('masked-field');
+        	$('input.postcode').inputmask({
+        		mask:'',
+        		validator: '[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}'
+        	});
+
+        	$('.required-field').on('focusout', function () {
+        		var $el = $(this),
+        		complete = testComplete($el);
+        		message = complete ? '':'<span class="error-message">This field is required!</span>';
+        		if (complete) { 
+        			$el.removeClass('incomplete-field')
+        		} else {
+        			$el.addClass('incomplete-field')
+        		}
+    			$el.next('section.user-message').html(message);
+        	})
+
+        }
+
         self.proceedPage = function () {
         	var hash;
-        	if (self.activePageNo < 3) {
-        		// next page:
-        		hash = 'application-form/'+(self.activePageNo+1)
-        	} else {
-        		// last page:
-        		hash = 'thank-you'
+        	self.checkComplete();
+        	if (self.isComplete()){
+	        	if (self.activePageNo < 3) {
+	        		// next page:
+	        		hash = 'application-form/'+(self.activePageNo+1)
+	        	} else {
+	        		// last page:
+	        		hash = 'thank-you'
+	        	}
+	        	// make post/promise here...
+	        	router.navigate(hash,{
+	        			replace: false, // replace history entry ?  
+	        			trigger: true // trigger module activation ?
+	        		});
         	}
-        	// make post/promise here...
-        	router.navigate(hash,{
-        			replace: false, // replace history entry ?  
-        			trigger: true // trigger module activation ?
-        		});
 
         }
 
