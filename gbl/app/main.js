@@ -18,6 +18,7 @@
         'jquery.ui':        '../vendor/jquery-ui/jquery-ui.1.11.4.interactions.min',
         // 'jquery.mask': '../vendor/jquery.mask', 
         'jquery.inputmask': '../vendor/jquery.inputmask.bundle',
+        'jquery.autocomplete': '../vendor/jquery.autocomplete',
 
         // folder, not js (for ko.mapping(!)):
         'jquery-ui':        '../vendor/jquery-ui',

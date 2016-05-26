@@ -30,23 +30,23 @@
 				            		label:'Mobile Phone', 
 				            		value: fields.GrntMobilePhone,
 				            		placeholder: '07xxx xxxxxx',
-				            		mask: '07999 999999',
-				            		inputClass: 'landline-phone'
+				            		maskAlias: 'uk-mobile-phone',
+				            		inputClass: 'mobile-phone'
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'Home Phone', 
 				            		value: fields.GrntHomePhone,
-				            		placeholder: '0xxxxxxxxx(x)',
-				            		mask: '09999 99999Z',
-				            		inputClass: 'mobile-phone'
+				            		placeholder: '0xxxx xxxxxx',
+				            		maskAlias: 'uk-landline-phone',
+				            		inputClass: 'landline-phone'
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-text: {
 				            		label:'Email Address', 
 				            		value: fields.GrntEmail,
 				            		placeholder: 'your@email.com',
-				            		pattern: '',
+				            		maskAlias: 'e-mail',
                                     inputClass: 'e-mail'
 				            	}"></div>
 
@@ -64,6 +64,16 @@
         </div>
     </div>
 
-    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button>
+    <!-- Submit button-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Proceed</button>
+                <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
+                
+            </div>
+        </div>        
+    </div>
 
 </form>

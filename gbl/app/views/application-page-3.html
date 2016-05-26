@@ -127,5 +127,18 @@
 
         </div>
     </div>
-    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button>
+
+
+    <!-- Submit button-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Submit</button>
+                <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
+                
+            </div>
+        </div>        
+    </div>
+
 </form>

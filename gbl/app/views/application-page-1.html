@@ -6,8 +6,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">About Your Loan</h3></div>
         <div class="panel-body">
-            <div class="row">
-                <!-- row "summary" -->
+<!--             <div class="row">
                 <div col="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -32,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <!-- row 1 -->
+ -->            <!-- row 1 -->
             <div class="row">
                 <!-- col 1 -->
                 <div data-bind="form-group-dropdown: {
@@ -61,6 +60,50 @@
                     required: true
             	}"></div>
             </div>
+            <!-- Summary: -->
+
+            <h4>Your Loan Summary</h4>
+
+            <!-- row 1, labels -->
+
+<!--             <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <label class="control-label">
+                        Monthly Repayment</label>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <label class="control-label">
+                        Total Repayable</label>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <label class="control-label">
+                        Representative APR</label>
+                </div>
+            </div>
+ -->
+            <div class="row loan-summary">
+                <div class="col-xs-12 col-sm-4">
+                    <label class="control-label">
+                        Monthly Repayment</label>
+                    <div class="alert alert-success">
+                        &pound;&nbsp;<span data-bind="text:fields.RepayingPerMonth"></span></div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4">
+                    <label class="control-label">
+                        Total Repayable</label>
+                    <div class="alert alert-success">
+                        &pound;&nbsp;<span data-bind="text:fields.TotalAmountRepayable"></span></div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4">
+                    <label class="control-label">
+                        Representative APR</label>
+                    <div class="alert alert-success">
+                        <span data-bind="text:fields.FixedAPR"></span>&nbsp;%</div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="panel panel-default">
@@ -90,21 +133,27 @@
             </div>
             <div class="row">
                 <!-- combo control: Birth Date -->
-                <div class="form-group col-xs-12 col-sm-4" data-cid="c48">
+                <div class="form-group col-xs-12 col-sm-4">
                     <label class="control-label">Date of Birth</label>
-                    <div class="input-group date">
-                        <select data-bind="value:fields.BirthDate,options:fields.lkpBirthDate,valueAllowUnset:true" class="required-field"></select>
-                        <select data-bind="value:fields.BirthMonth,options:fields.lkpBirthMonth,valueAllowUnset: true" class="required-field"></select>
-                        <select data-bind="value:fields.BirthYear,options:fields.lkpBirthYear,valueAllowUnset: true" class="required-field"></select>
-                        <section class="user-message"></section>
+                    <div class="input-group date row">
+                        <div class="col-xs-3">
+                            <select class="form-control" data-bind="value:fields.BirthDate,options:fields.lkpBirthDate,valueAllowUnset:true" class="required-field" placeholder="DD"></select>
+                        </div>
+                        <div class="col-xs-3">
+                            <select class="form-control" data-bind="value:fields.BirthMonth,options:fields.lkpBirthMonth,valueAllowUnset: true" class="required-field" placeholder="MM"></select>
+                        </div>
+                        <div class="col-xs-6">
+                            <select class="form-control" data-bind="value:fields.BirthYear,options:fields.lkpBirthYear,valueAllowUnset: true" class="required-field" placeholder="YYYY"></select>
+                        </div>
                     </div>
+                        <section class="user-message"></section>
                 </div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'Mobile Phone', 
 				            		value: fields.MobilePhone,
 				            		placeholder: '07xxx xxxxxx',
-				            		mask: '07999 999999',
+				            		maskAlias: 'uk-mobile-phone',
                                     inputClass: 'mobile-phone',
                                     required: true
 				            	}"></div>
@@ -112,8 +161,8 @@
                 <div data-bind="form-group-text: {
 				            		label:'Home Phone', 
 				            		value: fields.HomePhone,
-				            		placeholder: '0xxxxxxxxx(x)',
-				            		mask: '(09999 99999)|(09999 999999)',
+				            		placeholder: '0xxxx xxxxxx',
+                                    maskAlias: 'uk-landline-phone',
                                     inputClass: 'landline-phone'
 				            	}"></div>
             </div>
@@ -123,7 +172,7 @@
 				            		label:'Email Address', 
 				            		value: fields.Email,
 				            		placeholder: 'your@email.com',
-				            		mask: '',
+				            		maskAlias:'e-mail',
                                     inputClass: 'e-mail',
                                     required: true
 				            	}"></div>
@@ -151,11 +200,11 @@
             <div class="row">
                 <!-- col 1 -->
                 <div data-bind="form-group-text: {
-				            		label:'Postcode <small>Start typing to select</small>', 
+				            		label:'Postcode', 
 				            		value: fields.Postcode,
-				            		placeholder: 'XXXXXXX',
-				            		mask: '99999999',
+				            		placeholder: 'Type first 3 characters...',
 				            		footerHtml: 'Type to select',
+                                    maskAlias: 'uk-postcode',
                                     required: true,
                                     inputClass: 'postcode'
 				            	}"></div>
@@ -206,11 +255,12 @@
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
-				            		label:'Postcode <small>Start typing to select</small>', 
+				            		label:'Postcode', 
 				            		value: fields.PreviousPostcode,
-				            		placeholder: 'XXXXXXX',
-				            		mask: '99999999',
-				            		footerHtml: 'Type to select'
+				            		placeholder: 'Type first 3 characters...',
+				            		footerHtml: 'Type to select',
+                                    maskAlias: 'uk-postcode',
+                                    inputClass: 'postcode'
 				            	}"></div>
             </div>
         </div>
@@ -223,6 +273,9 @@
             <div data-bind="form-group-text: {
 			            		label:'Sort Code', 
 			            		value: fields.BankSortCode,
+                                placeholder: '00-00-00',
+                                maskAlias: 'uk-sortcode',
+                                inputClass: 'sortcode',
                                 required: true
 			            	}"></div>
             <!-- col 2 -->
@@ -233,7 +286,19 @@
 			            	}"></div>
         </div>
     </div>
-    <button class="proceed-button btn btn-active" data-bind="click:proceedPage">Click to Proceed</button><div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
+
+    <!-- Submit button-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Proceed</button>
+                <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
+                
+            </div>
+        </div>        
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-body row">
             <p>By clicking 'Click to Proceed' you agree to our <a href="#terms-n-conditions" target="_blank">Website Terms &amp; Conditions</a> and that we may contact you about your loan enquiry.</p>

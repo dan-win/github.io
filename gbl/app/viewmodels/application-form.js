@@ -1,5 +1,55 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'jquery.inputmask'], 
-	function (router, app, ko, _, $, mask) {
+define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'jquery.inputmask', 'jquery.autocomplete'], 
+	function (router, app, ko, _, $) {
+
+		// Prepare data masks
+
+		window.Inputmask.extendAliases({
+			"uk-mobile-phone": {
+				'mask': '07999 999999'
+				// 'placeholder': '07xxx xxxxxx',
+
+			},
+			"uk-landline-phone": {
+				'mask': '(09999 99999)|(09999 999999)'
+				// 'placeholder': '0xxxx xxxxx(x)',
+			},
+			'e-mail': {
+				'alias': 'email' /*standard validator from Inputmask extensions */
+			},
+			'uk-postcode': {
+				// 'mask': '(%%%% 9AA)|(%%% 9AA)',
+				// 'mask': '%{3,4} 9AA',
+				'mask':'(A9 9AA)|(A99 9AA)|(AA9 9AA)|(AA99 9AA)|(A9A 9AA)|(AA9A 9AA)',
+				'placeholder': '',
+				'isComplete': function (buffer, opts) {
+					var text = buffer.join('');
+					var tmpl = /^(GIR 0AA)|((([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z])))) [0-9][A-Z]{2})$/;
+					console.log('test complete', this, this.el, text, tmpl.test(text));
+					return tmpl.test(text);
+				},
+				'definitions': {
+					'A': {
+						validator: '[A-Za-z]',
+						cardinality: 1,
+						casing: 'upper'
+					}
+					// 's': {
+					// 	validator: '[ ]',
+					// 	cardinality: 1
+					// }
+				},
+				'onincomplete': function (argument) {
+					console.log('onincomplete', argument, this);
+				},
+				'oncomplete': function (argument) {
+					console.log('oncomplete', argument, this);
+				}
+        		// 'validator': '^(GIR 0AA)|((([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z])))) [0-9][A-Z]{2})$'
+			},
+			'uk-sortcode': {
+				'mask': '99-99-99'
+			}
+		});
 
 		// -- data models - forms
 
@@ -270,7 +320,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'j
 
         var testComplete = function ($el) {
         	// body...
-    		var complete = $el.val();
+    		var complete = !!$el.val();
     		if ($el.hasClass('masked-field'))
     			complete = $el.inputmask('isComplete');
     		return complete;
@@ -285,37 +335,82 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'j
         }
 
         self.compositionComplete = function () {
-        	console.log('compositionComplete');
+
         	// apply jQuery plugin after composition is complete
-        	$('input.landline-phone').each(function (index, el) {
-        		var $el=$(el), mask = $el.attr('data-mask-pattern');
-        		$el.inputmask(mask).addClass('masked-field'); 
-        		console.log('applying mask landline', el, $el);
+
+        	// ^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)$
+
+        	$('input[data-inputmask-alias]').inputmask().addClass('masked-field');
+
+    //     	$('input.landline-phone,input.mobile-phone').each(function (index, el) {
+    //     		var $el=$(el), mask = $el.attr('data-mask-pattern');
+    //     		$el.inputmask(mask); 
+    //     	}).addClass('masked-field');
+
+    //     	$('input.e-mail').each(function (index, el){
+    //     		var $el=$(el), mask = $el.attr('data-mask-pattern');
+    //     		$el.inputmask({
+				//     mask: '*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]',
+				//     greedy: false,
+				//     definitions: {
+				//       '*': {
+				//         validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~\-]",
+				//         cardinality: 1,
+				//         casing: "lower"
+				//       }
+				//     }
+				// });
+
+    //     	}).addClass('masked-field');
+
+        	$('input.postcode').autocomplete({
+        		"serviceUrl": function (partialPostcode) {
+        			console.log(partialPostcode.replace(/([_ ]+)$/gi,''));
+        			return 'https://api.postcodes.io/postcodes/'+partialPostcode.replace(/([_ ]+)$/gi,'%20')+'/autocomplete?limit=99'
+        		},
+        		"ignoreParams": true,
+        		"dataType": "json",
+        		"transformResult": function(response, originalQuery) {
+        			console.log("transformResult", response, originalQuery);
+        			// if (originalQuery.length < 4) return {"suggestions":["Continue typing, please..."]};
+        			return {"suggestions":  response["status"]==200 && response["result"] ? response["result"] : []};
+        		},
+        		"minChars": 3,
+        		"showNoSuggestionNotice": true,
+        		"noSuggestionNotice": "No matching results",
+        		"onSearchError": function () {
+        			console.log("onSearchError");
+        		},
+        		"onSelect": function (suggestion) {
+        			console.log('suggestion', suggestion)
+        		},
+        		// "beforeRender": function (container) {
+        		// 	console.log('beforeRender', container);
+        		// 	$(container).prepend('<div class="spinner">Wait...</div>');
+        		// },
+        		"onSearchStart": function () {
+        			console.log('onSearchStart', this);
+        			$(this).addClass('autocomplete-ajax-wait');
+        		},
+        		"onSearchComplete": function () {
+        			$(this).removeClass('autocomplete-ajax-wait');
+        		}
+
         	});
-        	$('input.mobile-phone').each(function (index, el) {
-        		var $el=$(el), mask = $el.attr('data-mask-pattern');
-        		$el.inputmask(mask).addClass('masked-field'); 
-        		console.log('applying mask mobile', el, $el);
-        	});
-        	$('input.e-mail').inputmask({
-			    mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
-			    greedy: false,
-			    onBeforePaste: function (pastedValue, opts) {
-			      pastedValue = pastedValue.toLowerCase();
-			      return pastedValue.replace("mailto:", "");
-			    },
-			    definitions: {
-			      '*': {
-			        validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~\-]",
-			        cardinality: 1,
-			        casing: "lower"
-			      }
-			    }
-			  }).addClass('masked-field');
-        	$('input.postcode').inputmask({
-        		mask:'',
-        		validator: '[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}'
-        	});
+
+        	// $('input.postcode').inputmask({
+        	// 	// mask:'A{1,2}[*][*] 9[a]{2}',
+        	// 	// mask: 'A** 9AA',
+        	// 	validator: '^(GIR 0AA)|((([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z])))) [0-9][A-Z]{2})$',
+        	// 	// validator: '[A-PR-VY-Z][0-9A-HK-Y][0-9A-HJKPSTUW] [0-9][ABD-HJLNP-UW-Z]{2}',
+        	// 	// validator: '[A-Za-z]{1,2}[0-9Rr][0-9A-Za-z]? [0-9][ABD-HJLNP-UW-Zabd-hjlnp-uw-z]{2}'
+        	// }).addClass("masked-field");
+
+        	// $('input.sortcode').each(function (index, el) {
+        	// 	var $el=$(el), mask = $el.attr('data-mask-pattern');
+        	// 	$el.inputmask(mask); 
+        	// }).addClass('masked-field');
+
 
         	$('.required-field').on('focusout', function () {
         		var $el = $(this),
@@ -327,7 +422,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'j
         			$el.addClass('incomplete-field')
         		}
     			$el.next('section.user-message').html(message);
-        	})
+        	});
 
         }
 

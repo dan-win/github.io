@@ -21,7 +21,7 @@
         	settings.texticon = settings.texticon || null;
         	settings.glyphicon = !settings.texticon && settings.glyphicon || '';
         	settings.placeholder = settings.placeholder || null;
-        	settings.mask = settings.mask || null;
+        	settings.maskAlias = settings.maskAlias || null;
             settings.inputClass = settings.inputClass || '';
             if (settings.required) settings.inputClass += ' required-field';
         	settings.bootstrapColClass = settings.bootstrapColClass || 'col-xs-12 col-sm-4';

@@ -46,9 +46,25 @@ img.logo {
 	background: #272460 none repeat scroll 0 0;
 }
 
-.loan-summary div {
+.nav-tabs {
 	padding-left: 10%;
+	padding-right: 10%;
 }
+
+.tab-content {
+/*	margin-left: 15px;
+	margin-right: 15px;
+*/
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+
+	/*border: 3px #272460 solid;*/
+	border-radius: 5px;
+
+	/*background: #272460 none repeat scroll 0 0;*/
+}
+
 
 .form-group {
 	margin-top: 10px;
@@ -56,56 +72,100 @@ img.logo {
 }
 
 .panel {
-	padding-top: 10px;
-	padding-left: 20px;
-	padding-right: 20px;
+	margin-top: 10px;
+/*	margin-left: 20px;
+	margin-right: 20px;
+*/
+	margin-left: 15%;
+	margin-right: 15%
+}
+
+.panel.panel-default {
+	border: 2px #272460 solid;
 }
 
 .panel-default > .panel-heading {
-	padding-top: 20px;
-	background: transparent;
+	/*padding-top: 20px;*/
+	/*background: transparent;*/
 	border-bottom: 0px;
-}
 
-.tab-content {
-	margin-left: 15px;
-	margin-right: 15px;
-
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 5px;
-
-	border: 3px #272460 solid;
-	border-radius: 5px;
-
+	font-weight: bold;
+	color: rgba(255,255,255,0.9);
 	background: #272460 none repeat scroll 0 0;
+
 }
 
-.form-control, .input-group > span, .panel-default {
+.panel-default > .panel-body {
+/*	padding-left: 30px;
+	padding-right: 30px;
+*/
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+
+
+.form-control, .input-group > span {
 	border: 1px solid #999;
 }
 
-.tab-content > .tab-pane > form > .panel-default {
+label.control-label {
+	font-size: 12px;
+}
+
+/*.tab-content > .tab-pane > form  {
 	border: none;
-	/*border: 3px #272460 solid;*/
 	background-color: white;
 	padding-top: 0px;
-	/*padding-bottom: 5px;*/
 	margin-bottom: 10px;
 }
-
+*/
 .proceed-button {
-	display:block;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	width:100%;
-}
-
-.proceed-button:hover {
-	color: white;
+	/*display:table-cell;*/
+	position: relative;
+	/*margin: 20px;*/
+	margin-bottom: 15px;
+	margin-left: 15%;
+	margin-right: 15%;
+	width:70%;
 }
 
 .error-message {
 	color: #ff0000;
 }
 
+/*.autocomplete-suggestions {
+	background-color: #ffffff;
+	border: 1px solid #333333;
+	max-height: 250px;
+	overflow-y: auto;
+
+}
+
+.autocomplete-suggestion.autocomplete-selected {
+	background-color: rgba(0,128,255,1);
+	color: rgba(200,200,200, 1);
+}
+*/
+
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+.autocomplete-ajax-wait::after {content:'Wait';}
+
+.input-group.date {
+	display: block;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.input-group.date > .col-xs-3,
+.input-group.date > .col-xs-6 {
+	padding-left: 0;
+	padding-right: 0;
+}
