@@ -77,13 +77,24 @@
 
 
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  
-    function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/subdomain-config'],  
+    function (system, app, viewLocator, subdomainConfig) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
 
-    app.title = 'Guarantor Loan';
+    // Google Analytics:
+    if (system.debug()) {
+        // Redefine "ga" for dummy function - test
+        window.ga = function (cmd, arg1, arg2) {
+            console.log('=== Google Analytics Call: ===', cmd, arg1, arg2);
+        }
+    }
+
+    // init Google Tracker:
+    window.ga('create', subdomainConfig.gaKey, subdomainConfig.gaFieldsObject);
+
+    app.title = subdomainConfig.appTitle;
 
     app.configurePlugins({
         router: true,
@@ -97,13 +108,10 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],
         }
     });
 
-
     // CUSTOM CODE:
 
     // *** Custom data and config ***
-    app.gl = {};
-    app.gl.config = {
-    }
+    app.customCfg = subdomainConfig;
 
     // *** Allow inspection for debugging: ***
     if (system.debug()) window.__durandal_app__ == app;

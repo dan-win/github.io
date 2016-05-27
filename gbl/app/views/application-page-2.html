@@ -15,12 +15,14 @@
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
 				            		label:'First Name', 
-				            		value: fields.GrntFirstName
+				            		value: fields.GrntFirstName,
+				            		required: true
 				            	}"></div>
                 <!-- col 3 -->
                 <div data-bind="form-group-text: {
 				            		label:'Surname', 
-				            		value: fields.GrntSurName
+				            		value: fields.GrntSurName,
+				            		required: true
 				            	}"></div>
             </div>
 
@@ -31,7 +33,8 @@
 				            		value: fields.GrntMobilePhone,
 				            		placeholder: '07xxx xxxxxx',
 				            		maskAlias: 'uk-mobile-phone',
-				            		inputClass: 'mobile-phone'
+				            		inputClass: 'mobile-phone',
+				            		required: true
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
@@ -47,7 +50,8 @@
 				            		value: fields.GrntEmail,
 				            		placeholder: 'your@email.com',
 				            		maskAlias: 'e-mail',
-                                    inputClass: 'e-mail'
+                                    inputClass: 'e-mail',
+                                    required: true
 				            	}"></div>
 
             </div>
@@ -57,7 +61,8 @@
                 <div data-bind="form-group-dropdown: {
 				            		label:'Residential Status', 
 				            		value: fields.GrntResidentialStatus,
-				            		options:fields.lkpResidentialStatus
+				            		options:fields.lkpResidentialStatus,
+				            		required: true
 				            	}"></div>
 
             </div>

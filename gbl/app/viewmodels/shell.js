@@ -26,24 +26,16 @@ define(['plugins/router', 'durandal/app'], function (router, app) {
 				,{ route: 'interstitial', title:'Interstitial', moduleId: 'viewmodels/interstitial', nav: false }
 
 
-				// { route: 'about-us', title:'About', moduleId: 'viewmodels/about-us', nav: true },
-				// { route: '', title:'Apply Now', moduleId: 'viewmodels/welcome', nav: true },
-				// { route: 'contact-us', title:'Contact', moduleId: 'viewmodels/contact-us', nav: true },
-				// { route: 'faq', title:'FAQ', moduleId: 'viewmodels/faq', nav: true },
-
-				// { route: 'application-page-2', title:'Application Page 2', moduleId: 'viewmodels/application-page-2', nav: false },
-				// { route: 'application-page-3', title:'Application Page 3', moduleId: 'viewmodels/application-page-3', nav: false },
-				// { route: 'error-page', title:'Error', moduleId: 'viewmodels/error-page', nav: false },
-				// { route: 'interstitial', title:'Interstitial', moduleId: 'viewmodels/interstitial', nav: false },
-				// { route: 'privacy-policy', title:'Privacy Policy', moduleId: 'viewmodels/privacy-policy', nav: false },
-				// { route: 'terms-n-conditions', title:'Terms and Conditions', moduleId: 'viewmodels/terms-n-conditions', nav: false },
-				// { route: 'thank-you', title:'Thank You', moduleId: 'viewmodels/thank-you', nav: false },
-
-
-				// A samle view which not included in a direct navigation:
-				// { route: 'page(/:id)', title:'', moduleId: '', hash: '#page', nav: false, icon:'' }
-
 			]).buildNavigationModel();
+
+			// Google Analytics interceptor:
+			router.on('router:navigation:complete', function(instance, instruction, router) {  
+				// Do not create the tracker object once more - it is already created in "main.js"
+				// (once per application)
+			    // ga('create', 'UA-XXXXXXXX-X', 'example.com');
+			    window.ga('set', 'page', location.pathname + location.search + location.hash);
+			    window.ga('send', 'pageview');
+			});			
 			
 			return router.activate();
 		}

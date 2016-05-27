@@ -6,32 +6,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">About Your Loan</h3></div>
         <div class="panel-body">
-<!--             <div class="row">
-                <div col="col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h4 style="text-align:center">Your Loan Summary</h4>
-                            <div class="row loan-summary">
-                                <div class="col-xs-6">You want to borrow</div>
-                                <div class="col-xs-6">&pound;&nbsp;<span data-bind="text:fields.fmtLoanAmount"></span></div>
-
-                                <div class="col-xs-6">Over a repayment period</div>
-                                <div class="col-xs-6"><span data-bind="text:fields.LoanTerm"></span> Months</div>
-
-                                <div class="col-xs-6">Repaying (Per Month)</div>
-                                <div class="col-xs-6">&pound;&nbsp;<span data-bind="text:fields.RepayingPerMonth"></span></div>
-
-                                <div class="col-xs-6">Total Amount Repayable</div>
-                                <div class="col-xs-6">&pound;&nbsp;<span data-bind="text:fields.TotalAmountRepayable"></span></div>
-
-                                <div class="col-xs-6">Fixed Representative APR</div>
-                                <div class="col-xs-6"><span data-bind="text:fields.FixedAPR"></span>&nbsp;%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
- -->            <!-- row 1 -->
+            <!-- row 1 -->
             <div class="row">
                 <!-- col 1 -->
                 <div data-bind="form-group-dropdown: {
@@ -251,7 +226,8 @@
                 <!-- col 1 -->
                 <div data-bind="form-group-text: {
 				            		label:'House Name/Number', 
-				            		value: fields.PreviousHouse
+				            		value: fields.PreviousHouse,
+                                    required: true
 				            	}"></div>
                 <!-- col 2 -->
                 <div data-bind="form-group-text: {
@@ -260,7 +236,8 @@
 				            		placeholder: 'Type first 3 characters...',
 				            		footerHtml: 'Type to select',
                                     maskAlias: 'uk-postcode',
-                                    inputClass: 'postcode'
+                                    inputClass: 'postcode',
+                                    required: true
 				            	}"></div>
             </div>
         </div>

@@ -50,29 +50,52 @@
             }
         </script>
 
-        <!-- Keywords -->
-        <!-- Site by: Guarantor My Loan,
-         Contact: Rob Udy <rob@guarantormyloan.co.uk> -->
-        <meta name="author" content="Rob Udy (Guarantor My Loan)" />
-        <meta name="copyright" content="Copyright (c) Guarantor My Loan 2016" />
-        <meta name="description" content="Guarantor Loan specialise in direct guarantor loans of up to £5000. We are an established direct UK loan lender and have been funding guarantor loans..." />
-        <meta property="og:url" content="https://www.guarantorloan.co.uk" />
-        <meta content="Direct Lender of Guarantor Loans | Guarantor Loan" property="og:title" />
-        <meta content="www.guarantorloan.co.uk,guarantorloan.co.uk" property="og:image" />
-        <meta content="en_gb" property="og:locale" />
-        <meta content="Guarantor Loan" property="og:site_name" />
-        <meta content="Guarantor Loan specialise in direct guarantor loans of up to £5000. We are an established direct UK loan lender and have been funding guarantor loans..." property="og:description" />
+        <!-- Google Analytics (embed the main script) -->
+        <!-- 
+            NOTE: do not call "ga()" here - all actual calls for "ga()" are inside page interceptors. 
+        -->
 
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
+            // This call moved from the "mother" page in "app/main.js":
+            // ga('create', 'UA-54574851-1', 'auto');
+            // This call moved to "router" declarations in "/viewmodels/shell.js"
+            // ga('send', 'pageview');
+            // More info: https://developers.google.com/analytics/devguides/collection/analyticsjs/single-page-applications#overview
+            // https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference?hl=ru#allowAnchor
+        </script>
 
+        <!-- End of Google Analytics -->
 
-
-<!-- this script must be the last tag at the bottom of the "head":-->    
-<script>(function (a, c, b, e) {
-a[b] = a[b] || {}; a[b].initial = { accountCode: "GUARA11111", host: " GUARA11111.pcapredict.com" };
-a[b].on = a[b].on || function () { (a[b].onq = a[b].onq || []).push(arguments) }; var d = c.createElement("script");
-d.async = !0; d.src = e; c = c.getElementsByTagName("script")[0]; c.parentNode.insertBefore(d, c)
-})(window, document, "pca", " //GUARA11111.pcapredict.com/js/sensor.js");</script>
+        <!-- this script must be the last tag at the bottom of the "head":-->    
+        <script>
+            (function(a, c, b, e) {
+                a[b] = a[b] || {};
+                a[b].initial = {
+                    accountCode: "GUARA11111",
+                    host: " GUARA11111.pcapredict.com"
+                };
+                a[b].on = a[b].on || function() {
+                    (a[b].onq = a[b].onq || []).push(arguments)
+                };
+                var d = c.createElement("script");
+                d.async = !0;
+                d.src = e;
+                c = c.getElementsByTagName("script")[0];
+                c.parentNode.insertBefore(d, c)
+            })(window, document, "pca", " //GUARA11111.pcapredict.com/js/sensor.js");
+        </script>
 
     </head>
     <body>

@@ -4,6 +4,21 @@ define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'j
 		// Prepare data masks
 
 		window.Inputmask.extendAliases({
+			'money-integer': {
+				// 'mask': '[9,[9[9[9]]]]',
+				// 'mask': '[[9,]9{0,3}]{*}',
+				// 'mask': '[[[[9,]9]9]9]{0,4}',
+				'mask': '[,[9[9[9]]]]',
+				// 'mask': '[[[[[[[9,]9]9]9,]9]9]9]',
+				'mask': '9{*}',
+				'repeat': 3,
+				'greedy': false,
+				'numericInput': true,
+				'rightAlign': true,
+				'groupSeparator': ',',
+				'skipOptionalPartCharacter': ','
+
+			},
 			"uk-mobile-phone": {
 				'mask': '07999 999999'
 				// 'placeholder': '07xxx xxxxxx',
