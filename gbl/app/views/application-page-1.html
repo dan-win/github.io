@@ -112,13 +112,13 @@
                     <label class="control-label">Date of Birth</label>
                     <div class="input-group date row">
                         <div class="col-xs-3">
-                            <select class="form-control" data-bind="value:fields.BirthDate,options:fields.lkpBirthDate,valueAllowUnset:true" class="required-field" placeholder="DD"></select>
+                            <select class="form-control required-field" data-bind="value:fields.BirthDate,options:fields.lkpBirthDate,valueAllowUnset:true" placeholder="DD"></select>
                         </div>
                         <div class="col-xs-3">
-                            <select class="form-control" data-bind="value:fields.BirthMonth,options:fields.lkpBirthMonth,valueAllowUnset: true" class="required-field" placeholder="MM"></select>
+                            <select class="form-control required-field" data-bind="value:fields.BirthMonth,options:fields.lkpBirthMonth,valueAllowUnset: true" placeholder="MM"></select>
                         </div>
                         <div class="col-xs-6">
-                            <select class="form-control" data-bind="value:fields.BirthYear,options:fields.lkpBirthYear,valueAllowUnset: true" class="required-field" placeholder="YYYY"></select>
+                            <select class="form-control required-field" data-bind="value:fields.BirthYear,options:fields.lkpBirthYear,valueAllowUnset: true" placeholder="YYYY"></select>
                         </div>
                     </div>
                         <section class="user-message"></section>
@@ -218,7 +218,7 @@
             </div>
         </div>
     </div>
-    <section data-bind="visible:fields.isPreviousAddressRequired">
+    <section data-bind="if:fields.isPreviousAddressRequired">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Previous Address</h3></div>
