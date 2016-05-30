@@ -131,7 +131,7 @@ define(['jquery', 'jquery.inputmask', 'jquery.autocomplete', 'shared/jquery.expa
 	    				.addClass('glyphicon-remove')
 	    				.removeClass('glyphicon-ok');
 	    		}
-	    		messageEl = $el.next.filter(self.JQ_SEL_USER_MESSAGE);
+	    		messageEl = $el.next().filter(self.JQ_SEL_USER_MESSAGE);
 	    		if (messageEl.length == 0) {
 	    			// in case if input wrapped with "input-group"
 	    			messageEl = $el.parent().next().filter(self.JQ_SEL_USER_MESSAGE);
