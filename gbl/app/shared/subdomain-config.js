@@ -1,4 +1,4 @@
-// All specifics for subdomain 
+// All specifics for subdomain "GL"
 define(function () {
 	return {
 		// Global settings:
@@ -9,7 +9,10 @@ define(function () {
 		,gaFieldsObject: {
 			allowAnchor: true // <- allow anchors explicitly
 			,cookieDomain: 'auto'
-		} 
+		},
+
+		// XML post pecularities:
+		fieldSite: 16847
 
 	}
 });

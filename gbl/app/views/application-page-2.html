@@ -1,34 +1,39 @@
-<!-- App Page 2-->
- <form>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">About Your Guarantor</h3></div>
-        <div class="panel-body">
-            <div class="row">
-                <!-- col 1 -->
-                <div data-bind="form-group-dropdown: {
+<!-- App Form - Page 2-->
+<!-- embedding "tabs": -->
+<section data-bind="compose:'snippets/application-tabs.html'" class="clearfix"></section>
+<!-- tabs end -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active">
+        <!-- Grid for controls: -->
+        <form>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">About Your Guarantor</h3></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <!-- col 1 -->
+                        <div data-bind="form-group-dropdown: {
 				            		label:'Title', 
 				            		value: fields.GrntTitle,
 				            		options: fields.lkpTitle,
 				            		required: true
 				            	}"></div>
-                <!-- col 2 -->
-                <div data-bind="form-group-text: {
+                        <!-- col 2 -->
+                        <div data-bind="form-group-text: {
 				            		label:'First Name', 
 				            		value: fields.GrntFirstName,
 				            		required: true
 				            	}"></div>
-                <!-- col 3 -->
-                <div data-bind="form-group-text: {
+                        <!-- col 3 -->
+                        <div data-bind="form-group-text: {
 				            		label:'Surname', 
 				            		value: fields.GrntSurName,
 				            		required: true
 				            	}"></div>
-            </div>
-
-            <div class="row">
-                <!-- col 1 -->
-                <div data-bind="form-group-text: {
+                    </div>
+                    <div class="row">
+                        <!-- col 1 -->
+                        <div data-bind="form-group-text: {
 				            		label:'Mobile Phone', 
 				            		value: fields.GrntMobilePhone,
 				            		placeholder: '07xxx xxxxxx',
@@ -36,16 +41,16 @@
 				            		inputClass: 'mobile-phone',
 				            		required: true
 				            	}"></div>
-                <!-- col 2 -->
-                <div data-bind="form-group-text: {
+                        <!-- col 2 -->
+                        <div data-bind="form-group-text: {
 				            		label:'Home Phone', 
 				            		value: fields.GrntHomePhone,
 				            		placeholder: '0xxxx xxxxxx',
 				            		maskAlias: 'uk-landline-phone',
 				            		inputClass: 'landline-phone'
 				            	}"></div>
-                <!-- col 3 -->
-                <div data-bind="form-group-text: {
+                        <!-- col 3 -->
+                        <div data-bind="form-group-text: {
 				            		label:'Email Address', 
 				            		value: fields.GrntEmail,
 				            		placeholder: 'your@email.com',
@@ -53,32 +58,28 @@
                                     inputClass: 'e-mail',
                                     required: true
 				            	}"></div>
-
-            </div>
-
-            <div class="row">
-                <!-- col 1 -->
-                <div data-bind="form-group-dropdown: {
+                    </div>
+                    <div class="row">
+                        <!-- col 1 -->
+                        <div data-bind="form-group-dropdown: {
 				            		label:'Residential Status', 
 				            		value: fields.GrntResidentialStatus,
 				            		options:fields.lkpResidentialStatus,
 				            		required: true
 				            	}"></div>
-
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Submit button-->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
-
-                <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Proceed</button>
-                <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
-                
+            <!-- Submit button-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Proceed</button>
+                        <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
+                    </div>
+                </div>
             </div>
-        </div>        
+        </form>
+        <!-- Grid for controls (end) -->
     </div>
-
-</form>
+</div>

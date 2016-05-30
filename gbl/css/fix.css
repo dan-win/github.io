@@ -158,7 +158,7 @@ label.control-label {
 
 .autocomplete-ajax-wait::after {content:'Wait';}
 
-.input-group.date {
+/*.input-group.date {
 	display: block;
 	margin-left: 0;
 	margin-right: 0;
@@ -168,4 +168,49 @@ label.control-label {
 .input-group.date > .col-xs-6 {
 	padding-left: 0;
 	padding-right: 0;
+}
+*/
+.loan-summary .alert {
+	font-size: 18px;
+	/*font-weight: bold;*/
+	width: 100%;
+	text-align: center;
+}
+
+/* date combo input*/
+.date .form-group select {
+	/*padding:0px;*/
+	padding-right: 5px;
+	padding-left:5px;
+}
+
+.date .form-group {
+	margin-right:1%;
+	margin-left:1%;
+}
+
+.date .form-group:first-child {
+	margin-left:0;
+}
+
+.date .form-group.birth_date {
+	width: 27% !important;
+	float: left !important; 
+}
+.date .form-group.birth_month {
+	width: 27% !important;
+	float: left !important; 
+}
+.date .form-group.birth_year {
+	width: 40% !important;
+	float: left !important; 
+}
+
+/* invalid of incomplete field - coloring */
+.incomplete-field {
+	background-color: rgba(255,128,128,0.25);
+}
+
+.incomplete-field .glyphicon {
+	color: rgb(255,0,0);
 }

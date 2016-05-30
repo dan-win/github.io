@@ -4,12 +4,12 @@ define(['plugins/router', 'durandal/app'], function (router, app) {
 		activate: function () {
 			router.map([
 				// default route:
-				{ route: '', title:'Homepage', moduleId: 'viewmodels/application-form', hash: '#homepage'}
+				{ route: '', title:'Homepage', moduleId: 'viewmodels/application-page-1', hash: '#homepage'}
 				// dynamic route, depends on "pageNo", hash for history :
-				,{ route: 'application-form(/:pageNo)', title:'Homepage', moduleId: 'viewmodels/application-form', nav: false, hash: '#homepage' }
+				,{ route: 'application-page-1', title:'Homepage', moduleId: 'viewmodels/application-form', nav: false, hash: '#homepage' }
 
-				,{ route: 'application-form/2', title:'Application Page 2', moduleId: 'viewmodels/application-form', nav: false }
-				,{ route: 'application-form/3', title:'Application Page 3', moduleId: 'viewmodels/application-form', nav: false }
+				,{ route: 'application-page-2', title:'Application Page 2', moduleId: 'viewmodels/application-page-2', nav: false }
+				,{ route: 'application-page-3', title:'Application Page 3', moduleId: 'viewmodels/application-page-3', nav: false }
 
 				// Visible in navigation:
 				,{ route: 'about-us', title:'About', moduleId: 'viewmodels/about-us', nav: true }

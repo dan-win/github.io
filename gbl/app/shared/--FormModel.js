@@ -1,5 +1,5 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'underscore', 'jquery', 'jquery.inputmask', 'jquery.autocomplete'], 
-	function (router, app, ko, _, $) {
+define(['knockout', 'underscore'], 
+	function (ko, _, $) {
 
 		function FormModel() {
 			var self = this, undefined;
