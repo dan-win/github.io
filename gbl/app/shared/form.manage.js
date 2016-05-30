@@ -35,14 +35,14 @@ define(['jquery', 'jquery.inputmask', 'jquery.autocomplete', 'shared/jquery.expa
 			},
 			'uk-postcode': {
 				// 'mask': '(%%%% 9AA)|(%%% 9AA)',
-				'mask': '%{3,4} 9AA',
+				'mask': '%{3,4}[ ]9AA',
 
 				// The good mask, but sophisticated:
 				// 'mask':'(A9 9AA)|(A99 9AA)|(AA9 9AA)|(AA99 9AA)|(A9A 9AA)|(AA9A 9AA)',
 				'placeholder': '',
 				'isComplete': function (buffer, opts) {
 					var text = buffer.join('');
-					var tmpl = /^(GIR 0AA)|((([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z])))) [0-9][A-Z]{2})$/;
+					var tmpl = /^(GIR 0AA)|((([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z])))) ?[0-9][A-Z]{2})$/;
 					console.log('test complete', this, this.el, text, tmpl.test(text));
 					return tmpl.test(text);
 				},
