@@ -1,7 +1,8 @@
 define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'shared/form.manage'], 
 	function (router, app, ko, $, formManager) {
 
-		// Prepare data masks
+		// Lock jQuery.ready up to "compositionComplete"
+		jQuery.holdReady(true);
 
 		// -- data models - forms (end)
 
@@ -67,6 +68,10 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'shared/form.man
 
         self.compositionComplete = function () {
 
+        	// Unlock jQuery.ready:
+			jQuery.holdReady(false);
+
+
         	// apply validation plugins after composition is complete
             // installs callbacks for focusout, blur events
 
@@ -113,14 +118,14 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'shared/form.man
 
         	// ^ fire event for initial values:
 
-        	// Install PCA Handlers:
-        	(
-        		function (a, c, b, e) { a[b] = a[b] || {}; a[b].initial = { 
-        			accountCode: "CMPNY15947", host: "CMPNY15947.pcapredict.com" 
-        		}; a[b].on = a[b].on || function () { (a[b].onq = a[b].onq || []).push(arguments) }; 
-        		var d = c.createElement("script"); d.async = !0; d.src = e; 
-        		c = c.getElementsByTagName("script")[0]; 
-        		c.parentNode.insertBefore(d, c) })(window, document, "pca", "//CMPNY15947.pcapredict.com/js/sensor.js");
+        	// // Install PCA Handlers:
+        	// (
+        	// 	function (a, c, b, e) { a[b] = a[b] || {}; a[b].initial = { 
+        	// 		accountCode: "CMPNY15947", host: "CMPNY15947.pcapredict.com" 
+        	// 	}; a[b].on = a[b].on || function () { (a[b].onq = a[b].onq || []).push(arguments) }; 
+        	// 	var d = c.createElement("script"); d.async = !0; d.src = e; 
+        	// 	c = c.getElementsByTagName("script")[0]; 
+        	// 	c.parentNode.insertBefore(d, c) })(window, document, "pca", "//CMPNY15947.pcapredict.com/js/sensor.js");
 
 
 
