@@ -9,10 +9,14 @@ define(function () {
 		,gaFieldsObject: {
 			allowAnchor: true // <- allow anchors explicitly
 			,cookieDomain: 'auto'
-		},
+		}
+
+		// PCA settings:
+		,pcaCode: 'CMPNY15947' // <- test only
+		// ,pcaCode: 'GUARA11111' // <- production
 
 		// XML post pecularities:
-		fieldSite: 16847
+		,fieldSite: 16847
 
 	}
 });

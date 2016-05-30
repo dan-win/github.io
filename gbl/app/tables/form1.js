@@ -294,7 +294,7 @@ function showpay()
 					//   '<lead>',
 					//     '<key>',sDbJchXaqgJGpPorWq2W7jejZv494SSM,'</key>',
 					//     '<leadgroup>',49329,'</leadgroup>',
-					//     '<site>',16847,'</site>',
+					//     '<site>',16847,'</site>',// app.customCfg.fieldSite
 					//     '<introducer>',0,'</introducer>',
 					//     '<type>',Posted,'</type>', //was: "GML Direct" 
 					//     '<status>',New,'</status>',
