@@ -1,72 +1,99 @@
 <!-- App Form - Page 2-->
+
+<!-- embedding "entrance splash screen": -->
+<section data-bind="widget:{kind:'splash'}"></section>
+
+<!-- embedding "interstitial" layer: -->
+<section data-bind="compose: 'interstitial.html'"></section>
+
 <!-- embedding "tabs": -->
 <section data-bind="compose:'snippets/application-tabs.html'" class="clearfix"></section>
 <!-- tabs end -->
+
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active">
         <!-- Grid for controls: -->
-        <form>
+		<form id="app-form">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">About Your Guarantor</h3></div>
                 <div class="panel-body">
                     <div class="row">
                         <!-- col 1 -->
-                        <div data-bind="form-group-dropdown: {
-				            		label:'Title', 
-				            		value: fields.GrntTitle,
-				            		options: fields.lkpTitle,
-				            		required: true
-				            	}"></div>
+
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>Title</label>
+								<select name="title">
+									<option value="" selected>Select..</option>
+									<option value="Miss">Miss</option>
+									<option value="Mr">Mr</option>
+									<option value="Mrs">Mrs</option>
+									<option value="Ms">Ms</option>
+									<option value="Other">Other</option>
+								</select>
+							</field-group>
+						</div>
+
                         <!-- col 2 -->
-                        <div data-bind="form-group-text: {
-				            		label:'First Name', 
-				            		value: fields.GrntFirstName,
-				            		required: true
-				            	}"></div>
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>First Name</label>
+								<input type="text" name="first_name" required="true">
+							</field-group>
+						</div>
+
                         <!-- col 3 -->
-                        <div data-bind="form-group-text: {
-				            		label:'Surname', 
-				            		value: fields.GrntSurName,
-				            		required: true
-				            	}"></div>
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>Surname</label>
+								<input type="text" name="surname" required="true">
+							</field-group>
+						</div>
+                    </div>
+
+                    <div class="row">
+                        <!-- col 1 -->
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>Mobile Phone</label>
+								<input type="text" name="mobile_phone" data-inputmask-alias="uk-mobile-phone" placeholder="07xxx xxxxxx" required="true">
+							</field-group>
+						</div>
+
+                        <!-- col 2 -->
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>Home Phone</label>
+								<input type="text" name="home_phone" data-inputmask-alias="uk-landline-phone" placeholder="0xxxx xxxxxx" required="true">
+							</field-group>
+						</div>
+
+                        <!-- col 3 -->
+
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>Email Address</label>
+								<input type="text" name="email" data-inputmask-alias="e-mail" placeholder="your@email.com" required="true">
+							</field-group>
+						</div>
+
                     </div>
                     <div class="row">
                         <!-- col 1 -->
-                        <div data-bind="form-group-text: {
-				            		label:'Mobile Phone', 
-				            		value: fields.GrntMobilePhone,
-				            		placeholder: '07xxx xxxxxx',
-				            		maskAlias: 'uk-mobile-phone',
-				            		inputClass: 'mobile-phone',
-				            		required: true
-				            	}"></div>
-                        <!-- col 2 -->
-                        <div data-bind="form-group-text: {
-				            		label:'Home Phone', 
-				            		value: fields.GrntHomePhone,
-				            		placeholder: '0xxxx xxxxxx',
-				            		maskAlias: 'uk-landline-phone',
-				            		inputClass: 'landline-phone'
-				            	}"></div>
-                        <!-- col 3 -->
-                        <div data-bind="form-group-text: {
-				            		label:'Email Address', 
-				            		value: fields.GrntEmail,
-				            		placeholder: 'your@email.com',
-				            		maskAlias: 'e-mail',
-                                    inputClass: 'e-mail',
-                                    required: true
-				            	}"></div>
-                    </div>
-                    <div class="row">
-                        <!-- col 1 -->
-                        <div data-bind="form-group-dropdown: {
-				            		label:'Residential Status', 
-				            		value: fields.GrntResidentialStatus,
-				            		options:fields.lkpResidentialStatus,
-				            		required: true
-				            	}"></div>
+						<div class="col-sm-12 col-md-4">
+							<field-group data-feedback="true">
+								<label>Residential Status</label>
+								<select name="residential_status" required="true">
+									<option value="" selected>Select..</option>
+									<option value="Homeowner">Homeowner</option>
+									<option value="Private Tenant">Private Tenant</option>
+									<option value="Council Tenant">Council Tenant</option>
+									<option value="Living with Family">Living with Family</option>
+									<option value="Other">Other</option>
+								</select>
+							</field-group>
+						</div>
                     </div>
                 </div>
             </div>

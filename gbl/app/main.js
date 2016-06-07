@@ -39,6 +39,8 @@
 
         'message.bus':  'shared/message.bus',
 
+        'xml2json':     '../vendor/xml2json-light',
+
 
         // 'templates':        '../templates'
 
@@ -102,8 +104,9 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/subdo
         // register custom widget~s:
         widget: {
             kinds: [
-                'form-group-text',
-                'form-group-dropdown'
+                'splash'
+                ,'form-group-text'
+                ,'form-group-dropdown'
                 ]
         }
     });

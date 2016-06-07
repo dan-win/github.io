@@ -48,7 +48,7 @@
                 var
                     $wrapper = $(componentInfo.element),
                     $collection = toJq(componentInfo.templateNodes),
-                    $control = $collection.filter('input,select'),
+                    $control = $collection.filter('input,select,checkbox'),
                     $label = $collection.filter('label'),
                     ctrlId = ($control.attr('name')) || ($control.attr('id')) || ('ctrl_'+ ++autoId );
 

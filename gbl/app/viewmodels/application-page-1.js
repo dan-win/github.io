@@ -1,65 +1,31 @@
-define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'shared/form.manage'], 
-	function (router, app, ko, $, formManager) {
+define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-form-factory'], 
+	function (router, app, ko, $, formFactory) {
 
-		// Lock jQuery.ready up to "compositionComplete"
-		jQuery.holdReady(true);
 
-		// -- data models - forms (end)
+		var ctor = function () {
 
-        var ctor = function () {
+		var self = formFactory(this); // <--- factory here self = viewModelFactory(this);
 
-        var self = this;
+		self.displayName = 'Guarantor Loan';
+		self.description = '';
 
-        self.displayName = 'Guarantor Loan';
-        self.description = '';
-        self.features = [
-        ];
+		self.activePageNo = 1;
 
-        self.isComplete = ko.observable(true);
+		// default redirection after POST:
+		self.redirectTo = 'application-page-2';
 
-        self.fields = {};
+		app.title = 'Apply Now';
 
-        // switch for template binding (used in html with "data-bind='compose:activePageView' directive"):
-        self.activePageView = ko.observable();
+		self.ENCODE_FLG_MESSAGE = 'encodeCreateLeadMessage';
 
-        self.activePageNo = 1;
-
-        // active class for tabbed notebook tabs (bootstrap):
-        self.cssForTab = function (tabNo) {
-        	return (tabNo == self.activePageNo) ? 'active' : '';
-        };
-
-        self.handleBindingError = function (error, bindingEl) {
-        	system.error(error, bindingEl);
-        }
-
-        var _titles = {
-        	"1": "Homepage",
-        	"2": "App Page 2",
-        	"3": "App Page 3"
-        };
-
-        self.activate = function (pageNo) {
-        	pageNo = pageNo || 1;
-
-        	var title = _titles[pageNo.toString()]
-
-        	if (title) {
-        		self.activePageNo = parseInt(pageNo);
-	        	self.activePageView = 'application-page-' + pageNo;
-	        	app.title = title
-
-        	} else {
-        		// redirect to error page
-        	}
-
-        	/* inject PCA script (only once)
-        	Note: this is modified snippet from PCA,
-        	allows to use accountCode from configuration 
-        	*/
-        	if (!window.pca) {
-        		var accCode = app.customCfg.pcaCode;
-        		// ------- begin of PCA snippet: -------
+		app.on('appform:activate').then(function () {
+			/* inject PCA script for postcode validation (only once)
+			Note: this is modified snippet from PCA,
+			allows to use accountCode from configuration 
+			*/
+			if (!window.pca) {
+				var accCode = app.customCfg.pcaCode;
+				// ------- begin of PCA snippet: -------
 				(function (a, c, b, e) { 
 					a[b] = a[b] || {}; 
 					a[b].initial = { 
@@ -76,45 +42,18 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'shared/form.man
 					c.parentNode.insertBefore(d, c) 
 				})(window, document, "pca", "//"+accCode+".pcapredict.com/js/sensor.js");
 				// ------- ^ end of PCA snippet --------
-        	}
-        }
+			}
+
+		});
 
 
-        var checkCompleteAll = function () {
-            var result = true, flag;
-            $('*[required]').each(function (index, el) {
-                var $el = $(el);
-                flag = formManager.isFieldComplete($el);
-                formManager.reflectFieldStatus($el, flag);
-                result = result && flag;
-            });
-            self.isComplete(result);
-        }
-
-        self.compositionComplete = function () {
-
-        	// Unlock jQuery.ready:
-			jQuery.holdReady(false);
-
-
-        	// apply validation plugins after composition is complete
-            // installs callbacks for focusout, blur events
-
-            formManager.installHelpers({
-                JQ_SEL_MASKED_FIELD: 'input[data-inputmask-alias]',
-                JQ_SEL_FIELD_FEEDBACK: 'span.form-control-feedback',
-                JQ_SEL_USER_MESSAGE: null, //'section.user-message',
-                JQ_SEL_REQUIRED: '*[required]',
-                // JQ_CLASS_MASKED: 'masked-field',
-                JQ_CLASS_INCOMPLETE: 'incomplete-field'
-            });
-
-            // Install Loan Calculator:
-            $('body').on('updateLoanSummary', function loanCalculator () {
-            	var fixed_apr, repaying_per_month, total_amount_repayable;
-            	try {
-				    var 
-				    	princ = parseInt($('#loan_amount').val(), 10),
+		app.on('appform:uiReady').then(function () {
+			// Install Loan Calculator:
+			$('body').on('updateLoanSummary', function loanCalculator () {
+				var fixed_apr, repaying_per_month, total_amount_repayable;
+				try {
+					var 
+						princ = parseInt($('#loan_amount').val(), 10),
 						term = parseInt($('#loan_term').val(), 10),
 						theint = 25.77,
 						intr = theint / 1200,
@@ -125,60 +64,51 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'shared/form.man
 					repaying_per_month = parseFloat(Math.round(z * 100) / 100).toFixed(2);
 					total_amount_repayable = parseFloat(Math.round(w * 100) / 100).toFixed(2);
 
-            	} catch (e) {
+				} catch (e) {
 
-            		console.log('loanCalculator error', e);
+					console.log('loanCalculator error', e);
 
 					fixed_apr = '29.0';
 					repaying_per_month = '...';
 					total_amount_repayable = '...';
 
-            	};            	
+				};            	
 
-        		$('#fixed_apr').text(fixed_apr);
-        		$('#repaying_per_month').text(repaying_per_month);
-        		$('#total_amount_repayable').text(total_amount_repayable);
+				$('#fixed_apr').text(fixed_apr);
+				$('#repaying_per_month').text(repaying_per_month);
+				$('#total_amount_repayable').text(total_amount_repayable);
 
-            }).triggerHandler('updateLoanSummary');
+			}).triggerHandler('updateLoanSummary');
 
-        	// ^ fire event for initial values:
+			// ^ fire event for initial values:
 
-        	// // Install PCA Handlers:
-        	// (
-        	// 	function (a, c, b, e) { a[b] = a[b] || {}; a[b].initial = { 
-        	// 		accountCode: "CMPNY15947", host: "CMPNY15947.pcapredict.com" 
-        	// 	}; a[b].on = a[b].on || function () { (a[b].onq = a[b].onq || []).push(arguments) }; 
-        	// 	var d = c.createElement("script"); d.async = !0; d.src = e; 
-        	// 	c = c.getElementsByTagName("script")[0]; 
-        	// 	c.parentNode.insertBefore(d, c) })(window, document, "pca", "//CMPNY15947.pcapredict.com/js/sensor.js");
+			// add service (hidden) fields for the app form:
 
+			function hidden(name, value) {
+				return $('<input/>')
+					.attr({'name':name, 'type':'hidden'})
+					.val(value);
+			}
 
+			if (self.appId)
+				$(self.jqFormSel).prepend(hidden('app_id', self.appId));
+			
+		});
 
-        }
+		self._beforePost = function (postData) {
+			// allows to pre-process form data
+			if (app.customCfg.site == 'gl') {
+				if (postData['residential_status'].toLowerCase() !== 'homeowner') {
+					postData.site = 16849;
+					self.redirectTo = 'non-ho-thank-you';
+				}
+			}
+			// for 'gml' site keep all "as-is"
+		}
 
-        self.proceedPage = function () {
-        	var hash;
-        	checkCompleteAll();
-        	if (self.isComplete()){
-	        	if (self.activePageNo < 3) {
-	        		// next page:
-	        		hash = 'application-form-'+(self.activePageNo+1)
-	        	} else {
-	        		// last page:
-	        		hash = 'thank-you'
-	        	}
-	        	// make post/promise here...
-	        	router.navigate(hash,{
-	        			replace: false, // replace history entry ?  
-	        			trigger: true // trigger module activation ?
-	        		});
-        	}
-
-        }
-
-        // data model for the first part of application form
-        
-    };
-    
-    return ctor;
+		// data model for the first part of application form
+		
+	};
+	
+	return ctor;
 });

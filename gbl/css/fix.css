@@ -128,6 +128,10 @@ label.control-label {
 	margin-left: 15%;
 	margin-right: 15%;
 	width:70%;
+	/* "Large" button: */
+	padding-top: 15px;
+	padding-bottom: 15px;
+	font-size: 16px;
 }
 
 .error-message {
@@ -193,7 +197,7 @@ label.control-label {
 	margin-left:0;
 }
 
-.date .form-group.birth_date {
+.date .form-group.birth_day {
 	width: 27% !important;
 	float: left !important; 
 }
@@ -213,4 +217,24 @@ label.control-label {
 
 .incomplete-field .glyphicon {
 	color: rgb(255,0,0);
+}
+
+
+/* fix alignment for fields wit long labels*/
+
+@media (min-width: 920px) {
+
+	#app-form .row.align-to-bottom {
+		display: flex;
+		align-items: flex-end;
+	}
+
+}
+
+/*transient layers/screens:*/
+#app-splash {
+	background-color: rgb(2555,255,255);
+}
+#interstitial {
+	background-color: rgb(2555,255,255);
 }

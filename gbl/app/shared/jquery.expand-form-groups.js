@@ -28,7 +28,7 @@
 							$('<div/>')
 								.addClass('form-group')
 						).parent(),
-					$control = $formGroup.find('input,select'),
+					$control = $formGroup.find('input,select,checkbox'),
 					$label = $formGroup.find('label'),
 					ctrlId = ($control.attr('id')) || ($control.attr('name')) || ('ctrl_'+ ++autoId ),
 					eventName = ($wrapper.attr('data-event')) || options.event || null,
@@ -51,7 +51,7 @@
 				// set up attributes
 				$label
 					.attr('for', ctrlId)
-					.addClass('form-label');
+					.addClass('form-label control-label');
 				$control
 					.addClass('form-control')
 					.attr('name', ctrlId)

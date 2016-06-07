@@ -4,26 +4,32 @@ define(['plugins/router', 'durandal/app'], function (router, app) {
 		activate: function () {
 			router.map([
 				// default route:
-				{ route: '', title:'Homepage', moduleId: 'viewmodels/application-page-1', hash: '#homepage'}
+				{ route: '', title:'Homepage', moduleId: 'viewmodels/application-page-1', 
+					hash: '#homepage'}
 				// dynamic route, depends on "pageNo", hash for history :
-				,{ route: 'application-page-1', title:'Homepage', moduleId: 'viewmodels/application-form', nav: false, hash: '#homepage' }
+				,{ route: 'application-page-1', title:'Apply Now', moduleId: 'viewmodels/application-page-1', nav: false, 
+					hash: '#app-page-1' }
 
-				,{ route: 'application-page-2', title:'Application Page 2', moduleId: 'viewmodels/application-page-2', nav: false }
-				,{ route: 'application-page-3', title:'Application Page 3', moduleId: 'viewmodels/application-page-3', nav: false }
+				,{ route: 'application-page-2/:appId', title:'Application Page 2', moduleId: 'viewmodels/application-page-2', nav: false }
+				,{ route: 'application-page-3/:appId', title:'Application Page 3', moduleId: 'viewmodels/application-page-3', nav: false }
 
 				// Visible in navigation:
 				,{ route: 'about-us', title:'About', moduleId: 'viewmodels/about-us', nav: true }
-				,{ route: '', title:'Homepage', moduleId: 'viewmodels/welcome', nav: true }
-				,{ route: 'contact-us', title:'Contact', moduleId: 'viewmodels/contact-us', nav: true }
-				,{ route: 'faq', title:'FAQ', moduleId: 'viewmodels/faq', nav: true }
+				,{ route: 'contact-us', title:'Contact', moduleId: 'viewmodels/contact-us', nav: true, hash: '#contact-us' }
+				,{ route: 'faq', title:'FAQ', moduleId: 'viewmodels/faq', nav: true, hash: '#faq' }
 
 				// Service pages (invisible from navigation)
-				,{ route: 'error-page', title:'Error', moduleId: 'viewmodels/error-page', nav: false }
+				,{ route: 'error-page(/:appId)', title:'Error', moduleId: 'viewmodels/error-page', nav: false }
 				,{ route: 'privacy-policy', title:'Privacy Policy', moduleId: 'viewmodels/privacy-policy', nav: false }
 				,{ route: 'terms-n-conditions', title:'Terms and Conditions', moduleId: 'viewmodels/terms-n-conditions', nav: false }
-				,{ route: 'thank-you', title:'Thank You', moduleId: 'viewmodels/thank-you', nav: false }
+				,{ route: 'thank-you(/:appId)', title:'Thank You', moduleId: 'viewmodels/thank-you', nav: false }
 
-				,{ route: 'interstitial', title:'Interstitial', moduleId: 'viewmodels/interstitial', nav: false }
+				,{ route: 'non-ho-thank-you(/:appId)', title:'Thank You', moduleId: 'viewmodels/thank-you', nav: false }
+
+				,{ route: 'non-ho-gtr-thank-you(/:appId)', title:'Thank You', moduleId: 'viewmodels/thank-you', nav: false }
+
+
+				// ,{ route: 'interstitial', title:'Interstitial', moduleId: 'viewmodels/interstitial', nav: false }
 
 
 			]).buildNavigationModel();
@@ -34,6 +40,7 @@ define(['plugins/router', 'durandal/app'], function (router, app) {
 				// (once per application)
 			    // ga('create', 'UA-XXXXXXXX-X', 'example.com');
 			    window.ga('set', 'page', location.pathname + location.search + location.hash);
+			    // ^ another option - use page aliases (#hash?)
 			    window.ga('send', 'pageview');
 			});			
 			
