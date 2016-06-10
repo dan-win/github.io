@@ -1,9 +1,6 @@
 
 <!-- App Form - Page 1-->
 
-<!-- embedding "entrance splash screen": -->
-<section data-bind="widget:{kind:'splash'}"></section>
-
 <!-- embedding "interstitial" layer: -->
 <section data-bind="compose: 'interstitial.html'"></section>
 
@@ -104,19 +101,19 @@
 				<div class="col-sm-12 col-md-4">
 					<label class="control-label">
 						Monthly Repayment</label>
-					<div class="alert alert-success summary-item">
+					<div class="alert alert-warning summary-item">
 						&pound;&nbsp;<span id="repaying_per_month"></span></div>
 				</div>
 				<div class="col-sm-12 col-md-4">
-					<label class="control-label">
+					<label class="control-info">
 						Total Repayable</label>
-					<div class="alert alert-success summary-item">
+					<div class="alert alert-warning summary-item">
 						&pound;&nbsp;<span id="total_amount_repayable"></span></div>
 				</div>
 				<div class="col-sm-12 col-md-4">
 					<label class="control-label">
 						Representative APR</label>
-					<div class="alert alert-success summary-item">
+					<div class="alert alert-warning summary-item">
 						<span id="fixed_apr"></span>&nbsp;%</div>
 				</div>
 			</div>

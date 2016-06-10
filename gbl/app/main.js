@@ -113,6 +113,15 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/subdo
 
     // CUSTOM CODE:
 
+
+    // register handlers for page splash
+    app.on('splash:show').then(function () {
+        $('#app-splash').show(500);
+    });
+    app.on('splash:hide splash:deactivate').then(function () {
+        $('#app-splash').hide(500);
+    });
+
     // *** Custom data and config ***
     app.customCfg = subdomainConfig;
 

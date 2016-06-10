@@ -22,14 +22,28 @@ img.logo {
 	border-bottom:none;
 }
 
-.main-navbar {
-	top: 50px;
+.navbar {
+	border-radius: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.banner-text {
+	font-size: 20px;
+	line-height: 20px;
+	padding-left: 15%;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+
+	background-color: #272460;
+	color: #ffffff;
 }
 
 
 .nav-tabs {
 	width: 100%;
-	background: #007e77 none repeat scroll 0 0;
+	background: #03A79D none repeat scroll 0 0;
 	padding-top: 15px;
 	padding-left: 15px;
 	padding-right: 15px;
@@ -39,6 +53,8 @@ img.logo {
 	/*background: inherit;*/
 	cursor: default;
 	text-transform: uppercase;
+	padding-bottom: 0px;
+	height: 35px;
 }
 
 .nav-tabs > li > a:hover,
@@ -79,6 +95,63 @@ img.logo {
 
 #gl-logo {
 	margin-left: -40px;
+}
+
+
+/* update "page-host" to display footer after it:*/
+.page-host {
+	position: static;
+	margin-top: 0;
+}
+
+.footer {
+
+	margin-top: 30px;
+	padding-bottom: 30px;
+
+	padding-left: 13%;
+	padding-right: 13%;
+
+	background-color: #272460;
+	color: #ffffff;
+	width: 100%;
+	font-family: Verdana, Tahoma, Helvetica, Arial;
+	font-size: 12px;
+}
+
+.footer .btn {
+	background-color: #03A79D;
+	color: #ffffff;
+}
+
+.footer a {
+	display: block;
+	color: #ffffff;
+	/*text-decoration: none;*/
+	cursor: pointer;
+}
+
+.footer .title, .footer button.btn {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.footer a, .footer div, .footer button {
+	margin-bottom: 5px;
+}
+
+.footer button.btn {
+	width: 70%;
+}
+
+.footer .fa.fa-phone {
+	font-size: 40px;
+	color: #03A79D;
+}
+
+.footer .phone {
+	font-size: 18px;
+	margin-left: 5px;
 }
 
 #app-form .panel {
@@ -255,10 +328,18 @@ label.control-label {
 }
 
 /*transient layers/screens:*/
-#app-splash {
-	background-color: rgb(2555,255,255);
-}
-#interstitial {
+#app-splash, #interstitial {
+	position:absolute;
+	display:block;
+	z-index:3000;
+	margin-left: 0;
+	margin-top: 0;
+	margin-right: 0;
+	margin- bottom: 0;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
 	background-color: rgb(2555,255,255);
 }
 

@@ -1,44 +1,47 @@
 <div class="header">
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <!-- topmost row -->
-        <div role="navigation" class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-collapse collapse top-nav">
-                    <ul class="nav navbar-nav">
-                        <li>&nbsp;</li>
-                    </ul>
+<!--     <div style="width:100%;background:#272460;">
+        <div class="container">
+            <div class="row">
+                <div style="text-align:left;padding-top:10px;padding-bottom:10px;font-size:150%;color:#FFF;" class="col-md-6">
+                    CALL US ON 01603 561110
                 </div>
-                <!--/.nav-collapse -->
+                <div style="font-size:100%;padding-top:10px;padding-bottom:10px;" class="col-md-6">
+
+                </div>
             </div>
         </div>
     </div>
-    <!-- <div class="container"> -->
+ -->
+    <div class="banner-text">
+        CALL US ON 01603 561110
+    </div>
 
     <div class="navbar navbar-default main-navbar" role="navigation">
-        <div class="col-sm-5">
-            <div id="gl-logo">
-                <a href="/">
-                    <img alt="Logo" src="img/GLlogo374.png" class="logo">
-                </a>
+        <div class="container-fluid">
+            <div class="col-sm-5">
+                <div id="gl-logo">
+                    <a href="/">
+                        <img alt="Logo" src="img/GLlogo374.png" class="logo">
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-7 main-nav-container" id="GLMainNav">
-            <div class="navbar-collapse collapse main-nav">
-                <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
-                    <li data-bind="css: { active: isActive }">
-                        <a data-bind="attr: { href: hash }, text: title"></a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="loader" data-bind="css: { active: router.isNavigating }">
-                        <i class="fa fa-spinner fa-spin fa-2x"></i>
-                    </li>
-                </ul>
+            <div class="col-sm-7 main-nav-container" id="GLMainNav">
+                <div class="navbar-collapse collapse main-nav">
+                    <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
+                        <li data-bind="css: { active: isActive }">
+                            <a data-bind="attr: { href: hash }, text: title"></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="loader" data-bind="css: { active: router.isNavigating }">
+                            <i class="fa fa-spinner fa-spin fa-2x"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>            
         
-    <!-- </div> -->
 
 <!--     <div class="container-fluid">
         <div class="row">
@@ -105,3 +108,38 @@
      
 <div class="page-host" data-bind="router: { transition:'entrance' }"></div>
 
+<div class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 col-sm-2">
+                <a>Home</a>
+                <a>About Us</a>
+                <a>Contact Us</a>
+                <a>FAQ</a>
+            </div>
+
+            <div class="col-xs-4 col-sm-2">
+                <a>Privacy Policy</a>
+                <a>Website Terms &amp; Conditions</a>
+            </div>
+
+            <div class="col-xs-4 col-sm-2">
+                <div class="title">Office Times</div>
+                <div>Monday to Thursday 9:00am to 8:00pm</div>
+                <div>Friday 9:00am to 6:00pm</div>
+                <div>Saturday 9:00am to 1:00pm</div>
+            </div>
+
+            <div class="col-sm-12 col-md-3">
+                <div class="title">Do you have any questions?</div>
+                <br/>
+                <button class="btn">Visit FAQ</button>
+            </div>
+
+            <div class="col-sm-12 col-md-3">
+                <div class="title">Application &amp; Equires</div>
+                <div><i class="fa fa-phone" aria-hidden="true"></i><span class="phone">01603 561110</span></div>
+            </div>
+        </div>
+    </div>
+</div>
