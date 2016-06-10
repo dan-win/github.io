@@ -1,5 +1,18 @@
 body {
 	padding-top: 0;
+	overflow-x: hidden;
+}
+
+body, table {
+	font-family: "Museo300", Verdana, Helvetica, Arial;
+}
+
+h1,h2,h3,h4,h5, 
+label.form-label, 
+label.control-label, 
+.nav-tabs > li.active,
+.navbar-default .navbar-nav > .active > a {
+	font-family: "Museo500", Verdana, Helvetica, Arial;
 }
 
 section {
@@ -27,6 +40,29 @@ img.logo {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+
+.navbar-default .navbar-nav > li > a {
+	color: #000000;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+    background: transparent;
+    color: #03A79D;
+}
+
+.navbar-default .navbar-nav > li.divider,
+.main-navbar.navbar-default .main-nav ul li.divider {
+	position: relative;
+	display: block;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	font-size: 17px;
+	color: #aaaaaa;
+}
+
 
 .banner-text {
 	font-size: 20px;
@@ -115,8 +151,9 @@ img.logo {
 	background-color: #272460;
 	color: #ffffff;
 	width: 100%;
-	font-family: Verdana, Tahoma, Helvetica, Arial;
-	font-size: 12px;
+	/*font-family: Verdana, Tahoma, Helvetica, Arial;*/
+	font-size: 13px;
+	border: none;
 }
 
 .footer .btn {
@@ -131,7 +168,7 @@ img.logo {
 	cursor: pointer;
 }
 
-.footer .title, .footer button.btn {
+.footer .title {
 	font-size: 16px;
 	font-weight: bold;
 }
@@ -152,6 +189,19 @@ img.logo {
 .footer .phone {
 	font-size: 18px;
 	margin-left: 5px;
+}
+
+.legend {
+	width: 100%;	
+	margin-top: 0;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-left: 13%;
+	padding-right: 13%;
+	background-color: #666666;
+	color: #ffffff;
+	/*font-family: Verdana, Tahoma, Helvetica, Arial;*/
+	font-size: 13px;
 }
 
 #app-form .panel {
@@ -206,7 +256,7 @@ img.logo {
 }
 
 label.control-label {
-	font-size: 12px;
+	/*font-size: 12px;*/
 }
 
 /*.tab-content > .tab-pane > form  {
