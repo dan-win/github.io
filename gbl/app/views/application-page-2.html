@@ -10,103 +10,99 @@
 <section data-bind="compose:'snippets/application-tabs.html'" class="clearfix"></section>
 <!-- tabs end -->
 
-<div class="tab-content">
-    <div role="tabpanel" class="tab-pane active">
-        <!-- Grid for controls: -->
-		<form id="app-form">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">About Your Guarantor</h3></div>
-                <div class="panel-body">
-                    <div class="row">
-                        <!-- col 1 -->
+<!-- Grid for controls: -->
+<form id="app-form">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">About Your Guarantor</h3></div>
+        <div class="panel-body">
+            <div class="row">
+                <!-- col 1 -->
 
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>Title</label>
-								<select name="title">
-									<option value="" selected>Select..</option>
-									<option value="Miss">Miss</option>
-									<option value="Mr">Mr</option>
-									<option value="Mrs">Mrs</option>
-									<option value="Ms">Ms</option>
-									<option value="Other">Other</option>
-								</select>
-							</field-group>
-						</div>
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>Title</label>
+						<select name="title">
+							<option value="" selected>Select..</option>
+							<option value="Miss">Miss</option>
+							<option value="Mr">Mr</option>
+							<option value="Mrs">Mrs</option>
+							<option value="Ms">Ms</option>
+							<option value="Other">Other</option>
+						</select>
+					</field-group>
+				</div>
 
-                        <!-- col 2 -->
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>First Name</label>
-								<input type="text" name="first_name" required="true">
-							</field-group>
-						</div>
+                <!-- col 2 -->
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>First Name</label>
+						<input type="text" name="first_name" required="true">
+					</field-group>
+				</div>
 
-                        <!-- col 3 -->
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>Surname</label>
-								<input type="text" name="surname" required="true">
-							</field-group>
-						</div>
-                    </div>
-
-                    <div class="row">
-                        <!-- col 1 -->
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>Mobile Phone</label>
-								<input type="text" name="mobile_phone" data-inputmask-alias="uk-mobile-phone" placeholder="07xxx xxxxxx" required="true">
-							</field-group>
-						</div>
-
-                        <!-- col 2 -->
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>Home Phone</label>
-								<input type="text" name="home_phone" data-inputmask-alias="uk-landline-phone" placeholder="0xxxx xxxxxx" required="true">
-							</field-group>
-						</div>
-
-                        <!-- col 3 -->
-
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>Email Address</label>
-								<input type="text" name="email" data-inputmask-alias="e-mail" placeholder="your@email.com" required="true">
-							</field-group>
-						</div>
-
-                    </div>
-                    <div class="row">
-                        <!-- col 1 -->
-						<div class="col-sm-12 col-md-4">
-							<field-group data-feedback="true">
-								<label>Residential Status</label>
-								<select name="residential_status" required="true">
-									<option value="" selected>Select..</option>
-									<option value="Homeowner">Homeowner</option>
-									<option value="Private Tenant">Private Tenant</option>
-									<option value="Council Tenant">Council Tenant</option>
-									<option value="Living with Family">Living with Family</option>
-									<option value="Other">Other</option>
-								</select>
-							</field-group>
-						</div>
-                    </div>
-                </div>
+                <!-- col 3 -->
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>Surname</label>
+						<input type="text" name="surname" required="true">
+					</field-group>
+				</div>
             </div>
-            <!-- Submit button-->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Proceed</button>
-                        <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
-                    </div>
-                </div>
+
+            <div class="row">
+                <!-- col 1 -->
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>Mobile Phone</label>
+						<input type="text" name="mobile_phone" data-inputmask-alias="uk-mobile-phone" placeholder="07xxx xxxxxx" required="true">
+					</field-group>
+				</div>
+
+                <!-- col 2 -->
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>Home Phone</label>
+						<input type="text" name="home_phone" data-inputmask-alias="uk-landline-phone" placeholder="0xxxx xxxxxx" required="true">
+					</field-group>
+				</div>
+
+                <!-- col 3 -->
+
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>Email Address</label>
+						<input type="text" name="email" data-inputmask-alias="e-mail" placeholder="your@email.com" required="true">
+					</field-group>
+				</div>
+
             </div>
-        </form>
-        <!-- Grid for controls (end) -->
+            <div class="row">
+                <!-- col 1 -->
+				<div class="col-sm-12 col-md-4">
+					<field-group data-feedback="true">
+						<label>Residential Status</label>
+						<select name="residential_status" required="true">
+							<option value="" selected>Select..</option>
+							<option value="Homeowner">Homeowner</option>
+							<option value="Private Tenant">Private Tenant</option>
+							<option value="Council Tenant">Council Tenant</option>
+							<option value="Living with Family">Living with Family</option>
+							<option value="Other">Other</option>
+						</select>
+					</field-group>
+				</div>
+            </div>
+        </div>
     </div>
-</div>
+    <!-- Submit button-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="proceed-button btn btn-success" data-bind="click:proceedPage">Click to Proceed</button>
+                <div class="alert alert-danger" data-bind="visible:!isComplete()">Please fill all required fields!</div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Grid for controls (end) -->
