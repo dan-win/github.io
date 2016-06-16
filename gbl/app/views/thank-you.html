@@ -1,9 +1,47 @@
-<section>
-    <h2 data-bind="text:displayName"></h2>
-    <blockquote data-bind="text:description"></blockquote>
+<div class="container text">
+	<div class="row">
+		<div class="col-xs-16">
 
-    <div class="container">
-      <div class="row">
-      </div>
-    </div>
-</section>
+
+
+
+<h1>Your Application has been Submitted</h1>
+
+
+<p>
+
+Your application has been successfully submitted to <span data-bind="text:cfg.siteBrandName">{}</span>.
+
+
+<p>
+We will be in touch shortly to discuss your loan.
+
+
+<p>
+Look out for text messages and emails which we have sent that explain what the next steps are and how to complete your loan as quickly as possible. You may have to check your junk or spam folder for the email.
+
+
+<div class="alert alert-success">
+	If you have any questions, please don’t hesitate to call us on 01603 561110. Quote Ref: <span class="badge" data-bind="text:appId">{}</span> and we’ll be able to find your application easily.
+</div>
+
+<p>
+Our office is open:
+<p>
+
+<table class="table">
+	<tr>
+		<td>Monday-Thursday:	</td><td>9am to 8pm</td>
+	</tr><tr>
+		<td>Friday:	</td><td>9am to 6pm</td>
+	</tr><tr>
+		<td>Saturday:	</td><td>9am to 1pm</td>
+	</tr>
+</table>
+
+<p>
+<b>Thank you for choosing <span data-bind="text:cfg.siteBrandName">{}</span></b>
+			
+		</div>
+	</div>
+</div>

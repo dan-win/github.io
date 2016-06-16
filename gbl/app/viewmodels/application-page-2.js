@@ -1,18 +1,15 @@
 define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-form-factory'], 
-	function (router, app, ko, $, formFactory) {
+function (router, app, ko, $, formFactory) {
 
 
-		var ctor = function () {
+	var ctor = function () {
 
 		var self = formFactory(this); // <--- factory here self = viewModelFactory(this);
-
-		self.displayName = 'Guarantor Loan';
-		self.description = '';
 
 		self.activePageNo = 2;
 
 		// default redirection after POST:
-		self.redirectTo = 'application-page-3';
+		self.redirectTo = '#application-page-3';
 
 		app.title = 'Application Page 2';
 
@@ -39,10 +36,11 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-
 
 		self._beforePost = function (postData) {
 			// allows to pre-process form data
-			if (app.customCfg.site == 'gl') {
+			if (app.customCfg.site === 'gl') {
 				if (postData['residential_status'].toLowerCase() !== 'homeowner') {
+					console.log('not Homeowner!');
 					postData.site = 16849;
-					self.redirectTo = 'non-ho-gtr-thank-you';
+					self.redirectTo = '#non-ho-gtr-thank-you';
 				}
 			}
 			// for 'gml' site keep all "as-is"

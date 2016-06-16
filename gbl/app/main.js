@@ -9,40 +9,18 @@
 
     paths: {
 
-        // 'lib':          '../vendor',
-
-        // 'app':          '../app',
-        // 'shared':       '../app/shared',
-
         'jquery':       '../vendor/jquery-1.11.3.min',
-        'jquery.ui':        '../vendor/jquery-ui/jquery-ui.1.11.4.interactions.min',
-        // 'jquery.mask': '../vendor/jquery.mask', 
+
         'jquery.inputmask': '../vendor/jquery.inputmask.bundle',
         'jquery.autocomplete': '../vendor/jquery.autocomplete',
 
-        // folder, not js (for ko.mapping(!)):
-        'jquery-ui':        '../vendor/jquery-ui',
-
-        // groups jquery wit a minimal plugins (ntfbus)
-        // do not include jquery-ui because it is not always necessary
-        'jquery.all':       'shared/jquery-loader',
-
         'knockout':         '../vendor/knockout-3.3.0',
 
-        // this module groups knockout.kernel', 'knockout.mapping', preloads 'jquery':
-        'knockout.all':         'shared/knockout-loader',
-
-        'underscore':       '../vendor/underscore-min',
-        'underscore.all':   'shared/underscore-loader',
         
         'bootstrap':        '../vendor/bootstrap/js/bootstrap.min',
 
-        'message.bus':  'shared/message.bus',
 
         'xml2json':     '../vendor/xml2json-light',
-
-
-        // 'templates':        '../templates'
 
         // DURANDAL:
         'text': '../vendor/text',
@@ -65,15 +43,7 @@
         }
 
     }
-    //,
-    
-    // //~ // global dependencies
-    // deps: ['jquery', 'knockout', 'knockout.mapping', 'jqueryui', 'bootstrap'],
-    
-    // //~ // callback
-    // callback: function($, ko, mapping){
-    //  ko.mapping = mapping;
-    // }
+
 });
 
 
@@ -89,7 +59,7 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/subdo
     if (system.debug()) {
         // Redefine "ga" for dummy function - test
         window.ga = function (cmd, arg1, arg2) {
-            console.log('=== Google Analytics Call: ===', cmd, arg1, arg2);
+            system.log('=== Google Analytics Call: ===', cmd, arg1, arg2);
         }
     }
 

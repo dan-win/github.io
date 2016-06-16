@@ -15,18 +15,38 @@ define(function () {
 	}
 
 	// allow to switch "subdomain" on-the-fly - for testing; 
-	// otherwise use a static value:
+	// otherwise replace it with a static value:
+
 	var site = getQueryVariable('subdomain') || 'gl'; /* choose "gl" or "gml" */
 
 	// Settings object:
 
 	var settings =  {
 		// Global settings:
+
+		// "Switch" between gl | gml:
 		site: site
+
+		// common part of the window title:
 		,appTitle: {
 
 			gl:'Guarantor Loan', 
 			gml: 'Guarantor My Loan'
+
+		}[site]
+
+		// Used on "error-page.html":
+		,siteBrandName: {
+			gl: 'GuarantorLoan.co.uk',
+			gml: 'GuarantorMyLoan.co.uk'
+
+		}[site]
+
+		// logo image (file name with path relative to "index.html"):
+		,logoImg: {
+
+			gl: 'img/gl-text-logo.png',
+			gml: 'img/gml-text-logo.png'
 
 		}[site]
 

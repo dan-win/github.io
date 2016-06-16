@@ -35,13 +35,6 @@
 					glyphicon = $wrapper.attr('data-glyphicon') || options.glyphicon,
 					feedback = ($wrapper.attr('data-feedback') === 'true') || options.feedback;
 
-				// console.log($wrapper, $formGroup, $control, $label, '-options', options);
-
-				// console.log('glyphicon for: ',ctrlId, '"'+$wrapper.attr('data-glyphicon')+'"', );
-
-
-				// console.log('data-feedback', $wrapper.attr('data-feedback'), typeof($wrapper.attr('data-feedback')), ($wrapper.attr('data-feedback')==='true'));
-				console.log(feedback);
 
 				$wrapper.children().unwrap();
 
@@ -57,12 +50,8 @@
 					.attr('name', ctrlId)
 					.attr('id', ctrlId);
 
-				// console.log('elements', $collection, 'LABEL>>>', $label, 'CONTROL>>>', $control);
-
-				// console.log('$wrapper', $wrapper);
 
 				if (glyphicon) {
-					console.log('adding glyphicon for: ',ctrlId);
 					$control
 						.wrap(
 							$('<div/>')
@@ -94,8 +83,7 @@
 				if (eventName)
 					$('body').on('change', '#'+ctrlId, function (event) {
 						$('body').triggerHandler(eventName, [ctrlId, $(event.target).val()]);
-						console.log('fired', eventName);
-					})
+					});
 
 		});
 

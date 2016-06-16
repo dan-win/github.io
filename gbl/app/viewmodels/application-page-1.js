@@ -1,20 +1,17 @@
 define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-form-factory'], 
-	function (router, app, ko, $, formFactory) {
+function (router, app, ko, $, formFactory) {
 
 
-		var ctor = function () {
+	var ctor = function () {
 
 		var self = formFactory(this); // <--- factory here self = viewModelFactory(this);
-
-		self.displayName = 'Guarantor Loan';
-		self.description = '';
 
 		self.activePageNo = 1;
 
 		// default redirection after POST:
-		self.redirectTo = 'application-page-2';
+		self.redirectTo = '#application-page-2';
 
-		app.title = 'Apply Now';
+		// app.title = 'Apply Now';
 
 		self.ENCODE_FLG_MESSAGE = 'encodeCreateLeadMessage';
 
@@ -66,7 +63,7 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-
 
 				} catch (e) {
 
-					console.log('loanCalculator error', e);
+					// console.log('loanCalculator error', e);
 
 					fixed_apr = '29.0';
 					repaying_per_month = '...';
@@ -99,8 +96,9 @@ define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-
 			// allows to pre-process form data
 			if (app.customCfg.site == 'gl') {
 				if (postData['residential_status'].toLowerCase() !== 'homeowner') {
+					console.log('not Homeowner!');
 					postData.site = 16849;
-					self.redirectTo = 'non-ho-thank-you';
+					self.redirectTo = '#non-ho-thank-you';
 				}
 			}
 			// for 'gml' site keep all "as-is"

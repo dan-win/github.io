@@ -1,20 +1,17 @@
 define(['plugins/router', 'durandal/app', 'knockout', 'jquery', 'viewmodels/app-form-factory'], 
-	function (router, app, ko, $, formFactory) {
+function (router, app, ko, $, formFactory) {
 
 
-		var ctor = function () {
+	var ctor = function () {
 
 		var self = formFactory(this); // <--- factory here self = viewModelFactory(this);
 
-		self.displayName = 'Guarantor Loan';
-		self.description = '';
-
-		self.activePageNo = 2;
+		self.activePageNo = 3;
 
 		// default redirection after POST:
-		self.redirectTo = 'thank-you';
+		self.redirectTo = '#thank-you';
 
-		app.title = 'Application Page 2';
+		app.title = 'Application Page 3';
 
 		self.ENCODE_FLG_MESSAGE = 'encodeUpdateLeadFinancesMessage';
 

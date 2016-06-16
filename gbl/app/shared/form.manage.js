@@ -73,10 +73,10 @@ define(['jquery', 'jquery.inputmask', 'jquery.autocomplete', 'shared/jquery.expa
 					// }
 				},
 				'onincomplete': function (argument) {
-					console.log('onincomplete', argument, this);
+					// console.log('onincomplete', argument, this);
 				},
 				'oncomplete': function (argument) {
-					console.log('oncomplete', argument, this);
+					// console.log('oncomplete', argument, this);
 				}
         		// 'validator': '^(GIR 0AA)|((([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z])))) [0-9][A-Z]{2})$'
 			},
@@ -105,12 +105,12 @@ define(['jquery', 'jquery.inputmask', 'jquery.autocomplete', 'shared/jquery.expa
 	        		.inputmask()
 	        		.addClass(self.JQ_CLASS_MASKED);
 
-	        	console.log('self.JQ_SEL_REQUIRED', self.JQ_SEL_REQUIRED, $(self.JQ_SEL_REQUIRED));
+	        	// console.log('self.JQ_SEL_REQUIRED', self.JQ_SEL_REQUIRED, $(self.JQ_SEL_REQUIRED));
 
 	        	$('body').on('focusout blur', self.JQ_SEL_REQUIRED, function (event) {
 	        		var $el = $(event.target),
 	        			complete = self.isFieldComplete($el);
-	        		console.log('----------->focusout blur');
+	        		// console.log('----------->focusout blur');
 	        		self.reflectFieldStatus($el, complete);
 	        	});
 

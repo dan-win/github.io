@@ -37,6 +37,8 @@ define(function (require) {
 		submitting = false;
 
 	return function FormPageFactory (self) {
+		// Note: this is a factory, not a constructor,
+		// "self" is argument, and does not related to "this"!
 
 		self.jqFormSel = 'form#app-form';
 
@@ -47,10 +49,10 @@ define(function (require) {
 		self.interstitial = ko.observable(false);
 
 		self.interstitial.subscribe(function () {
-			system.log(self.interstitial() ? 'I-SPLASN ON' : 'I-SPLASN OFF' );
+			// system.log(self.interstitial() ? 'I-SPLASN ON' : 'I-SPLASN OFF' );
 		});
 
-		self.displayName = 'Guarantor Loan';
+		// self.displayName = 'Guarantor Loan';
 		self.description = '';
 
 		self.formChanged = ko.observable(0);
@@ -258,7 +260,7 @@ define(function (require) {
 
 		// on post error: 
 		app.on('appform:postError').then(function handleError() {
-			router.navigate( self.appId ? 'error-page/'+self.appId : 'error-page',{
+			router.navigate( self.appId ? '#error-page/'+self.appId : '#error-page',{
 					replace: false, // replace history entry ?  
 					trigger: true // trigger module activation ?
 				});
