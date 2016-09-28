@@ -1,0 +1,33 @@
+<!-- Inserted into parent -->
+<table>
+	<tr>
+		<td style="width:40%;">
+			Transition type:
+		</td>
+		<td style="width:60%;">
+			<select class="type" 
+				data-bind="options: $root.TransitionsList(),
+				optionsText: 'Label',
+				optionsValue: 'MethodName',
+                value: TransitionOnExit,
+                valueAllowUnset: true">
+           </select>
+		</td>
+	</tr>
+	<tr>
+		<td style="width:40%;">
+			Duration: 
+		</td>
+		<td style="width:60%;">
+			<input type="text" data-bind="value: TnExDuration"/>
+		</td>
+	</tr>
+</table>
+
+<!--
+<div class="gutter" role="button">
+	<span class='glyphicon glyphicon-sort'></span>
+</div>
+-->
+
+

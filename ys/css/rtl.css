@@ -1,0 +1,54 @@
+/*rtl.css*/
+
+div.rtl-frame
+{
+    text-align: center;
+    height:100%;
+}
+
+    div.rtl-frame:before,
+    div.rtl-frame:after
+    {
+        content: '';
+        height: 100%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+div.rtl-container
+{
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    height: 100%;
+}
+
+/*responsive stub like in Bootstrap*/
+div.rtl-frame img, .ys-responsive-img {
+    max-width: 100%;, 
+    height: auto; 
+    display: block;
+}
+
+.ys-responsive .ys-responsive-item, .ys-responsive iframe, .ys-responsive embed, .ys-responsive object, .ys-responsive video {
+    border: 0 none;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+div.rt-frame video, .ys-responsive-video {
+    max-width: 100%;, 
+    display: block;
+    height: 0; 
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+}
+
+.video-16by9 {
+    padding-bottom: 56.25%;
+}

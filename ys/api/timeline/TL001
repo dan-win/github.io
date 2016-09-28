@@ -1,0 +1,22 @@
+{
+				"ResourceID":"TL001",
+				"Items": [
+				
+					{XScale:1200,YScale:675,Duration:12,HasTransitionOnExit: true,
+					TransitionOnExit:"Wipe left",TnExDuration:4,		 Label:'Flag 1',	Filename: 'flag1.jpeg',	ResourceID: 'A001', 
+					Type:'Image', XRes:1920, YRes:1080, Size: 10 }	,
+					
+					{XScale:1200,YScale:675,Duration:10,HasTransitionOnExit: false,
+					TransitionOnExit:"",TnExDuration:0,		Label:'Engine 2', Filename: 'engine1.jpeg', ResourceID: 'A002', 
+					Type:'Image', XRes:1920, YRes:1080, Size: 20 }	,
+					
+					{XScale:1200,YScale:675,Duration:10,HasTransitionOnExit: true,
+					TransitionOnExit:"Cross dissolve",TnExDuration:3 ,		Label:'Speaking Man', Filename: 'man.mp4', ResourceID: 'A003', 
+					Type:'Video', XRes:1920, YRes:1080, Size: 30 }	,
+					
+					{XScale:1200,YScale:675,Duration:10,HasTransitionOnExit: true,
+					TransitionOnExit:"Cross dissolve",TnExDuration:30 , Label:'Video 1', Filename: 'video1.wbem', ResourceID: 'A004', 
+					Type:'Video', XRes:1920, YRes:1080, Size: 40 }					
+				
+				]
+			}

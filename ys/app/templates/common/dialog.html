@@ -1,0 +1,26 @@
+<!-- here is dialog binding context (mixed with standart context) -->
+    <div class="modal fade metaclass-dialog" data-bind="console_log:'making binding: selectDialogCtx'">
+      <div class="modal-dialog" data-bind="css:sizeCSS">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close metaclass-dialog-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" data-bind="html:Title">#Modal title#</h4>
+            </div>
+            <form data-bind="submit: onSubmit" class="metaclass-dialog-form" action="#">
+              <div class="modal-body" data-bind="with:Ctx">
+                <div class="html: $parent.BodyHTML"></div>
+                <!-- ko if: $parent.TemplateID -->
+                  <!-- ko template: { name: $parent.TemplateID  } -->
+                  <!-- /ko -->
+                <!-- /ko -->
+              </div>
+              <div class="modal-footer" >
+                <button class="btn btn-default metaclass-dialog-close">Close</button>
+                <button type="submit" class="btn btn-default metaclass-dialog-close">Save changes</button>
+              </div>
+            </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+

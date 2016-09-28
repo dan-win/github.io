@@ -1,0 +1,334 @@
+<!-- DEVELOPMENT FRAGMENT-->
+<!DOCTYPE html>
+<html>
+	<head>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <link rel="stylesheet" href="../../vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../../css/starterkit.css" />
+
+        <link rel="stylesheet" href="../../css/fix.css" />
+
+        
+        <!-- COMPOSER: -->
+        <link rel="stylesheet" href="composer.css" />
+        <link rel="stylesheet" href="display-grid.css" />
+        <link rel="stylesheet" href="../../css/rtl.css" />
+        <link rel="stylesheet" href="../../css/listview.css" />
+        <link rel="stylesheet" href="../../css/dialogs.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/main.css">
+        <link rel="stylesheet" href="../../css/theme.css" />
+
+
+	</head>
+<body>
+<!-- DEVELOPMENT FRAGMENT-->
+<!-- INCLUDE -->
+<div class="container-fluid"  id="view-composer">
+	<div class="row">
+		<!-- Left panel (begin) -->
+		<div class="col-sm-3" id="properties-widget">
+			<div class="row">
+				<!-- Player preview (begin) -->
+				<div class="col-sm-12">
+					<div class="panel panel-default metallic-gradient gradient" id="frame-player">
+						<div class="panel-heading"
+							data-bind="component: {
+								name: 'collapsible-titlebar', 
+								params: {title:'Preview',target:'#player-palette'
+							}}">
+						</div>
+						<div class="panel-body" id="player-palette">
+							<!-- 16:9 aspect ratio -->
+							<div class="line">	
+								<div class="embed-responsive embed-responsive-16by9" 
+									style="background-color:black;">
+									<div id="preview-display" class="embed-responsive-item" 
+									style="border:1px solid #333333;position:relative;width:240px;height:135px;">
+									</div>
+								</div>								
+								<!-- 4:3 aspect ratio -->
+								<!--
+								<div class="embed-responsive embed-responsive-4by3">
+								  <iframe class="embed-responsive-item" src="..."></iframe>
+								</div>
+								-->
+							</div>
+							<div style="margin:10px;">
+								<div id="player-toolbar" style="text-align:center;">
+									<a href="#" id="ffback" class="">
+										<span class="glyphicon glyphicon-fast-backward"></span>
+									</a>
+									&nbsp;
+
+									<a href="#" id="fback" class="">
+										<span class="glyphicon glyphicon-backward"></span>
+									</a>
+									&nbsp;
+									<a href="#" id="playback" class="" data-bind="click:$root.previewPlayback">
+										<span class="glyphicon glyphicon-play"></span>
+									</a>
+									&nbsp;
+
+									<a href="#" id="pause" class="" data-bind="click:$root.previewPause">
+										<span class="glyphicon glyphicon-pause"></span>
+									</a>
+									&nbsp;
+									<a href="#" id="stop" class="" data-bind="click:$root.previewStop">
+										<span class="glyphicon glyphicon-stop"></span>
+									</a>
+									&nbsp;
+
+									<a href="#" id="forward" class="">
+										<span class="glyphicon glyphicon-forward"></span>
+									</a>
+									&nbsp;
+									<a href="#" id="fforward" class="">
+										<span class="glyphicon glyphicon-fast-forward"></span>
+									</a>
+									&nbsp;
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Player preview (end)-->
+			</div>
+			<div class="row">
+				<!-- Properties editor (begin)-->
+				<div class="col-sm-12">
+					<div class="panel panel-default metallic-gradient gradient" id="scene">
+						<div class="panel-heading"
+							data-bind="component: {
+								name: 'collapsible-titlebar', 
+								params: {title:'Layout',target:'#layout-palette'
+							}}">
+						</div>
+						<div class="panel-body" id="layout-palette">
+							<div class="line">
+								<h2 data-bind="text:$root.Playlist.Label">
+									Playlist #1
+									<span data-bind="if:$root.Changed">*</span>
+								</h2>
+								<a class="btn-link-small" 
+									href="javascript:void(0)"
+									id="showDialog-rename-playlist"
+									data-bind="click: $root.showPlaylistNameDialog">
+									(Change name)</a>
+							</div>
+							<div class="line">
+								<table style="width:100%;">
+									<tr>
+										<td style="width:50%;">Resolution:</td>
+										<td style="width:50%;text-align:right;">000</td>
+									</tr>
+									<tr>
+										<td style="width:50%;">BG Color:</td>
+										<td style="width:50%;text-align:right;">000</td>
+									</tr>
+									<tr>
+										<td style="width:50%;">BG Image:</td>
+										<td style="width:50%;text-align:right;">000</td>
+									</tr>
+									<tr>
+										<td style="width:50%;">BG Music</td>
+										<td style="width:50%;text-align:right;">000</td>
+									</tr>
+								</table>
+							</div>
+							<div class="line" style="text-align:right;">
+								<a href="#" class="btn" role="button">
+									Save playlist
+								</a>
+							</div>
+							<div class="line" data-bind="with:$root.ActiveLayer">
+								<!-- Screen Layout / Partitioning -->
+
+								<div 
+									class="ctrl-display-grid-preview" 
+									style="position:relative;width:160px;height:90px;"
+									data-bind="foreach: {data: Frames, as:'frame'}">
+										<div data-bind="attr:{
+															id:frame.DomID,
+															class:frame.CSS,
+															style:frame.Style
+															},
+														css: {'active': frame == $root.ActiveFrame}">
+											<div class="rtl-frame">
+												<div class="rtl-container" data-bind="text:frame.Label"></div>
+											</div>
+										</div>
+								</div>
+
+								<div class="line" style="margin-left:auto;margin-right:auto;width:160px;padding:5px;">
+									<a 
+										role="button"
+										class="btn-link-small" 
+										href="javascript:void(0)"
+										id="showDialog-layout"
+										data-bind="click: $root.showLayoutDialog">
+										(Change layout)
+									</a>
+								</div>
+							</div>
+							<!-- Active Frame -->
+							<div class="line"  data-bind="with:$root.ActiveFrame">
+								<table style="width:100%;">
+									<tr>
+										<td style="width:50%;">Current frame: </td>
+										<td style="width:50%;text-align:right;">
+											<span data-bind="text:Label">Top Left</span><br/>
+											<a class="btn-link-small" 
+												href="javascript:void(0)"
+												id="showDialog-rename-frame"
+												data-bind="click: $root.showFrameNameDialog"
+												>(Change name)</a>
+										</td>
+									</tr>
+									<tr>
+										<td style="width:50%;">Frame Size:</td>
+										<td style="width:50%;text-align:right;">000</td>
+									</tr>
+								</table>										
+								<div class="line" style="text-align:right;">
+									<a href="#" class="btn" role="button" 
+										data-bind="click:function(){
+											$root.updatePreview();
+
+											var json = ko.toJSON($root.renderJSON($root.ActiveTimeline()), null, 2);
+											$('#debug').html('<pre>'+json+'</pre>');
+											$.post('#', json);
+										}">
+										Save frame
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Properties editor (end)-->
+			</div>
+		</div>
+		<!-- Left panel (end) -->
+		<!-- Timeline (begin) -->
+		<div class="col-sm-7"  id="timeline-widget">
+			<div class="panel panel-default metallic-gradient gradient" style="height:100%"
+				data-bind="with: $root.ActiveTimeline"> <!-- with: moved from loop inside -->
+				<!-- Timeline -->
+				<div class="drop-zone ys-sortable-placeholder mc-beginning">
+					<a class="metaclass-insert-first" role="button"  href="#">Add slide&nbsp;</a>
+				</div>
+				<div class="panel-body" 
+					id="timeline-pool"
+					style="height:100%"
+					data-bind="sortable: { 
+									template: 'timeline-row', 
+									data: Items, 
+									as: 'slide',
+									options: {
+										handle: '.gutter',
+										containment: 'parent',
+										placeholder: 'ys-sortable-placeholder',
+										forcePlaceholderSize: true
+									} 
+								}">
+				</div> <!-- Timeline -->
+				<div id="debug" style="color:white;"></div>
+			</div>
+		</div>
+		<!-- Timeline (end) -->
+		<!-- Assets (begin) -->
+		<div class="col-sm-2" id="assets-widget">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default metallic-gradient gradient" id="assets">
+						<div class="panel-heading"
+							data-bind="component: {
+								name: 'collapsible-titlebar', 
+								params: {title:'Asset Gallery',target:'#asset-tree-view'
+							}}">
+						</div>
+						<div class="panel-body" id="asset-tree-view">
+							<ul data-bind="template: {name: 'tree-node', data: $root.AssetGallery.asTreeView()}" ></ul>
+							<!--<pre data-bind="text: ko.toJSON($root.timeline, null, 2)"></pre>
+							-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Assets (end) -->
+	</div> <!-- row -->
+</div>
+
+
+
+
+<!-- Tree View for Assets -->
+<script type="text/html" id="tree-node">
+    <div data-bind="if: IsFolder()" class="asset-folder-item">
+    	<a href="#" data-bind="click: toggle">
+			<span class="glyphicon" data-bind="css: GlyphClass()"></span>
+			&nbsp;
+			<span data-bind="text: Label" class="tree-node-label"></span>
+		</a>
+		<!-- ko if: Expanded -->
+		<div data-bind="template: {name: 'tree-node', foreach: Children}" ></div>
+		<!-- /ko -->
+	</div>
+	<!-- ko if: IsFile() -->
+    <div class="draggable-asset-item" 
+		data-bind="draggable:{
+			data:$data, 
+			options:{
+				connectToSortable:'#timeline-pool', 
+				appendTo: 'body',
+				cursor: 'move'
+			}}"
+	    	style="display:block;">
+	    <a href="#" data-bind="click: select">
+			<span class="glyphicon" data-bind="css: GlyphClass()"></span>
+			&nbsp;
+			<span data-bind="css:{'selected':IsSelected}, text: Label" class="tree-node-label"></span>
+		</a>
+    </div>
+    <!-- /ko -->
+</script>
+
+
+
+<script type="text/html" id="timeline-row">
+	<div data-bind="attr: {'x-slide-handle': $index}">
+
+		<div 
+			data-bind="template: { html: $root.templates.item_interior }">
+		</div>
+
+		<div data-bind="if: slide.HasTransitionOnExit">
+			<div 
+				data-bind="template: { html: $root.templates.transition_interior }">
+			</div>
+		</div>
+
+		<div class="drop-zone ys-sortable-placeholder">
+			<a class="metaclass-insert" role="button"  href="#">Add slide&nbsp;</a>
+			<a class="metaclass-add-transition" role="button"  href="#"
+				data-bind="ifnot: slide.HasTransitionOnExit" >|&nbsp;Add Transition
+			</a>
+		</div>
+	</div>	
+</script>
+
+<!-- INCLUDE -->
+
+<!-- DEVELOPMENT FRAGMENT-->
+</body>
+</html>
+<!-- DEVELOPMENT FRAGMENT-->

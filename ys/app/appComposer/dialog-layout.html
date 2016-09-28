@@ -1,0 +1,37 @@
+<!--dialog-layout-->
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close metaclass-dialog-close" data-dismiss="modal" aria-label="Close"
+			data-bind="click: onCancel">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title">
+		<!-- TITLE -->
+			Select layout
+		<!-- TITLE -->
+		</h4>
+	</div>
+	<form data-bind="submit: onSubmit" class="metaclass-dialog-form">
+		<div class="modal-body">
+		<!-- BODY -->
+			<select size="7"  
+				data-bind="options: Gallery,
+							optionsText:'Label',
+							optionsValue:$data,
+							value: TemplateInfo,
+							valueAllowUnset: true">
+			</select>
+			<div>Selected: <span data-bind="text:TemplateID()"></span></div>
+			<!--
+			<pre data-bind="text: ko.toJSON($component.dialogview, null, 2)"></pre>
+			-->
+		<!-- BODY -->
+		</div>
+		<div class="modal-footer">
+		<!-- FOOTER -->
+			<button data-bind="click: onSubmit" class="btn btn-default">Save changes</button>
+			<button data-bind="click: onCancel" class="btn btn-default">Close</button>
+		<!-- FOOTER -->
+		</div>
+	</form>
+</div><!-- /.modal-content -->

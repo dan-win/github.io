@@ -1,0 +1,171 @@
+Playlist 
+	[Grids] <- Grid
+				[Frames] <- Frame - - - Timeline
+											[Slides] <- Slide - - - Asset 
+
+
+
+
+													Composer // Editor; Workspace (including Galleries)
+															 render()
+
+	Playlist // Document <------(enum,load)  - - - - - - - Playlists Catalog (only names)
+
+
+	Layout
+		[Layers] //Layers <------(enum,load)  - - - - - - - Layouts Gallery
+			|
+		   Grid <---------(enum, load) - - - - - - - - - - Grids Gallery 
+		   	[Frames]
+		   		|
+		   		Frame 	
+		   			(ref)->Timeline
+
+		   			  
+		[Timelines]	  
+			|		  
+			Timeline  <---------(enum, load)  - - - - - - Timelines Gallery 
+				[Slides]
+					|
+					Slide
+						Asset<---------(enum, load) - - - Assets Gallery
+
+
+
+============================================================
+
+'Classes and Fields'
+
+-------------------------
+Asset
+	Label = _obs('Noname');
+	Filename = _obs();
+	ResourceID = _obs(_uniqueId()); // reference for actual object on server
+	Type = _obs(notype);
+	XRes = _obs();
+	YRes = _obs();
+	GlyphSrc = _obs( _url("/assets/dummy.png") );
+	Size = _obs();
+-------------------------
+AssetCollection
+	Items = _obsA();
+	selectedItem = _obs(null);
+
+	// Basic methods for collection
+	length
+	select()
+	IsSelected()
+	each()
+	asTreeView()
+-------------------------
+AssetTreeNode
+	Children
+	Expanded
+	Collapsed
+	GlyphClass
+	IsFolder
+	IsFile
+	toggle()
+	select()
+-------------------------
+Slide
+	XScale = _obs().extend(obs_options);
+	YScale = _obs().extend(obs_options);
+	Duration = _obs(1).extend(obs_options);
+	TransitionOnExit = _obs('').extend(obs_options);
+	TnExDuration = _obs(0).extend(obs_options);
+	HasTransitionOnExit = _obs(false).extend(obs_options);
+
+	// +All fields of Asset,
+	_order = ko.observable(-1).extend(obs_options);
+
+	transitions = _lookup
+-------------------------
+Timeline
+	Items     // Slide
+
+	Id = _obs(_uniqueId());
+	selectedItem = _obs(null);
+
+	// Basic methods for collection
+	length
+	select()
+	IsSelected()
+	each()
+
+	addSlide() // <- use direct access to slide attributes?
+	removeSlide() // <- use direct access to slide attributes?
+	moveSlide() // <- use ko.sortable?
+	moveSlideByIndex() // <- use ko.sortable?
+
+	addTransitionOnExit() // <- use direct access to slide attributes?
+	removeTransitionOnEixt()
+
+-------------------------
+Frame
+	Label = _obs('Frame');
+	Timeline = new Timeline();
+	DomID = _obs();
+	CSS = _obs();
+
+-------------------------
+Grid
+	Label
+	ResourceID; // from GRID_STORAGE
+	Media // array
+	Items = _obsA(); // Frames
+	Html = _obs('');
+	selectedItem = _obs(null);	
+
+	// Basic methods for collection
+	length
+	select()
+	IsSelected()
+	each()
+
+-------------------------
+Layers (as Playlist)
+	Label // when stored as layot
+	ResourceID
+	Items[] // Grid
+
+	selectedItem
+
+	// Basic methods for collection
+	length
+	select()
+	IsSelected()
+	each()
+
+-------------------------
+Composer (as Workspace)
+	Label
+	ID
+	Playlist[]
+
+	AssetGallery <AssetCollection>
+	GridGallery
+	Resources[''] // enumeration [{Label:..., ResourceID:...}, ...]
+
+
+	ActiveLayer()
+	ActiveFrame()
+	ActiveTimeline()
+
+	render() // to-do!
+
+	enumResource(resourcename)
+
+	clearPlaylist()
+	loadPlaylist()
+	savePlaylist()
+
+	loadTimeline()
+	saveTimeline()
+
+	loadAssetGallery()
+
+	selectAssetExtTemplate(itemtype)
+
+	templates['']
+-------------------------

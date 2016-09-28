@@ -1,0 +1,7 @@
+{
+  "name": "FB test",
+  "short_name": "FB test",
+  "start_url": "/test-io-firebase.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}

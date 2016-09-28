@@ -1,0 +1,15 @@
+{
+  "name": "beta-modules",
+  "version": "0.1.0",
+  "description": "Very draft",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "firebase": "^3.3.2",
+    "jest-cli": "^14.1.0"
+  }
+}
