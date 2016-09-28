@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>"firebase.io.js" - test console</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<!-- 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ -->	<meta name="format-detection" content="telephone=no"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- Web Application Manifest -->
+	<link rel="manifest" href="manifest.json">
+    
+	<link rel="stylesheet" href="../../vendor/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css" />
+	<!-- <link rel="stylesheet" href="../../css/starterkit.css" /> -->
+
+	<!-- <link rel="stylesheet" href="../../css/fix.css" /> -->
+
+ 	<style type="text/css">
+ 		/*Hide alerts by default*/
+ 		.alert{
+ 			display: none;
+ 		}
+ 	</style>
+
+</head>
+<body>
+	<div class="container">
+		<!-- Firevase Auth -->
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-vertical">
+					<h2>Auth</h2>
+					<button class="btn btn-active" id="btn-sign-in">Sign In</button>
+					<button class="btn btn-active" id="btn-sign-out">Sign Out</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Firevase DB -->
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-vertical">
+					<h2>Test FirebaseDB</h2>
+					<input type="text" name="db-urn" id="db-urn" value="/test-node/items" class="form-control">
+					<input type="text" name="data" id="data" placeholder="JSON data" class="form-control">
+					<button class="btn btn-default" id="btn-db-create">Create</button>
+					<button class="btn btn-default" id="btn-db-read">Read</button>
+					<button class="btn btn-default" id="btn-db-update">Update</button>
+					<button class="btn btn-default" id="btn-db-delete">Delete</button>
+					<hr>
+					<pre id="db-snapshot-json" class="bg-info"></pre>
+					<div id="db-response-error" class="alert alert-warning"></div>
+					<div id="db-response-success" class="alert alert-success"></div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Firebase Storage -->
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-vertical">
+					<h2>Test FirebaseStorage</h2>
+					<input type="text" name="storage-urn" id="storage-urn" value="/test-node/items" class="form-control">
+          <form id="image-form" action="#">
+						<input type="file" name="storage-file" id="storage-file" accept="image/*">
+					</form>
+					<input type="text" name="metadata" id="metadata" placeholder="Metadata" class="form-control">
+					<button class="btn btn-default" id="btn-storage-create">Create</button>
+					<button class="btn btn-default" id="btn-storage-read">Read</button>
+					<button class="btn btn-default" id="btn-storage-update">Update</button>
+					<button class="btn btn-default" id="btn-storage-delete">Delete</button>
+					<hr>
+					<pre id="storage-snapshot-json" class="bg-info"></pre>
+					<div id="storage-response-error" class="alert alert-warning"></div>
+					<div id="storage-response-success" class="alert alert-success"></div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<!-- Firebase DB - test collection methods -->
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-vertical">
+					<h2>Test FirebaseDB "collection" methods</h2>
+					<input type="text" name="collection-urn" id="collection-urn" value="/test-node/items" class="form-control">
+					<input type="text" name="collection-data" id="collection-data" placeholder="JSON array" value="[1,2,3,4,5]" class="form-control">
+					<button class="btn btn-default" id="btn-save-collection">saveCollection</button>
+					<button class="btn btn-default" id="btn-load-collection">loadCollection</button>
+					<hr>
+					<pre id="collection-snapshot-json" class="bg-info"></pre>
+					<div id="collection-response-error" class="alert alert-warning"></div>
+					<div id="collection-response-success" class="alert alert-success"></div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Firebase DB - test model methods -->
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-vertical">
+					<h2>Test FirebaseDB "model" methods</h2>
+					<input type="text" name="model-urn" id="model-urn" value="/test-node/items/:key" class="form-control">
+					<input type="text" name="model-data" id="model-data" placeholder="JSON data" value='{"attr1":"some text 1", "attr2": 9}' class="form-control">
+					<input type="text" name="item-key" id="item-key" value="id1" class="form-control">
+					<button class="btn btn-default" id="btn-save-model">saveModel</button>
+					<button class="btn btn-default" id="btn-update-model">updateModel</button>
+					<button class="btn btn-default" id="btn-load-model">loadModel</button>
+					<button class="btn btn-default" id="btn-remove-model">remove</button>
+					<hr>
+					<pre id="model-snapshot-json" class="bg-info"></pre>
+					<div id="model-response-error" class="alert alert-warning"></div>
+					<div id="model-response-success" class="alert alert-success"></div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<!-- Media Service -->
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-vertical">
+					<h2>Test Media Service (Combined DB + filestorage)</h2>
+					<input type="text" name="ms-urn" id="ms-urn" value="/media-storage/items" class="form-control">
+          <form id="image-form" action="#">
+						<input type="file" name="ms-file" id="ms-file" accept="image/*">
+					</form>
+					<input type="text" name="ms-metadata" id="ms-metadata" placeholder="Metadata" value="{}" class="form-control">
+					<button class="btn btn-default" id="btn-ms-create">Create</button>
+					<button class="btn btn-default" id="btn-ms-read">Read</button>
+					<button class="btn btn-default" id="btn-ms-update">Update</button>
+					<button class="btn btn-default" id="btn-ms-delete">Delete</button>
+					<hr>
+					<pre id="ms-snapshot-json" class="bg-info"></pre>
+					<div id="ms-response-error" class="alert alert-warning"></div>
+					<div id="ms-response-success" class="alert alert-success"></div>
+				</form>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+	<!-- SCRIPTS -->
+
+<!--
+		<script type="text/javascript" src="../../vendor/"></script>
+
+	<script type="text/javascript" src="../shared/"></script>
+
+	<script type="text/javascript" src="../viewmodels/"></script>
+-->
+
+	<script type="text/javascript">
+		MODULES = {};
+		MODULES.ko_mapping = null;
+	</script>
+
+
+	<script type="text/javascript" src="../shared/config.js"></script>
+
+	<script type="text/javascript">
+		// redefine constants for tet environment:
+		MODULES.config.templatesRoot = '../';
+		MODULES.config.mediaRoot = '../../api/media'
+	</script>
+
+	<!-- vendor and extensions -->
+
+	<script type="text/javascript" src="../../vendor/json2.js"></script>
+	<script type="text/javascript" src="../../vendor/underscore-min.js"></script>
+	<script type="text/javascript" src="../shared/underscore.ext.js"></script>
+	<script type="text/javascript" src="../../vendor/jquery-1.11.3.min.js"></script>
+	<!-- <script type="text/javascript" src="../../vendor/knockout-3.3.0.js"></script> -->
+	<!-- <script type="text/javascript" src="../../vendor/jquery-ui/jquery-ui.1.11.4.interactions.min.js"></script> -->
+	<!-- <script type="text/javascript" src="../../vendor/knockout-sortable.min.js"></script> -->
+	<!-- <script type="text/javascript" src="../shared/htmltemplate.js"></script> -->
+	<!-- <script type="text/javascript" src="../../vendor/amplify-1.1.2/amplify.js"></script> -->
+
+	<!-- my -->
+
+	<!-- <script type="text/javascript" src="../shared/message.bus.js"></script> -->
+	<!-- <script type="text/javascript" src="../shared/ko.ext.js"></script> -->
+
+	<!-- <script type="text/javascript" src="../shared/ui.proxy.js"></script> -->
+
+	<script type="text/javascript" src="../shared/io.js"></script>
+	<script type="text/javascript" src="../shared/node_modules/firebase/firebase.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script> -->
+
+	<script type="text/javascript" src="../shared/io.firebase.js"></script>
+	<script type="text/javascript" src="../shared/io.middleware.js"></script>
+
+<!-- 		<script type="text/javascript" src="../shared/io.extended.js"></script>
+	<script type="text/javascript" src="../shared/io.middleware.js"></script>
+-->
+		<!-- To-do: fix issues: EndpointsCfg, new architecture without .method() per each endpoint -->
+<!-- 		<script type="text/javascript" src="../shared/rtl.js"></script>
+
+	<script type="text/javascript" src="../templates/composer/output-snippets.js"></script>
+
+	<script type="text/javascript" src="../viewmodels/model-base.js"></script>
+	<script type="text/javascript" src="../viewmodels/model-asset.js"></script>
+	<script type="text/javascript" src="../viewmodels/model-timeline.js"></script>
+	<script type="text/javascript" src="../viewmodels/model-display.js"></script>
+	<script type="text/javascript" src="../shared/EndpointsCfg.js"></script>
+	<script type="text/javascript" src="../templates/grids/all.js"></script>
+
+	<script type="text/javascript" src="../viewmodels/events.js"></script>
+	<script type="text/javascript" src="../viewmodels/model-composer.js"></script>
+-->
+	<script type="text/javascript">
+		// Firebase config:
+		var config = {
+			apiKey: "AIzaSyCYwYFEAnnXaVE-rDVUmEr5IXENEd9Ol24",
+			authDomain: "io-firebase-unittest.firebaseapp.com",
+			databaseURL: "https://io-firebase-unittest.firebaseio.com",
+			storageBucket: "io-firebase-unittest.appspot.com",
+			// messagingSenderId: "914902878760"
+		};
+
+		// Create transport, enproints, init Firebase:
+		var 
+			// epItem = IO.endpoint('/test-node/items'),
+			// transport = IO.Transport('', {});
+
+			fbDatabase = IO.FirebaseDB('', {}),
+			fbStorage = IO.FirebaseStorage('', {}),
+			usrFile;
+
+
+		// Misc
+		function hideAlerts (sender) {
+			$(sender).next('.alert').hide();
+		}
+
+		function asJSON(data) {
+			if (typeof data === 'undefined') return 'nothing';
+			try {
+				if (typeof data === 'object') return JSON.stringify(data);
+			} catch (e) {
+				console.warn(e)
+			}
+			return data.toString();
+		}
+
+		function showOk (sender, message, data) {
+			$(sender).nextAll('.alert.alert-success').html(message+ '<br/>Data type: '+(typeof data)+'<pre>'+asJSON(data)+'</pre>').show();
+			console.log('Ok', message, data);
+		}
+		
+		function showError (sender, message, data) {
+			$(sender).nextAll('.alert.alert-warning').html(message+ '<br/><pre>'+asJSON(data)+'</pre>').show();
+			console.warn('Error', message, data);
+		}
+
+		function handleClick(elButton, evt, requestFunc) {
+			// common code for all CRUD buttons
+			// elButton <element>, requestFunc <function>: returns Promise 
+			var
+				sender = this;
+
+			// Prevent page reloads, etc...
+			evt.stopPropagation();
+			evt.preventDefault();
+			
+			hideAlerts(sender);
+
+			requestFunc()
+				.then(function (result) { showOk(elButton, 'Ok', result) })
+				.catch(function (reason) { showError(elButton, 'Error', reason) });
+
+			return false;
+		}
+
+
+		$(function () {
+			fbDatabase.init(config);
+			fbStorage.init(config);
+			console.log('page loaded: ', Date());
+			// Set status for Auth buttons:
+			// if (transport.isSigned()) {
+			// 	$('#btn-sign-in').hide();
+			// 	$('#btn-sign-out').show();
+			// } else {
+			// 	$('#btn-sign-in').show();
+			// 	$('#btn-sign-out').hide();
+			// }
+			
+			// Auth
+			$('#btn-sign-in').click(function () {
+				hideAlerts(this);
+				// test auth:
+				fbDatabase.signIn({email:'d_z@mail.ru', password:'passwd'})
+					.then(function (result) {
+						// success:
+						console.log('Done: ', result);
+						$('#btn-sign-in').hide();
+						$('#btn-sign-out').show();
+						return result;
+					})
+					.catch(function (reason) {
+						alert(reason.toString());
+						console.warn('??? Auth: ', reason);
+						return reason;
+					})
+
+					.then(function (result) {
+
+						return result;
+					});
+					return false;
+			});
+
+			$('#btn-sign-out').click(function () {
+				// body...
+				fbDatabase.signOut()
+					.then(function (result){
+						$('#btn-sign-in').show();
+						$('#btn-sign-out').hide();
+					})
+					.catch(function (reason) {
+						console.error('cannot signOut', reason);
+					});
+					return false;
+			});
+
+			fbDatabase._auth.onAuthStateChanged(function (user) {
+				if (user) {
+					$('#btn-sign-in').hide();
+					$('#btn-sign-out').show();
+					console.log('signed >>>', user);
+				} else {
+					$('#btn-sign-in').show();
+					$('#btn-sign-out').hide();
+					console.log('not signed!');
+				}
+			});
+
+			// Actions - Firebase DB
+			$('#btn-db-create').click(function (evt) {
+				// CREATE
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#db-urn').val(),
+						epItem = IO.endpoint(urn),
+						data = JSON.parse($('#data').val().trim());
+					
+					return epItem.create(fbDatabase, {'data': data});
+				});
+			});
+
+			$('#btn-db-read').click(function (evt) {
+				// READ
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#db-urn').val(),
+						epItem = IO.endpoint(urn);
+					
+					return epItem.read(fbDatabase, {});
+				});
+			});
+
+			$('#btn-db-update').click(function (evt) {
+				// UPDATE
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#db-urn').val(),
+						epItem = IO.endpoint(urn),
+						data = JSON.parse($('#data').val().trim());
+					
+					return epItem.update(fbDatabase, {'data': data});
+				});
+			});
+
+			$('#btn-db-delete').click(function (evt) {
+				// DELETE
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#db-urn').val(),
+						epItem = IO.endpoint(urn);
+					
+					return epItem.delete(fbDatabase, {});
+				});
+			});
+
+
+
+
+			// $('#storage-file').on('change', function () {
+			// 	usrFile = document.getElementById("storage-file").files[0];
+			// 	console.log('New file selected: ', usrFile);
+			// });
+
+			// Actions - Firebase Storage
+			$('#btn-storage-create').click(function (evt) {
+				// CREATE
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("storage-file").files[0],
+						// file = usrFile,
+						urn = $('#storage-urn').val().trim() + '/' + file.name,
+						epItem = IO.endpoint(urn),
+						rqData = JSON.parse($("#metadata").val().trim() || '{}');
+
+					rqData['uploadData'] = file;
+
+					console.log('Storage auth: ', fbStorage.isSigned());
+					console.log('File to upload: ', file, 'file is File -->', file instanceof File, 'file is Blob -->', file instanceof Blob, 'file is FileReader -->', file instanceof FileReader);
+					return epItem.create(fbStorage, {'data': rqData, 'onProgress': function (bytesTransferred, totalBytes) {
+							// progress function
+							var progress = (bytesTransferred / totalBytes) * 100;
+							console.log('Upload is ' + progress + '% done');
+						}
+					});
+				});
+			});
+
+			$('#btn-storage-read').click(function (evt) {
+				// READ
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("storage-file").files[0],
+						urn = $('#storage-urn').val().trim() + '/' + file.name,
+						epItem = IO.endpoint(urn);
+					
+					return epItem.read(fbStorage, {});
+				});
+			});
+
+			$('#btn-storage-update').click(function (evt) {
+				// UPDATE (metadata)
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("storage-file").files[0],
+						urn = $('#storage-urn').val().trim() + '/' + file.name,
+						epItem = IO.endpoint(urn),
+						metadata = JSON.parse($("#metadata").val().trim() || '{}');
+					
+					return epItem.update(fbStorage, {'data': metadata});
+				});
+			});
+
+			$('#btn-storage-delete').click(function (evt) {
+				// READ
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("storage-file").files[0],
+						urn = $('#storage-urn').val().trim() + '/' + file.name,
+						epItem = IO.endpoint(urn);
+					
+					return epItem.delete(fbStorage, {});
+				});
+			});
+
+
+
+			// Firebase DB - high level methods ============
+			// Actions - Firebase DB
+			$('#btn-save-collection').click(function (evt) {
+				// saveCollection
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#collection-urn').val(),
+						spItem = IO.service(urn).transport(fbDatabase),
+						data = JSON.parse($('#collection-data').val().trim());
+
+					return spItem.saveCollection(data);
+				});
+			});
+
+			$('#btn-load-collection').click(function (evt) {
+				// loadCollection
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#collection-urn').val(),
+						spItem = IO.service(urn).transport(fbDatabase),
+						value,
+						setter = function (response) {
+							if (typeof response === 'undefined') return value;
+							value = response;
+						},
+						itemFactory = function (item) {
+							return item;
+						};
+					
+					return spItem.loadCollection(setter, itemFactory);
+				});
+			});
+
+
+			function Model(data) {
+				this.updateValues = function (data) {
+					this.attr1 = data.attr1;
+					this.attr2 = data.attr2;
+				}
+				this.toJS = function () {
+					// return {attr1: this.attr1, attr2: this.attr2}
+					var buff = {};
+					for (var name in this) {
+						buff[name] = this[name];
+					}
+					return buff;
+				}
+				this.toString = function () {
+					return 'Model{'+this.attr1+', '+this.attr2+'}'
+				}
+				if (data) this.updateValues(data)
+			}
+
+			$('#btn-save-model').click(function (evt) {
+				// saveModel
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#model-urn').val(),
+						key = $('#item-key').val(),
+						spItem = IO.service(urn).transport(fbDatabase),
+						model = new Model(JSON.parse($('#model-data').val().trim()));
+					
+					return spItem.saveModel(key, model);
+				});
+			});
+
+			$('#btn-update-model').click(function (evt) {
+				// saveModel
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#model-urn').val(),
+						key = $('#item-key').val(),
+						spItem = IO.service(urn).transport(fbDatabase),
+						// model = new Model(JSON.parse($('#model-data').val().trim()));
+						model = JSON.parse($('#model-data').val().trim());
+					
+					return spItem.updateModel(key, model);
+				});
+			});
+
+			$('#btn-load-model').click(function (evt) {
+				// loadModel
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#model-urn').val(),
+						key = $('#item-key').val(),
+						spItem = IO.service(urn).transport(fbDatabase),
+						model = new Model();
+					
+					return spItem.loadModel(key, model);
+				});
+			});
+			
+			$('#btn-remove-model').click(function (evt) {
+				// DELETE
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#model-urn').val(),
+						key = $('#item-key').val(),
+						spItem = IO.service(urn).transport(fbDatabase);
+					
+					return spItem.remove(key);
+				});
+			});
+
+
+
+			// Actions - Media Storage
+			$('#btn-ms-create').click(function (evt) {
+				// CREATE
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("ms-file").files[0],
+						// file = usrFile,
+						urn = $('#ms-urn').val().trim() + '/:key',
+						key = file.name,
+						mediaService = IO.MediaService(urn, {}).setDefaultTransports(),
+
+						metadata = JSON.parse($("#ms-metadata").val().trim() || '{}');
+
+					console.log('Storage auth: ', fbStorage.isSigned());
+					console.log('urn: ', urn, 'key', key);
+					console.log('File to upload: ', file, 'metadata -->', metadata);
+
+					return mediaService.createBlob(key, file, metadata, {'onProgress': function (bytesTransferred, totalBytes) {
+							// progress function
+							var progress = (bytesTransferred / totalBytes) * 100;
+							console.log('Upload is ' + progress + '% done');
+						}
+					});
+				});
+			});
+
+			$('#btn-ms-read').click(function (evt) {
+				// READ
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("ms-file").files[0],
+						urn = $('#ms-urn').val().trim() + '/:key',
+						key = file.name,
+						mediaService = IO.MediaService(urn, {}).setDefaultTransports();
+					
+					return mediaService.loadModel(key, {});
+				});
+			});
+
+			$('#btn-ms-update').click(function (evt) {
+				// UPDATE (metadata)
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("ms-file").files[0],
+						urn = $('#ms-urn').val().trim() + '/:key',
+						key = file.name,
+						mediaService = IO.MediaService(urn, {}).setDefaultTransports(),
+						metadata = JSON.parse($("#ms-metadata").val().trim() || '{}');
+					
+					return mediaService.updateModel(key, metadata);
+				});
+			});
+
+			$('#btn-ms-delete').click(function (evt) {
+				// READ
+				return handleClick(this, evt, function () {
+					var
+						file = document.getElementById("ms-file").files[0],
+						urn = $('#ms-urn').val().trim() + '/:key',
+						key = file.name,
+						mediaService = IO.MediaService(urn, {}).setDefaultTransports();
+					
+					return mediaService.remove(key, {});
+				});
+			});
+
+
+		});
+	</script>
+
+</body>
+</html>

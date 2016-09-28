@@ -1,0 +1,29 @@
+<!-- Inserted into parent -->
+<div class='row clearfix slide'>
+		<div class='col-xs-1 '>
+			<div class='center-block slide-index' 
+				data-bind='text: slide.Order'>
+			</div>
+		</div>
+		<div class='col-xs-3 '>
+			<div class='center-block slide-glyph'>
+				<img data-bind='attr:{"src": Src}' width='144px' height='81px' class='center-block'/>
+			</div>
+		</div>
+		<div class='col-sm-6'>
+			<div class='center-block groupbox slide-props'
+				data-bind='template: { html: $root.selectAssetExtTemplate(slide.Type) }'>
+			</div>
+		</div>
+	<div class='col-xs-1'>
+		<div class='gutter'>
+			<div style="margin-top:10px;">
+				<span class='glyphicon glyphicon-move' role='button'></span><br/><br/>
+			</div>
+			<div style="margin-top:40px;">
+			<span class='glyphicon glyphicon-trash metaclass-remove' role='button'
+					></span>
+			</div>
+		</div>
+	</div>
+</div>

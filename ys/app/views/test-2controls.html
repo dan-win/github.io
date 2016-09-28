@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	    <title>#Components test#</title>
+
+	    <!-- Bootstrap -->
+	    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+	    <link href="../../css/main.css" rel="stylesheet">
+	    <link href="composer.css" rel="stylesheet">
+	    <link href="display-grid.css" rel="stylesheet">
+
+	    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+		
+		<!-- for gradient support: -->
+		<!--[if gte IE 9]>
+		  <style type="text/css">
+			.gradient {
+			   filter: none;
+			}
+		  </style>
+		<![endif]-->
+
+	</head>
+	<body class="main-background" id="namespace-koapp-composer">
+		<div >
+			<!-- INCLUDE -->
+			<button class="btn run-dialog-1">Show</button>
+			<button class="btn run-dialog-2">Show2</button>
+			<button class="btn run-dialog-3">Show3</button>
+			<button class="btn run-dialog-new" 
+				data-bind="showDialog: {template:'myDialog', model:$root.dialogModelNew}">Show new</button>
+		</div>
+
+		<script type="text/html" id="myDialog"> 
+				<select size="7"  
+					data-bind="options: dLookup,
+								optionsText:'Label',
+								optionsValue:$data, 
+								value: currentItem,
+								valueAllowUnset: true">
+				</select>
+				<div>Sel item (in target model): </div>
+				<hr/>
+				<div data-bind="with: $root.myNestedModel.selItem()">
+					Selected (model ID): <span data-bind="text:ID">Selection...</span>
+				</div>
+				<hr/>
+				Selected (dialogview currentId): <input type="text" data-bind="value: currentId()"/>
+				<!--
+				<pre data-bind="text: ko.toJSON($component.dialogview, null, 2)"></pre>
+				-->
+		</script>
+
+		<script type="text/javascript" src="../js/lib/require.js"></script>
+		<script type="text/javascript">
+
+			requirejs.config({
+				baseUrl: '../js/lib',  // <--- move to js/jsapp/subapp-common.js?
+				waitSeconds: 15, // timeout settings
+				paths: {
+
+						'jquery': 'jquery-1.11.3.min',
+						'knockout': 'knockout-3.3.0',
+						'knockout.mapping': 'knockout.mapping.2.4.1',
+
+						// this module groups knockout.kernel', 'knockout.mapping', preloads 'jquery':
+						'knockout.all': 'knockout-bundle',
+
+						jqueryui: 'jquery-ui.1.11.4.interactions.min',
+						underscore: 'underscore-min',
+						bootstrap: 'bootstrap.min',
+
+						app: '../jsapp',
+
+						composer: '../../sa-composer',
+						templates: '../../templates'
+
+						// appViewModel: './module' // local module with appViewModel
+					},
+				shim: { // bootstrap not AMD-compatible, so 'shim' is necessary
+			        'knockout': {
+			            deps: ['jquery'] // see: http://blog.scottlogic.com/2014/02/28/developing-large-scale-knockoutjs-applications.html
+			        },
+					'knockout.mapping': {
+						deps: ['knockout']//,
+						// exports: 'mapping'
+					},	
+					bootstrap: {
+						deps: ['jquery'] // dependency of jquery
+					},
+					jqueryui: {
+						deps: ['jquery']
+					}
+
+				}
+				// ,
+				
+			// 	//~ // global dependencies
+			// 	deps: ['jquery', 'knockout', 'knockout.mapping', 'jqueryui', 'bootstrap'],
+				
+			// 	//~ // callback
+			// 	callback: function($, ko, mapping){
+			// 		ko.mapping = mapping;
+			// 	}
+			});
+
+			require(['jquery', 'knockout.all', 'app/app', 'dialog'], 
+				function($, ko, app){
+				// window.ko = ko;
+				var lookup = ko.observableArray([
+						{Label:'Nested option 1', ID:'55'},
+						{Label:'Nested option 2', ID:'56'},
+						{Label:'Nested option 3', ID:'57'}
+						]);
+
+				var myModel = {
+					input1: ko.observable('text1'),
+					input2: ko.observable('text2'),
+					input3: ko.observable('text3'),
+					myNestedModel: {
+						input1: ko.observable('Nested text1'),
+						input2: ko.observable('Nested text2'),
+						input3: ko.observable('Nested text3'),
+						lookup_: lookup,
+						selItem: ko.observable(lookup()[1])
+					},
+					selectedItem: ko.observable(lookup()[1]),
+					lookup: lookup
+				};
+
+				// dialog view
+				var DView = function (data) {
+							var self = this,
+								target = data;
+
+							this.currentItem = ko._obs_(ko._fromObs_(data.myNestedModel.selItem)), // <-->
+							this.testfield = ko._obs_(ko._fromObs_(data.input1));
+
+							this.dLookup = ko._obsA_(data.myNestedModel.lookup_());
+							this.currentId =  
+								function () {
+									var item = self.currentItem();
+									return item && item.ID || '?'
+								}
+
+							this.accept = function () {
+								target.myNestedModel.selItem(self.currentItem());
+							}
+
+						}
+					myModel.dialogModelNew = new DView(myModel);
+
+
+
+				// for debug:
+				window.myModel = myModel;
+
+				ko.computed(function () {
+					var changed = this.selItem();
+					console.log('Model: New value: ', ko.mapping.toJS(changed));
+				}, myModel.myNestedModel);
+
+				ko.applyBindings(myModel,  document.getElementById('namespace-koapp-composer'));
+			});
+		</script>
+	</body>
+</html>

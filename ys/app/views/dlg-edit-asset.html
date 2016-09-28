@@ -1,0 +1,88 @@
+<div class="modal-content autoclose">
+	<div class="modal-header">
+		<h3>Edit details</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form form-horizontal file-upload" enctype="multipart/form-data" method="POST">
+
+
+		<div class="row form-group">
+			<div class="col-xs-8">
+				Resource ID: 
+				<span data-bind="text:StorageID()"></span>
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-xs-8 col-sm-4">
+				<label for="c1" class="control-label">
+					Name
+				</label>
+			</div>
+			<div class="col-xs-8 col-sm-8">
+			  <input type="text" class="form-control" placeholder="Name"
+			  	id="c1" 
+			  	data-bind="value:Label">
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-xs-8 col-sm-4">
+				<label for="c2" class="control-label">
+					Comment
+				</label>
+			</div>
+			<div class="col-xs-8 col-sm-8">
+			  <textarea class="form-control" placeholder="Optionl comments here..." 
+			  	id="c2" 
+			  	data-bind="value:Comment"></textarea>
+			</div>
+		</div>
+
+		<div class="row form-group well fileupload-dropzone fileupload-buttonbar">
+			<span class="btn btn-success fileinput-button">
+			<i class="glyphicon glyphicon-plus"></i>
+			<span>Select file</span>
+				<input type="file" name="file">
+			</span>
+			<!-- <button class="btn btn-primary start" type="submit">Upload</button> -->
+<!-- 			<button class="btn btn-warning cancel" type="reset">Cancel</button>
+			<button class="btn btn-danger delete" type="button">Remove</button>
+ -->			<!-- <input class="toggle" type="checkbox"/> -->
+			<span class="fileupload-process"></span>
+<!-- 			<div class="col-xs-12 col-sm-12">
+				<label for="asset-upload" class="control-label">
+					Upload your media
+				</label>
+			</div>
+			<div class="col-xs-12 col-sm-12">
+				<input 
+					id="asset-upload" 
+					type="file" 
+					name="files[]" 
+					data-url="/upload"
+					class="file-upload" 
+					/>
+			</div>
+ -->			<div class="col-xs-12 col-sm-12" style="text-align: right;">You can drop your files here...</div>
+		</div>
+
+<!-- 			  <div class="checkbox">
+				<label>
+				  <input type="checkbox"> Remember me
+				</label>
+			  </div>
+ -->		
+
+ 		<div class="modal-footer">
+		<!-- FOOTER -->
+			<button data-bind="click: Ok" class="btn btn-default btn-primary">Save changes</button>
+			<button data-bind="click: Cancel" class="btn btn-default">Cancel</button>
+		<!-- FOOTER -->
+		</div>
+
+		</form>
+	</div>
+</div>
+
+

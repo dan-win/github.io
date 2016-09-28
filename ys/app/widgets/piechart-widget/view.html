@@ -1,0 +1,14 @@
+<div>
+  <div data-part="header" data-bind="html: getHeaderText()"></div>
+	<canvas id="doughnut-chart"
+			width="300" height="300"
+			data-bind="chart: { type: 'Pie', data: SpaceData, legend: legend, options: { observeChanges: false, throttle: 1000 } }"></canvas>
+	<div class="chart-legend" data-bind="html:legend"></div>
+</div>
+
+<!--
+			<canvas id="some-dynamic-doughnut-chart"
+					width="300" height="300"
+					data-bind="chart: { type: 'Doughnut', data: SpaceData, options: { observeChanges: true, throttle: 1000 } }"></canvas>
+
+-->

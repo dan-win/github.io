@@ -1,0 +1,17 @@
+<!-- 
+This is default grid, which is reference implementation for other custom grids
+1) Each placeholder must have class "DDA".
+2) Text into placeholder used to display readable name
+in Composer editor. This text will be completely replaced
+on playlist rendering.
+3) Each placeholder must have any unique ID for correct rendering of playlist in Composer.
+4) All sizes/placement/dimensions must be in % (percantage units)
+5) It is possible to use "responsive" grids (convention on CSS selectors naming
+is necessary, in order to make correct preview in different modes! Use
+bootstrap-like selectors and @media rules)
+Note: Use absolute div positioning, instead of "floats", and adopt or show/hide
+correspondent elements on different types of devices. Preferred notations :
+.visible-xs-* or @media selectors in css.
+
+-->
+<div class="DDA" id="frame1" style="position:absolute;left:0;top:0;width:100%;height:100%;">Frame #1</div>

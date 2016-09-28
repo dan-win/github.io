@@ -1,0 +1,57 @@
+to-do.txt
+
+1. <!-- ko.foreach ...>
+2. add first placeholder "Add slide"
+
+4. cursor drag-n-drop, allowed/prohibited
+5. "update problem"
+
+6. Slide - factory from other observable
+
+
+enum template names
+$root.selectAssetExtTemplate
+7. $INDEX --> AfterUpdate->slide._order, simple non-obsetvable value
+
+templating
+
+Underscore
+
+Dialogs. Component? +++
+
+File manager... Component?
+
+7. settings button? wrappable slide?
+
+8. profiling
+
+
+---
+* Filtering solution (change "fn"):
+
+ko.observableArray.fn.filterByProperty = function(propName, matchValue) {
+    return ko.pureComputed(function() {
+        var allItems = this(), matchingItems = [];
+        for (var i = 0; i < allItems.length; i++) {
+            var current = allItems[i];
+            if (ko.unwrap(current[propName]) === matchValue)
+                matchingItems.push(current);
+        }
+        return matchingItems;
+    }, this);
+}
+
+Sample:
+// Here's where we use the custom function
+    this.doneTasks = this.tasks.filterByProperty("done", true);
+    
+    OR:
+    
+this.doneTasks = ko.pureComputed(function() {
+    var all = this.tasks(), done = [];
+    for (var i = 0; i < all.length; i++)
+        if (all[i].done())
+            done.push(all[i]);
+    return done;
+}, this);
+

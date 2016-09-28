@@ -1,0 +1,23 @@
+<section>
+    <h2 data-bind="text:displayName"></h2>
+    <!-- <blockquote data-bind="text:description"></blockquote> -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                <div data-bind="map-widget: {headerProperty:'<b>Map view</b>'}"></div>
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                <div data-bind="piechart-widget: {headerProperty:'<b>Your Storage</b>'}"></div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

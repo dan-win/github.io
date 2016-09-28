@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	    <title>#Test:rtl#</title>
+
+
+	    <!-- Bootstrap -->
+	    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+
+	    <!-- for playback preview: -->
+	    <link href="../../css/rtl.css" rel="stylesheet">
+
+	    <!--
+	    <link href="display-grid.css" rel="stylesheet">
+		-->
+
+
+		<style type="text/css">
+			.red {
+				background-color: red;
+				position: absolute;
+				display: block;
+				left: 30%;
+				top:30%;
+				width: 256px;
+				height: 256px;
+			}
+			.green {
+				background-color: green;
+				position: absolute;
+				display: block;
+				left: 60%;
+				top:60%;
+				width: 256px;
+				height: 256px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="status" style="position:absolute;margin:0;top:0;right:0;width:100px;height:100px;"></div>
+		<div id="display" style="position:absolute;margin:0;padding:0;width:100%;height:100%;"></div>
+
+		<script type="text/javascript" src="../js/lib/json2.js"></script>
+
+		<script type="text/javascript" src="../js/lib/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../js/jsapp/rtl.js"></script>
+		<script type="text/javascript">
+		$(function (){
+
+				// var scene = '{"scene":"<!-- timeline --> <div style=\\"position:absolute;left:0;top:0;width:100%;height:100%;display:none;z-index:2;background:transparent;\\" class=\\"\\" id=\\"keyframe_3_0\\"> <!-- slide --><img src=\\"/api/media/bird1.jpg\\" class=\\"img-responsive center-block\\"/> </div> <div style=\\"position:absolute;left:0;top:0;width:100%;height:100%;display:none;z-index:1;background:transparent;\\" class=\\"\\" id=\\"keyframe_3_2\\"> <!-- slide --><img src=\\"/api/media/bird3.jpg\\" class=\\"img-responsive center-block\\"/> </div>","motion":[{\"hiddenMs\":0,\"ascentMethod\":\"show\",\"ascentMs\":0,\"visibleMs\":15000,\"descentMethod\":\"slideDown\",\"descentMs\":1000,\"duration\":16000,\"DOMselector\":\"#keyframe_3_0\"},{\"hiddenMs\":16000,\"ascentMethod\":\"show\",\"ascentMs\":0,\"visibleMs\":15000,\"descentMethod\":\"fadeOut\",\"descentMs\":1000,\"duration\":16000,\"DOMselector\":\"#keyframe_3_2\"}]}';
+
+
+				// var scene = '{"scene":"<!-- timeline --> <div style=\\"position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;background:transparent;\\" class=\\"\\"  id=\\"keyframe_3_0\\"> <!-- slide --><img src=\\"/api/media/bird1.jpg\\" class=\\"metaclass-actor\\" style=\\"display:none;\\"/> </div>","motion":[{\"hiddenMs\":0,\"ascentMethod\":\"show\",\"ascentMs\":0,\"visibleMs\":15000,\"descentMethod\":\"slideDown\",\"descentMs\":1000,\"duration\":16000,\"DOMselector\":\"#keyframe_3_0 .metaclass-actor\"}]}';
+
+
+			var scene = '{"scene":"<!-- timeline --> <div style=\\"position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;background:transparent;\\" class=\\"\\" id=\\"keyframe_3_0\\"> <!-- slide --><img class=\\"metaclass-actor\\" style=\\"display:none;\\" src=\\"/api/media/bird1.jpg\\" class=\\"img-responsive center-block\\"/> </div> <div style=\\"position:absolute;left:500px;top:0;width:100%;height:100%;z-index:1;background:transparent;\\" class=\\"\\" id=\\"keyframe_3_2\\"> <!-- slide --><img class=\\"metaclass-actor\\" style=\\"display:none;\\" src=\\"/api/media/bird3.jpg\\" class=\\"img-responsive center-block\\"/> </div>","motion":[{\"hiddenMs\":0,\"ascentMethod\":\"show\",\"ascentMs\":0,\"visibleMs\":5000,\"descentMethod\":\"slideDown\",\"descentMs\":1000,\"duration\":6000,\"DOMselector\":\"#keyframe_3_0 .metaclass-actor\"},{\"hiddenMs\":6000,\"ascentMethod\":\"show\",\"ascentMs\":0,\"visibleMs\":5000,\"descentMethod\":\"fadeOut\",\"descentMs\":1000,\"duration\":6000,\"DOMselector\":\"#keyframe_3_2 .metaclass-actor\"}]}';
+
+
+				r = new window.rtl('#display');
+				r.fromJSON(scene);
+				r.initScene();
+				r.run();
+
+				var ticks = 0;
+				setInterval(function (argument) {
+					ticks += 500;
+
+					// $('#status').html(ticks);
+				}, 500);
+			});
+		</script>
+	</body>
+</html>

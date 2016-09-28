@@ -1,0 +1,24 @@
+
+<!-- ko if: $component.IsVisible -->
+<div class="modal fade metaclass-dialog" data-bind="attr:{id:id}">
+  <div class="modal-dialog" data-bind="css:$component.sizeCSS">
+    <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close metaclass-dialog-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" data-bind="text:$component.title">#Modal title#</h4>
+        </div>
+        <form data-bind="submit:$component.onSubmit" class="metaclass-dialog-form" action="#">
+          <div class="modal-body" data-bind="with:$component.Ctx">
+            <div data-bind="html: $component.body"></div>
+            <!-- ko template: { nodes: $componentTemplateNodes } -->
+            <!-- /ko -->
+          </div>
+          <div class="modal-footer" data-bind="html:$component.buttonset()">
+            <button class="btn btn-default metaclass-dialog-close">Close</button>
+            <button type="submit" class="btn btn-default metaclass-dialog-close">Save changes</button>
+          </div>
+        </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- /ko -->
