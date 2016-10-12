@@ -218,10 +218,12 @@ header .navbar-default.scrolled ul.navbar-nav {
 }
 .section-heading.inverse h1,
 .section-heading.inverse p {
-  color: #ffffff;
+  /*color: #ffffff;*/
+  color: #45BC48;
 }
 .section-heading.inverse .divider:after {
-  background: #ffffff;
+  /*background: #ffffff;*/
+  background: #45BC48;
 }
 section#about {
   position: relative;
