@@ -51,3 +51,26 @@ body, *.page-host {
 .ws-sidebar li.active a:focus {
 	background-color: #00D5C3;
 }
+
+/**/
+.alert-info {
+	background-color: rgba(100,​ 143,​ 227, 0.7);
+	/*color: #ffffff;*/
+}
+.btn-default {
+	background-color: #ffc961;
+	/*color: #ffffff;*/
+}
+.btn-default:hover {
+	background-color: #ffb832;
+	/*color: #ffffff;*/
+}
+*[disabled].btn-default {
+	background-color: #cecece;
+}
+*[disabled].btn-default:hover {
+	background-color: #cecece;
+}
+.ys-listview table thead th {
+	color: #07348b;
+}

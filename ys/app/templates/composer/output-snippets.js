@@ -15,8 +15,8 @@ define({
 			'<img src="{Src}" class="img-responsive center-block"/>',
 	"Video": 
 			'<div class="embed-responsive embed-responsive-16by9">\
-				<video id="{ResourceId}" preload="auto" width="{Width}" height="{Height}" class="embed-responsive-item"> \
-					 <source src="{Src}" type="{MimeType}"/> \
+				<video id="{StorageID}" preload="auto" width="{Width}" height="{Height}" class="embed-responsive-item"> \
+					 <source src="{Src}" type="{MimeType}" autostart="false"/> \
 				</video>\
 			</div>',
 	"RSS": 

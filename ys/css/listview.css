@@ -8,3 +8,64 @@
 	overflow: hidden;
 	overflow-y: auto; 
 }
+/*.ys-listview .ellipsis {
+	text-overflow: ellipsis;
+}
+*/
+/*.ys-listview table.table {
+	max-width: 100%;
+	table-layout: fixed;
+}
+*/
+.ys-listview table.table thead th {
+	white-space: nowrap;
+}
+
+.ys-listview .ellipsis {
+	/*min-width:15px;*/
+	max-width: 100%;
+    overflow: hidden;	
+    text-overflow: ellipsis;
+	white-space: nowrap; 
+}
+
+.ys-listview table.table tr td.nowrap {
+	white-space: nowrap;
+}
+
+.ys-listview table.table tr td.ellipsis {
+	max-width: 0;
+    overflow: hidden;	
+    text-overflow: ellipsis;
+	white-space: nowrap; 
+}
+
+.ys-listview table.table thead th,
+.ys-listview table.table tr td {
+	font-size: 12px;
+}
+
+.ys-listview table.table tbody {
+	overflow-y: auto;
+}
+
+/*.ys-listview table.table tr td:nth-child(n+3) {
+	min-width:5px;
+	max-width: 0;
+    overflow: hidden;	
+    text-overflow: ellipsis;
+	white-space: nowrap; 
+}
+*//*.ys-listview table.table tr td:nth-child(1) {
+	width: 15px;
+	min-width:5px;
+}
+*//*.page-host>section {
+	width: 100%;
+}*/
+
+.nav-pills>.alert {
+	padding-top: 6px; 
+	padding-bottom: 6px;
+	line-height: 20px;
+}

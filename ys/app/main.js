@@ -13,7 +13,7 @@
 
         // 'app':          '../app',
         // 'shared':       '../app/shared',
-
+        'Q':            '../vendor/q', // Kris Kowal promises lib
         'json2' :       '../vendor/json2',
 
         'jquery':       '../vendor/jquery-1.11.3.min',
@@ -144,8 +144,14 @@ function setupConsole(config){
 // var setupConsole = function () {}
 
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/config', 'components/custom-dialog'],  
-    function (system, app, viewLocator, config, customDialog) {
+define([
+        'durandal/system', 
+        'durandal/app', 
+        'durandal/viewLocator', 
+        'shared/config', 
+        'components/custom-dialog',
+        'viewmodels/io-config'],  
+    function (system, app, viewLocator, config, customDialog, IO) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -165,6 +171,8 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/confi
     });
 
     // CUSTOM CODE:
+    // Set common IO facilities:
+    app.IO = IO;
 
     // *** Custom data and config ***
     app.ys = {};
@@ -176,6 +184,29 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'shared/confi
 
     // add custom dialog as app "plugin":
     app.customDialog = customDialog;
+
+    // // Replace jQuery "promises" which default for Durandal with "Q"
+    // system.defer = function (action) {
+    //     var deferred = Q.defer();
+    //     action.call(deferred, deferred);
+    //     var promise = deferred.promise;
+    //     deferred.promise = function() {
+    //       return promise;
+    //     };
+    //     return deferred;
+    // };
+
+    // Common handler for exceptions:
+    app.handleException = function (e) {
+        // By default: logs error;
+        // to-do: pop-up dialog, +error monitoring?
+        system.error(e);
+        return true; // <-- allow to pass method in promise handlers
+    }
+    app.trace = {
+        log: system.log,
+        error: system.error
+    }
 
     // CUSTOM CODE (END)
 

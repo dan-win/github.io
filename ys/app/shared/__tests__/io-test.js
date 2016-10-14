@@ -94,39 +94,39 @@ function MockTransport(url, options) {
 Transport.registry.uriScheme['test'] = MockTransport;
 
 
-describe('endpoint', () => {
+describe('Endpoint', () => {
 
 	// import factory:
-	const endpoint = require('../io').endpoint;
+	const Endpoint = require('../io').Endpoint;
 
 	it('urn property', () => {
-		var ep = endpoint('/my/urn');
+		var ep = Endpoint('/my/urn');
 		expect(ep.urn()).toBe('/my/urn');
 	});
 
 	it('pathNodes property (read)', () => {
-		var ep = endpoint('/my/urn');
+		var ep = Endpoint('/my/urn');
 		expect(ep.pathNodes()).toEqual(['','my','urn']);
 	});
 
 	it('options property (read)', () => {
-		var ep = endpoint('/my/urn', {'prop':'text'});
+		var ep = Endpoint('/my/urn', {'prop':'text'});
 		expect(ep.options()).toEqual({'prop':'text'});
 	});
 	
 	it('options property (write)', () => {
-		var ep = endpoint('/my/urn', {'prop':'text'});
+		var ep = Endpoint('/my/urn', {'prop':'text'});
 		ep.options({'prop':'new text'})
 		expect(ep.options()).toEqual({'prop':'new text'});
 	});
 
 	it('child method (read urn)', () => {
-		var ep = endpoint('/my/urn');
+		var ep = Endpoint('/my/urn');
 		expect(ep.child('child').urn()).toBe('/my/urn/child');
 	});
 	
 	it('child method (read options)', () => {
-		var ep = endpoint('/my/urn', {'prop':'child text'});
+		var ep = Endpoint('/my/urn', {'prop':'child text'});
 		expect(ep.child('child').options()).toEqual({'prop':'child text'});
 	});
 
@@ -140,7 +140,7 @@ describe('endpoint', () => {
 
 			t = MockTransport('test://transport-url', testTransportOptions),
 
-			ep = endpoint('endpoint-urn/:arg1/:arg2', {}),
+			ep = Endpoint('endpoint-urn/:arg1/:arg2', {}),
 
 			rqOptions = {
 				pathArgs: {arg1:'1', arg2:'2'},
@@ -162,7 +162,8 @@ describe('endpoint', () => {
 			uri: 'test://transport-url/endpoint-urn/1/2?var1=My%20name&var2=My%20Surname', 
 			rqOptions: { 
 				timeout: 3000, 
-				data: Object({ a: 1 }) 
+				data: Object({ a: 1 }),
+				pathArgs: { arg1: '1', arg2: '2' }
 			} 
 		});
 	});
@@ -258,9 +259,9 @@ describe('transport', () => {
 
 // });
 
-// // describe('endpoint', () => {
-// //   it('endpoint not empty', () => {
+// // describe('Endpoint', () => {
+// //   it('Endpoint not empty', () => {
 // // 	const IO = require('../io');
-// //     expect(endpoint('/test').).toBe(3);
+// //     expect(Endpoint('/test').).toBe(3);
 // //   });
 // // });

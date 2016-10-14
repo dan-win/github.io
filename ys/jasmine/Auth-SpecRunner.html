@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner v2.4.1</title>
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.4.1/jasmine_favicon.png">
+  <link rel="stylesheet" href="lib/jasmine-2.4.1/jasmine.css">
+
+
+
+</head>
+
+<body>
+
+  <script src="lib/jasmine-2.4.1/jasmine.js"></script>
+  <script src="lib/jasmine-2.4.1/jasmine-html.js"></script>
+  <script src="lib/jasmine-2.4.1/boot.js"></script>
+
+  <!-- include source files here...  -->
+    <script type="text/javascript" src="../vendor/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../js/io.js"></script>
+
+    <script type="text/javascript" src="mock-env/env-stub.js"></script>
+    <script type="text/javascript" src="mock-env/ip.info.js"></script>
+    <script type="text/javascript" src="mock-env/cookie.plain.js"></script>
+    
+    <script type="text/javascript" src="../js/auth.js"></script>
+
+    <!-- redefine and simulate ajax: -->
+    <script type="text/javascript" src="mock-env/ajax-stub.js"></script>
+
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="spec/auth-spec.js"></script>
+
+</body>
+</html>

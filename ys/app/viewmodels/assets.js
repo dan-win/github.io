@@ -1,7 +1,6 @@
 define([
-    'plugins/http', 
     'durandal/app', 
-    'knockout', 
+    'knockout.all', 
     'viewmodels/model-asset', 
     'shared/tableview',
     // connect fileupload plugins:
@@ -10,7 +9,7 @@ define([
     'jquery-fileupload/jquery.iframe-transport',
     'jquery-fileupload/jquery.fileupload'
     ], 
-function (http, app, ko, ModelLib, TableViewFactory, $) {
+function (app, ko, ModelLib, TableViewFactory, $) {
     'use strict';
 
     //Note: This module exports an object.
@@ -18,25 +17,28 @@ function (http, app, ko, ModelLib, TableViewFactory, $) {
     //If you wish to be able to create multiple instances, instead export a function.
     //See the 'welcome' module for an example of function export.
 
-    console.log('DUMP->', ko.toJSON(new ModelLib.Asset()));
+    // console.log('DUMP->', ko.toJSON(new ModelLib.Asset()));
 
     var options = {
 
         'displayName' : 'My Assets',
         'itemClass' : ModelLib.Asset,
-        'entityName' : 'Assets', // <-- data partition on the server
         'attrFilter' : ModelLib.StructAsset,
-        'dialogViews' : {'edit':'views/dlg-edit-asset'},
+        'entityName' : 'Assets', // <-- data partition on the server
+        'dialogViews' : {
+            'add':'views/dlg-add-asset',
+            'edit':'views/dlg-edit-asset'
+        },
         'columns' : [
             // name, sortBy, sortState
 
-            {'name':'Asset ID', sortBy:'StorageID'},
+            {'name':'Media type', sortBy:'MediaType'},
             {'name':'Label'},
+            {'name':'Asset ID', sortBy:'StorageID'},
             {'name':'Created', sortBy:'CreatedTime'},
             {'name':'Modified', sortBy:'ModifiedTime'},
             {'name':'Filename'},
             {'name':'Size', sortBy:'FileSize'},
-            {'name':'Media type', sortBy:'MediaType'},
             {'name':'MIME type', sortBy:'MimeType'},
             {'name':'Used', sortBy:'LockCount'},
             {'name':'Comment'}
@@ -57,38 +59,39 @@ function (http, app, ko, ModelLib, TableViewFactory, $) {
     };
 
     // subscribe to show event for dialogs to init fileupload:
-    app.on('customDialog:show').then(function (arg) {
+    // app.on('customDialog:show').then(function (arg) {
 
-        var jEl = $('.file-upload');
+    //     var jEl = $('.file-upload');
 
-        console.log('DIALOG', arg);
+    //     console.log('DIALOG', arg);
 
-        if (arg['view'] == options.dialogViews['edit'] && !jEl.hasClass('mc-fileupload-plugin')) {
+    //     if (arg['view'] == options.dialogViews['edit'] && !jEl.hasClass('mc-fileupload-plugin')) {
 
-            jEl.fileupload({
-                'url': '/upload',
-                'dataType': 'json',
-                'dropZone': $('.fileupload-dropzone'), 
-                'done': function (e, data) {
-                    var message = '';
-                    // $.each(data.result.files, function (index, file) {
-                    //     message += file.name;
-                    // });
-                    console.log('Files uploaded: ', e, data);
-                    console.log('Files:', data.files[0].name);
-                    arg.model.Filename(data.files[0].name);
-                    arg.model.SrvFilename(data.files[0].name);
-                }
-            }).addClass('mc-fileupload-plugin'); // <- mark as initialized
+    //         jEl.fileupload({
+    //             'url': '/upload',
+    //             'dataType': 'json',
+    //             'dropZone': $('.fileupload-dropzone'), 
+    //             'done': function (e, data) {
+    //                 var message = '';
+    //                 // $.each(data.result.files, function (index, file) {
+    //                 //     message += file.name;
+    //                 // });
+    //                 console.log('Files uploaded: ', e, data);
+    //                 console.log('Files:', data.files[0].name);
+    //                 arg.model.Filename(data.files[0].name);
+    //                 arg.model.SrvFilename(data.files[0].name);
+    //             }
+    //         }).addClass('mc-fileupload-plugin'); // <- mark as initialized
 
-            console.log('handler fileupload - installed: ',jEl.length);
-        }
-    });
+    //         console.log('handler fileupload - installed: ',jEl.length);
+    //     }
+    // });
 
     app.on('customDialog:Ok').then(function (arg) {
         // fill defaults if necessary:
         var model = arg.model;
-        if (arg['view'] == options.dialogViews['edit']){
+        // filter only dialog with view "edit":
+        if (arg['view'] === options.dialogViews['edit']){
             if (model.Label=="Noname") model.Label(model.Filename()); 
         }
     })

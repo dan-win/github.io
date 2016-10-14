@@ -44,8 +44,8 @@ define([
 			FieldFloat = ko._FieldFactory_(scope, ko.observable, [TYPE_FLOAT, obs_options]),
 			FieldA = ko._FieldFactory_(scope, ko.observableArray, [obs_options]);
 
-		Field( 'Asset', null, data, function (data) {
-			return StructAsset({}, data);
+		Field( 'Asset', null, data, function (record) {
+			return new Asset(record);
 		});
 
 		console.log('Asset: ', ko.toJS(scope.Asset()));
@@ -54,6 +54,9 @@ define([
 		FieldFloat( 'YScale', 100, data);
 
 		FieldInt( 'Duration', 5, data);
+
+		Field( 'TransitionOnEnter', '', data);
+		FieldInt( 'TnEnDuration', 0, data);
 
 		Field( 'TransitionOnExit', '', data);
 		FieldInt( 'TnExDuration', 0, data);
@@ -79,8 +82,8 @@ define([
 		console.log(ko.toJS(self));
 
 		// Redefine data foreld to object field: Convert struct data to real object with methods:
-		var assetInfo = self.Asset.peek(); // <-- use this way, because "data" can contain both plain and observable objects!
-		self.Asset(new Asset(assetInfo));
+		//XXX var assetInfo = self.Asset.peek(); // <-- use this way, because "data" can contain both plain and observable objects!
+		//XXX self.Asset(new Asset(assetInfo));
 
 		// *** Constant fields ***
 
@@ -93,6 +96,11 @@ define([
 
 		// *** Computed fields ***
 
+		self.HasTransitionOnEnter = ko.pureComputed(function () {
+				// listenong to changes: TnExDuration
+				return self.TnEnDuration() > 0;
+			}, self);
+
 		self.HasTransitionOnExit = ko.pureComputed(function () {
 				// listenong to changes: TnExDuration
 				return self.TnExDuration() > 0;
@@ -102,7 +110,7 @@ define([
 
 		self.TotalDuration = ko.pureComputed(function () {
 				// listening to changes: Duration, TnExDuration
-				return self.Duration() + self.TnExDuration();
+				return self.Duration() + self.TnEnDuration() + self.TnExDuration();
 			}, self);
 
 		self.GlyphSrc = ko.pureComputed(function(){
@@ -118,6 +126,7 @@ define([
 			self.XScale, 
 			self.YScale, 
 			self.TotalDuration, 
+			self.TransitionOnEnter,
 			self.TransitionOnExit,
 			self.ClassAttr,
 			self.InnerClassAttr,
@@ -138,6 +147,7 @@ define([
 			self.XScale, 
 			self.YScale, 
 			self.TotalDuration, 
+			self.TransitionOnEnter,
 			self.TransitionOnExit,
 			self.ClassAttr,
 			self.InnerClassAttr,
@@ -147,6 +157,15 @@ define([
 
 
 		// *** Methods ***
+
+		self.addTransitionOnEnter = function () {
+			self.TransitionOnEnter('show');
+			self.TnEnDuration(1);
+		}
+
+		self.removeTransitionOnEnter = function () {
+			self.TnEnDuration(0);
+		}
 
 		self.addTransitionOnExit = function () {
 			self.TransitionOnExit('hide');
@@ -159,6 +178,7 @@ define([
 
 		self.render = function (objects, keyframes) {
 			var 
+				t1 = self.HasTransitionOnEnter(),
 				t2 = self.HasTransitionOnExit(),
 				ascentMs, visibleMs, descentMs, duration;
 
@@ -171,13 +191,13 @@ define([
 
 			// --- keyframes
 			// time: convert secods to milliseconds
-			ascentMs = 0 * 1000;
+			ascentMs = (t1) ? self.TnEnDuration() * 1000 : 0;
 			visibleMs = self.Duration() * 1000;
 			descentMs = (t2) ? self.TnExDuration() * 1000 : 0;
 
 			keyframes.push({
 				hiddenMs:0, 
-				ascentMethod: 'show', 
+				ascentMethod: (t1) ? self.TransitionOnEnter() : 'show', 
 				ascentMs: ascentMs, 
 				visibleMs: visibleMs, 
 				descentMethod: (t2) ? self.TransitionOnExit() : 'hide',
@@ -209,7 +229,7 @@ define([
 		Field( 'Label', 'Noname', data);
 
 		FieldA('Items', [], data, function(record){
-			return StructSlide({},record)
+			return new Slide(record)
 		});
 
 		return scope;
@@ -227,9 +247,9 @@ define([
 		StructTimeline(self, data);
 
 		// convert js data to objects with methods:
-		self.Items(_.map(self.Items.peek(), function (value, index, list) {
-			return new Slide(value);
-		}))
+		//XXX self.Items(_.map(self.Items.peek(), function (value, index, list) {
+		//XXX 	return new Slide(value);
+		//XXX }))
 
 		// *** add common props/ methods for collection holder ***
 		ko._bindCollectionPropsTo_(self, 'Items');
@@ -335,6 +355,8 @@ define([
 					zindex = ilen-index,
 					id = 'keyframe_'+timelineId+'_'+slide.ReferenceID();
 				slide.render(child_objects, child_keyframes); // <--- render both geometry and keyframes
+
+				console.log('Render - push slide: ', index, slide.Asset().Label())
 
 				// --- geometry (center-block class from Bootstrap 3):
 				code.push('<div style="position:absolute;left:0;top:0;width:100%;height:100%;display:none;z-index:'

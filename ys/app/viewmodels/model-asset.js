@@ -72,30 +72,66 @@ define([
 		*  Field('ModifiedTime'): */ 
 		BaseModel.StructPersistent(scope, data); 
 
-		Field( 'Label', 'Noname', data);
+		// This field used only upon Upload operation via form - not for storage! Usage (with "fileUpload" binding from "ko.ext.js"):
+		// <input type="file" id="input" data-bind="fileUpload: uploadFile">
+		Field( 'uploadFile', null);
 
+		// --- 
+		// Asset status (uploading, ok)
+		
+		//  'status': 'ok'	
+		// 'contentLanguage': m.contentLanguage || null
+		// 'cacheControl': m.cacheControl || null
+
+		// //extend self (?):
+		// 'customMetadata': m.customMetadata || null // {clientFileName, }
+
+		// 'md5Hash': m.md5Hash || null
+
+		// // ---
+				
+		// 'contentType': m.contentType || null
+		// 'fileName': m.fileName || null
+		// 'url': m.url || null // metadata.downloadURLs[0]
+		// 'size': m.size || null
+
+		// 'created': m.created || null
+		// 'updated': m.updated || null
+
+		// ---
+
+		Field( 'Label', 'Noname', data); //<-usr
+		Field( 'Comment', '', data); //<-usr
+		Field( 'Tags', [], data); //<-usr
+
+		Field( 'LockCount', 0, data); //<-app
+
+		Field( 'FileSize', 0, data); //<-BLOB/string
+
+		Field( 'FileName', '', data); //<-BLOB
+
+		Field( 'Src', '', data);
+		Field( 'GlyphSrc', '', data); //<-BLOB
+
+		// e.g.: "image/jpeg"
 		Field( 'MimeType', '', data);
-
-		Field( 'MediaType', '', data);
+		// "Video" / "Image"
+		Field( 'MediaType', '', data); //<-BLOB
 
 		// Filename on remote client (unsafe name):
-		Field( 'FileName', '', data);
+		Field( 'SrvFileName', '', data); 
 
-		Field( 'SrvFileName', '', data);
-
+		// "Asset Type", extended version to render and to filter in TreeView (?)
+		// "Video", "Image", +["RSS", "Twitter", etc.]
 		Field( 'Type', notype, data);
+
 		Field( 'XRes', 0, data);
 		Field( 'YRes', 0, data);
-		Field( 'Size', 0, data);
+
+		// Field( 'Size', 0, data);
 		
 		// Full path to file on a CDN server:
 		// Field( 'Src', '/api/media/dummy.jpg', data);
-
-		Field( 'FileSize', 0, data);
-
-		Field( 'LockCount', 0, data);
-
-		Field( 'Comment', '', data);
 
 		return scope;
 	}
@@ -107,7 +143,11 @@ define([
 		_.applyReferenceID(self, 'Asset_');
 
 		StructAsset(self, data);
-		
+
+		// self.uploadName = ko.computed(function() {
+		// 	return !!self.uploadFile() ? self.uploadFile().name : '-';
+		// });		
+
 		// Implement "updateValues" method which binded with the appropriate factory:
 		BaseModel.IFUpdate(self, StructAsset);
 
@@ -118,34 +158,76 @@ define([
 			'"'+self._rtti+'"" function is a constructor, call it with "new"!');
 
 		// *** Computed fields ***
-		self.Src  = ko.computed(function () {
-			return (self.SrvFileName()!=='') 
-				? [_mediaRoot, self.SrvFileName()].join('/')
-				: '';
+		
+		self.uploadFile.subscribe(function () {
+			// Here is used properties of HTML5 File API object
+			var file = self.uploadFile.peek();
+			if (!file) return;
+			if (typeof file === 'string'){
+				self.FileSize(file.length)
+			} else if (file instanceof Uint8Array) {
+				// Warning: such method is not precise, see; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/length
+				self.FileSize(file.length)
+			} else if (file instanceof Blob) {
+				self.FileSize(file.size)
+				self.MimeType(file.type)
+				if (file instanceof File)
+					self.FileName(file.name)
+			}
 		});
 
-		self.GlyphSrc = ko.computed(function(){
-			return [_glyphRoot, self.SrvFileName()].join('/');
-		}, self);
+		self.MimeType.subscribe(function () {
+			var MimeType = self.MimeType.peek(), typeName = 'unknown';
+			if (!MimeType) return;
+			if (MimeType.match(/image/gi)) {
+				typeName = 'Image'
+				// Set type of media for asset:
+				self.MediaType(typeName)
+				// Set type for entire asset because it is a media object:
+				self.Type(typeName);
+			} else if (MimeType.match(/video/gi)) {
+				typeName = 'Video'
+				// Set type of media for asset:
+				self.MediaType(typeName)
+				// Set type for entire asset because it is a media object:
+				self.Type(typeName);
+			}
+		})
+
+		// self.Src  = ko.computed(function () {
+		// 	return (self.SrvFileName()!=='') 
+		// 		? [_mediaRoot, self.SrvFileName()].join('/')
+		// 		: '';
+		// });
+
+		// self.GlyphSrc = ko.computed(function(){
+		// 	return [_glyphRoot, self.SrvFileName()].join('/');
+		// }, self);
 
 		// Auto-assign the media type by extension
-		self.FileName.subscribe(function () {
-			var 
-				filename = self.FileName.peek(),
-				ext = filename.split('.').pop(),
-				mtype = Asset.mediaFileExt[ext];
-			if (typeof mtype == 'undefined')
-				throw new Error('Unsupported media type: '+ext);
-			self.MimeType(Asset.MIMETypes[mtype]);
-			self.MediaType(Asset.MediaTypes[mtype]);
-			console.log('MEDIA: ',filename, ext, mtype, Asset.MIMETypes[mtype], Asset.MediaTypes[mtype]);
+		// self.FileName.subscribe(function () {
+		// 	var 
+		// 		filename = self.FileName.peek(),
+		// 		ext = filename.split('.').pop(),
+		// 		mtype = Asset.mediaFileExt[ext];
+		// 	if (typeof mtype == 'undefined')
+		// 		throw new Error('Unsupported media type: '+ext);
+		// 	self.MimeType(Asset.MIMETypes[mtype]);
+		// 	self.MediaType(Asset.MediaTypes[mtype]);
+		// 	console.log('MEDIA: ',filename, ext, mtype, Asset.MIMETypes[mtype], Asset.MediaTypes[mtype]);
 
-		});
+		// });
 
 		self.IconForMedia = ko.computed(function () {
 			var _css = glyphByType[self.MediaType()];
 			return '<i class=\"glyphicon '+_css+'\"></i>'
 		});
+
+		self.PreviewSrc = ko.pureComputed(function (argument) {
+			var Src = self.Src();
+			var GlyphSrc = self.GlyphSrc();
+			return (GlyphSrc.length > 0) ? GlyphSrc : Src;
+		})
 
 		self.render = function (scene, keyframes) {
 			var 
@@ -162,7 +244,10 @@ define([
 						{
 							"Src": self.Src(),
 							"MimeType": self.MimeType(),
-							"Label": self.Label()
+							"Label": self.Label(),
+							"StorageID": self.StorageID(),
+							"Width": "100%",
+							"Height": "auto"
 						} 
 					); // <-- select fields for rendering
 			scene.push(code);

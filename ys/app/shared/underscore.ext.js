@@ -171,12 +171,13 @@
 		 * @param  {object}   srcObj, ... Source object(s)
 		 * @return {object}          Extended object (same instance of tObj)
 		 */
-		deepExtend: function (tObj, srcObj) {
+		deepExtend: function (tObj, ___) {
 			var length = arguments.length;
 			if (length < 2 || tObj === null) return tObj;
 			for (var index = 1; index < length; index++) {
 				var source = arguments[index];
 				for (var key in source) {
+					if (!source.hasOwnProperty(key)) continue;
 					var member = source[key];
 					if (typeof member === 'function') {
 						tObj[key] = source[key];	
@@ -205,6 +206,7 @@
 				var source = arguments[index];
 
 				for (var key in source) {
+					if (!source.hasOwnProperty(key)) continue;
 					// bypass undefined props:
 					if (tObj[key] === void 0) continue;
 					var member = source[key];
@@ -219,6 +221,18 @@
 
 			}
 			return tObj;
+		},
+
+		removeUndefinedProps: function (obj) {
+			var buffer = {};
+			_.each(obj, function (value, key) {
+				if (value === void 0) return;
+				if (typeof value === 'object') 
+					buffer[key] = _.removeUndefinedProps(value);
+				else 
+					buffer[key] = value;
+			})
+			return buffer;
 		},
 
 		/**

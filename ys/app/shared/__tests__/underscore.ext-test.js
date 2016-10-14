@@ -16,7 +16,10 @@ describe('deepClone', () => {
 
 	var srcObj = {
 		txtAttr: 'text',
-		objAttr: nestedObj
+		objAttr: nestedObj,
+		function (argument) {
+			// body...
+		}
 	};
 
 	var newObj = _.deepClone(srcObj);
@@ -80,6 +83,28 @@ describe('replaceDefinedProps', () => {
     expect(newObj).toEqual({
     	prop1: 1000,
     	objAttr: {nestedProp1: 100}
+    });
+  });
+});
+
+
+describe('removeUndefinedProps', () => {
+  it('After extending, nested objects should be an unique instance', () => {
+
+	var 
+		srcObj = {
+		prop1: 1,
+		nestedObj: {prop1: undefined, prop2: 'text'},
+		prop2: undefined,
+		prop3: undefined,
+		prop4: void 0
+	};
+
+	var newObj = _.removeUndefinedProps(srcObj);
+
+    expect(newObj).toEqual({
+    	prop1: 1,
+		nestedObj: {prop2: 'text'}
     });
   });
 });

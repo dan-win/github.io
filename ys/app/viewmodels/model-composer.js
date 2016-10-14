@@ -4,12 +4,13 @@ if (typeof define !== "function" || !define.amd) {
 		MODULES.model_composer = modfunc(
 			_, ko, 
 			MODULES.config,
-			MODULES.io_middleware,
+			IO,
 			// IO,
 			MODULES.model_base,
 			MODULES.model_asset,
 			MODULES.model_timeline,
 			MODULES.model_display,
+			MODULES.model_exposition,
 			rtl, // <----------- UMD, creates name in global scope
 			MODULES.dialog_layout,
 			MODULES.dialog_textbox,
@@ -24,12 +25,13 @@ define([
 		'underscore.all',
 		'knockout.all',
 		'shared/config',
- 		'shared/io.middleware',
+ 		'viewmodels/io-config',
  		// 'shared/io',
  		'viewmodels/model-base',
 		'viewmodels/model-asset',
 		'viewmodels/model-timeline',
 		'viewmodels/model-display',
+		'viewmodels/model-exposition',
 		'shared/rtl',
 		'appComposer/dialog-layout',
 		'components/dialog-textbox',
@@ -42,17 +44,19 @@ define([
  		// ^ to-do: migrate to components.
  		], 
  		function(_, ko, config, 
- 				IoMiddleware, 
+ 				IO, 
  				BaseModel, 
  				libAsset, 
  				libTimeline, 
  				libDisplay, 
+ 				libExposition,
  				Playback, 
  				DialogLayout, 
  				DialogTextBox){
 
 	var 
 		Playlist = libDisplay.Playlist,
+		StructPlaylist = libDisplay.StructPlaylist,
 		Grid = libDisplay.Grid,
 		enumGridsGallery = libDisplay.enumGridsGallery,
 
@@ -60,10 +64,42 @@ define([
 
 		AssetCollection = libAsset.AssetCollection;
 
+    // IO (!)
+
+  function _loadCollection(entityName) {
+  	// usage: _loadCollection('entityName').then(function(data){...})
+	  var storageSvc = IO.gw.services[entityName];
+	  var itemRef = IO.gw.reflections[entityName];
+	  return storageSvc.signIn()
+		  .then(function () {
+		  	return itemRef.enum();
+		  })
+  }
+
+  function _loadItem(entityName, objInsatance) {
+  	// usage: _loadItem('entityName').then(function(data){...})
+	  var storageSvc = IO.gw.services[entityName];
+	  var itemRef = IO.gw.reflections[entityName];
+	  return storageSvc.signIn()
+		  .then(function () {
+		  	return itemRef.load(objInsatance);
+		  })
+  }
+
+  function _saveItem(entityName, objInsatance) {
+  	// usage: _loadItem('entityName').then(function(data){...})
+	  var storageSvc = IO.gw.services[entityName];
+	  var itemRef = IO.gw.reflections[entityName];
+	  return storageSvc.signIn()
+		  .then(function () {
+		  	return itemRef.save(objInsatance);
+		  })
+  }
+
 	console.log('Playlist type:', typeof Playlist);
 	console.log(libDisplay);
 
-	var io = IoMiddleware.Gateway(config);
+	// var io = IoMiddleware.Gateway(config);
 	var playerObject = new Playback('#preview-display');
 
 	/*////////////////////////////////////////////////////////
@@ -97,8 +133,8 @@ define([
 			Field = ko._FieldFactory_(scope, ko.observable),
 			FieldA = ko._FieldFactory_(scope, ko.observableArray);
 
-		function playlistFactory(data) {
-			return new Playlist(data);
+		function playlistFactory(record) {
+			return new Playlist(record);
 		}
 
 		/* Field('StorageID'), 
@@ -107,9 +143,10 @@ define([
 		BaseModel.StructPersistent(scope, data); 
 
 		Field( 'Label', 'New Workspace', data);
-		Field( 'Playlist', null, data, playlistFactory);
+		Field( 'Playlist', StructPlaylist, data, playlistFactory);
 
-		console.log('Playlist, Layers: ', scope.Playlist, scope.Playlist().Layers);
+		console.log('--->Playlist, Layers: ', 
+			ko.toJS(scope.Playlist), ko.toJS(scope.Playlist().Layers));
 
 		Field( 'Comment', '', data);
 
@@ -145,6 +182,8 @@ define([
 		// self._selFrame = self._selLayer.Frames()[0];
 		// self._selTimeline = self._selFrame.Timeline();
 
+		// Convert Playlist data into Playlist object
+		//XXX self.Playlist(new Playlist(self.Playlist.peek()));
 		// *** Constant fields ***
 
 		self._rtti = 'class:Composer';
@@ -174,23 +213,26 @@ define([
 
 		// *** Session fields ***
 
-		self.ActiveLayer = ko._obs_(self.Playlist().Layers()[0]);
+		self.ActiveLayer = ko._obs_(self.Playlist().Layers.peek()[0]);
+		self.ActiveFrame = ko._obs_(self.ActiveLayer().Frames.peek()[0]);
+		self.ActiveTimeline = ko._obs_(self.ActiveFrame().Timeline.peek());
 
 		self.ActiveLayer.subscribe(function () {
 			var layer = self.ActiveLayer.peek();
-			self.ActiveFrame(layer.Frames()[0]);
+			if (layer)
+				self.ActiveFrame(layer.Frames.peek()[0]);
+			else console.warn('layer undefined?', ko.toJS(self.Playlist().Layers()), 
+				ko.toJS(self.ActiveLayer()));
 		});
-
-		self.ActiveFrame = ko._obs_(self.ActiveLayer().Frames()[0]);
 
 		self.ActiveFrame.subscribe(function () {
-			var timeline = self.ActiveFrame().Timeline.peek();
-			self.ActiveTimeline(timeline);
+			var frame = self.ActiveFrame.peek();
+			if (frame)
+				self.ActiveTimeline(frame.Timeline.peek());
 		});
 
-		self.ActiveTimeline = ko._obs_(self.ActiveFrame().Timeline.peek());
 
-		self.RenderMode = ko._obs_('timeline');
+		self.RenderMode = ko._obs_('all');
 		self.EnumRenderModes = [
 			{'label':'Timeline', 'value':'frame'},
 			{'label':'Layer', 'value':'layer'},
@@ -210,13 +252,59 @@ define([
 			}
 		});
 
+		// visual status of buttons in preview:
+		self.pbCssRewind = ko.pureComputed(function () {
+			var status = self.PlayerState();
+			return (status === 'stStop') ? 'disabled' : ''
+		})
+		self.pbCssPlayback = ko.pureComputed(function () {
+			var status = self.PlayerState();
+			return (status === 'stPlayback') ? 'disabled' : ''
+		})
+		self.pbCssPause = ko.pureComputed(function () {
+			var status = self.PlayerState();
+			return (['stPlayback', 'stForward'].indexOf(status) > -1) ? '' : 'disabled'
+		})
+		self.pbCssStop = ko.pureComputed(function () {
+			var status = self.PlayerState();
+			return (['stPlayback', 'stPause', 'stForward'].indexOf(status) > -1) ? '' : 'disabled'
+		})
+
 		// *** Notifications chain ***
+		self.PlayerState.subscribe(function (newValue) {
+			console.log('Player state (composer):', self.PlayerState.peek())
+		})
+		
+		// self.PlayerState.subscribe(function (newValue) {
+		// 	switch (newV) {
+		// 		case 'stPlayback': 
+		// 			return 'glyphicon-play';
+		// 			break;
+		// 		case 'stPause': 
+		// 			return 'glyphicon-pause';
+		// 			break;
+		// 		case 'stFfback': 
+		// 			return 'glyphicon-fast-backward';
+		// 			break;
+		// 		case 'stFback': 
+		// 			return 'glyphicon-backward';
+		// 			break;
+		// 		case 'stForward': 
+		// 			return 'glyphicon-forward';
+		// 			break;
+		// 		case 'stFforward': 
+		// 			return 'glyphicon-fast-forward';
+		// 			break;
+		// 		default: 
+		// 			return '';
+		// 	}
+		// });
+
 		function handleChanged () {
 			self.Changed(true);
 		}
 
 		function handleViewChanged () {
-
 			self.updatePreview();
 		}
 
@@ -230,15 +318,19 @@ define([
 		// changes listener
 		ko._observeChanges_(handleViewChanged, [
 			'ntf_ViewChanged',
+			self.Playlist,
 			self.RenderMode
 			], 'Composer: view changed');
 
 		// to-do: review this code:
 		// If entire workspace reloaded from stream:
-		self.Playlist.subscribe(function () {
-			var firstLayer = self.Playlist().Layers.peek()[0];
-			_.assertDefined(firstLayer, 'Playlist layers are empty!');
-			self.ActiveLayer(firstLayer); // select first layer
+		self.Playlist.subscribe(function (playlist) {
+			// var playlist = self.Playlist.peek();
+			if (playlist) {
+				self.ActiveLayer(playlist.Layers.peek()[0]); // select first layer
+				document.title = 'yScreens Composer | '+playlist.Label.peek();
+				// self.updatePreview();
+			} else {console.warn('playlist is: ', playlist)}
 		});
 
 
@@ -262,7 +354,13 @@ define([
 				objects = [],
 				keyframes = [],
 				geometry, behavior, compiled;
-			sourceObject.render(objects, keyframes);
+			try {
+				console.warn('sourceObject&&& ', ko.toJS(sourceObject));
+				sourceObject.render(objects, keyframes);
+			} catch (e) {
+				console.error('renderJSON error:', e, 'sourceObject:', ko.toJS(sourceObject))
+				throw e;
+			}
 			geometry = objects.join(' ');
 			// behavior = ko.mapping.toJSON(keyframes);
 			compiled = JSON.stringify({
@@ -280,33 +378,45 @@ define([
 
 			switch (self.RenderMode.peek()) {
 				case 'frame':
-					sourceObject = self.ActiveFrame();
+					sourceObject = self.ActiveFrame.peek();
 					break
 				case 'layer':
-					sourceObject = self.ActiveLayer();
+					sourceObject = self.ActiveLayer.peek();
 					break
 				case 'all':
-					sourceObject = self.Playlist();
+					sourceObject = self.Playlist.peek();
 					break
 				default:
 					throw new Error('Unknown rendering mode: ', self.RenderMode.peek());
 			}
-			compiled = self.renderJSON(sourceObject);
+
 			// clear display
 			playerObject.stop();
 			playerObject.clear();
+
+			if (!sourceObject) {
+				console.log('sourceObject is not defined, ignoring updatePreview...');   
+				return;
+			}
+
 			try {
+				compiled = self.renderJSON(sourceObject);
 				playerObject.fromJSON(compiled);
 			} catch (e) {
-				console.log('Error updating preview: ', e);
+				console.log('Error updating preview: ', e, 'sourceObject', sourceObject);
 			}
-			playerObject.rewind(0);
 			console.log('preview updated');
+			playerObject.rewind(0); //<-- make sure the first slide is visible
+			self.PlayerState('stStop');
 		};
 
 		self.previewPlayback = function () {
 			// sourceObject - ActiveFrame or ActiveLayer or Playlist
-			playerObject.run();
+			if (playerObject.isPaused) {
+				playerObject.resume()
+			} else {
+				playerObject.run()
+			}
 			self.PlayerState('stPlayback');
 
 			console.log("Running...");
@@ -315,6 +425,7 @@ define([
 		self.previewStop = function () {
 			// sourceObject - ActiveFrame or ActiveLayer or Playlist
 			playerObject.stop();
+			// playerObject.rewind(0);
 			self.PlayerState('stStop');
 
 			console.log("Stopped...");
@@ -332,10 +443,11 @@ define([
 		// add/remove, ... all operations on layout
 
 		self.newPlaylist = function () {
-			var layer = new Grid();
-			// Set fields to defaults except the new layer:
-			self.Playlist().updateValues({'Layers': [layer]});
-			self.ActiveLayer(layer);
+			// var layer = new Grid();
+			// // Set fields to defaults except the new layer:
+			// self.Playlist().updateValues({'Layers': [layer]});
+			// self.ActiveLayer(layer);
+			self.Playlist(new Playlist())
 		};
 
 		// server i/o
@@ -343,14 +455,59 @@ define([
 
 
 		self.loadPlaylist = function (StorageID) {
-			io.load('Playlists', StorageID, self.Playlist);
+			var playlist = new Playlist();
+			playlist.StorageID(StorageID);
+			return _loadItem('Playlists', playlist)
+				.then(function (updatedPlaylist) {
+					console.log('===>>>_loadItem', playlist, ko.toJS(playlist), updatedPlaylist, ko.toJS(updatedPlaylist));
+					// self.Playlist(null);
+					self.Playlist(updatedPlaylist);
+					// self.updatePreview()
+				})
+				// to-do: handle exception
+				.catch(function (reason) {
+					console.error('Error on loading Playlist: ', reason);
+				});
 			// to-do: set active layer
 			// ....
 		};
 
 		self.savePlaylist = function () {
-			io.save('Playlists', self.Playlist.StorageID(), self.Playlist);
+			var playlist = self.Playlist.peek();
+			return _saveItem('Playlists', playlist)
+				.then(function () {
+					document.title = 'yScreens Composer | '+playlist.Label.peek();
+				})
+			// to-do: handle exception
+				.catch(function (reason) {
+					console.error('Error on loading Playlist: ', reason);
+				});
 		};
+
+		// Publish rendered movie
+		self.publish = function () {
+			var playlist = self.Playlist.peek();
+			var js = self.renderJSON(playlist);
+			
+			var moviesSvc = IO.gw.services['Expositions'];
+			var itemRef = IO.gw.reflections['Expositions'];
+
+			var xp = new libExposition.Exposition()
+			// Apply values:
+			// Use same Id as for original playist:
+			xp.StorageID(playlist.StorageID.peek())
+			xp.json(js)
+			xp.Label(playlist.Label.peek())
+			xp.js(JSON.parse(js))
+		  
+		  moviesSvc.signIn()
+			  .then(function () {
+			  	return itemRef.save(xp);
+			  })
+			  .catch(function (reason) {
+			  	console.error('Error on publishMovie:', reason);
+			  })
+		}
 
 		// Layers
 
@@ -381,6 +538,7 @@ define([
 
 			collection.remove(layer);
 
+			handleViewChanged()
 		};
 
 		self.moveLayer = function (layer, index) {
@@ -391,6 +549,7 @@ define([
 
 			buffer.splice(index, 0, buffer.splice(fromIndex, 1)[0]);
 			collection(buffer);
+			handleViewChanged()
 		}
 
 		self.moveLayerUp = function () {
@@ -453,17 +612,29 @@ define([
 		// Timeline
 
 		self.loadTimeline = function (StorageID) {
-			return io.load('Timelines', StorageID, {'Timeline': timelineMapping}, self.ActiveTimeline.peek());
+			return _loadItem('Timelines', self.ActiveTimeline.peek())
+			// to-do: handle exception
+				.catch(function (reason) {
+					console.error('Error on loading Playlist: ', reason);
+				});
 		};
 
 		self.saveTimeline = function () {
-			return io.save('Timelines', self.ActiveTimeline.peek());
+			return _saveItem('Timelines', self.ActiveTimeline.peek())
+			// to-do: handle exception
+				.catch(function (reason) {
+					console.error('Error on loading Playlist: ', reason);
+				});
 		};
 
 		self.loadAssetsGallery = function () {
-			return io.loadCollection('Assets', self.AssetGallery.Items, function (data) {
-				return new libAsset.Asset(data);
-			});
+			return _loadCollection('Assets').then(function (data) {
+				self.AssetGallery.Items(data);
+			})
+			// to-do: handle exception
+				.catch(function (reason) {
+					console.error('Error on loading Playlist: ', reason);
+				});
 		};
 
 		// templates
@@ -580,7 +751,15 @@ define([
 			// format: [{Label: ..., StorageID: ...}, ...]
 
 			// Promise:
-			return self.loadAssetsGallery();
+			var race = [self.loadAssetsGallery()];
+			// Try to load playlist if StorageID specified in constructor "data"
+			var _pData = data.Playlist ? ko._fromObs_(data.Playlist) : null,
+					_id = _pData? ko._fromObs_(_pData.StorageID) : null;
+
+			if (_id) {
+				race.push(self.loadPlaylist(_id))
+			}
+			return Promise.all(race);
 			// enum timelines:
 			// io.loadCollection ('Timelines', self.TimelinesGallery, libTimeline.Timeline);
 
@@ -588,11 +767,10 @@ define([
 		}
 
 		// INIT
-		io.signIn().then(function () {
-			// return self.loadPresets()
-		}).catch(function (reason) {
-			console.log('error on loadPresets: ', reason);
-		});
+		// self.loadPresets()
+		// 	.catch(function (reason) {
+		// 		console.error('error on loadPresets: ', reason);
+		// 	});
 
 	}
 

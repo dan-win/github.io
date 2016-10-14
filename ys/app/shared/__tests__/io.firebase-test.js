@@ -14,7 +14,7 @@ require('../node_modules/firebase/firebase');
 
 var 
 	IO = require('../io.firebase'), //<- use extended version of IO
-	endpoint = IO.endpoint,
+	Endpoint = IO.Endpoint,
 	FirebaseDB = IO.FirebaseDB,
 	FirebaseStorage = IO.FirebaseStorage,
 
@@ -48,7 +48,7 @@ var
 
 describe('FirebaseDB', () => {
 	var 
-		epItem = IO.endpoint('/test-node/items'),
+		epItem = IO.Endpoint('/test-node/items'),
 		transport = FirebaseDB('', {});
 
 	transport.init(fbConfig);

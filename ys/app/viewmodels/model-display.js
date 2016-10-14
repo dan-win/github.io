@@ -53,8 +53,8 @@ define([
 
 		Field( 'Label', 'Frame', data);
 
-		Field( 'Timeline', null, data, function (data) {
-			return StructTimeline({}, data);
+		Field( 'Timeline', null, data, function (record) {
+			return new Timeline(record);
 		}); // !!!
 
 		Field( 'DomID', 'frame_'+scope.StorageID(), data);
@@ -72,8 +72,8 @@ define([
 
 		StructFrame(self, data);
 
-		var _data = self.Timeline.peek();
-		self.Timeline(new Timeline(_data));
+		//XXX var _data = self.Timeline.peek();
+		//XXX self.Timeline(new Timeline(_data));
 
 		// *** Constant fields ***
 
@@ -186,8 +186,8 @@ define([
 
 		FieldA( 'Media', [], data); // <--- means "all media"
 
-		FieldA('Frames', [{}], data, function(record){
-			return StructFrame({}, record)
+		FieldA('Frames', [new Frame()], data, function(record){
+			return new Frame(record)
 		});
 
 		return scope;
@@ -202,9 +202,9 @@ define([
 		StructGrid(self, data);
 
 		// convert js data to objects with methods:
-		self.Frames(_.map(self.Frames.peek(), function (value) {
-			return new Frame(value);
-		}));
+		//XXX self.Frames(_.map(self.Frames.peek(), function (value) {
+		//XXX 	return new Frame(value);
+		//XXX }));
 
 		// *** add common props/ methods for collection holder ***
 		ko._bindCollectionPropsTo_(self, 'Frames');
@@ -336,8 +336,8 @@ define([
 
 		Field( 'Comment', '', data);
 
-		FieldA('Layers', [{}], data, function (record) {
-			return StructGrid({},record);
+		FieldA('Layers', [new Grid()], data, function (record) {
+			return new Grid(record);
 		});
 
 		// Field('AspectRatio', '16by9', data);
@@ -355,9 +355,10 @@ define([
 		StructPlaylist(self, data);
 
 		// convert js data to objects with methods:
-		self.Layers(_.map(self.Layers.peek(), function (value) {
-			return new Grid(value)
-		}));
+		//XXX self.Layers(_.map(self.Layers.peek(), function (value) {
+		//XXX 	return new Grid(value)
+		//XXX }));
+		console.log('Playlist constructor: default layers: ', ko.toJS(self.Layers));
 
 
 		// Implement "updateValues" method which binded with the appropriate factory:
@@ -399,7 +400,8 @@ define([
 			], 'Playlist - observe changes');
 
 		ko._observeChanges_('ntf_ViewChanged', [
-			self.AspectRatio
+			self.AspectRatio,
+			self.Layers,
 			], 'Playlist - observe changes');
 
 		// *** Methods ***
@@ -407,10 +409,9 @@ define([
 		self.render = function (scene, keyframes) {
 
 //------------
-			var 
-				code = ['<!-- playlist (layers) --><div id=\"playlist_'+self.ReferenceID()+'\">']; //['<!-- timeline --><div class="timeline" id="'+self.ReferenceID()+'">'], 
-
-			_.each(self.Layers.peek(), function (layer, index) {
+			var code = ['<!-- playlist (layers) --><div id=\"playlist_'+self.ReferenceID()+'\">']; //['<!-- timeline --><div class="timeline" id="'+self.ReferenceID()+'">'], 
+			var buffer = self.Layers.peek().slice(), inverted = buffer.reverse();
+			_.each(inverted, function (layer, index) {
 				var 
 					child_objects = [],
 					zindex = index,
@@ -425,7 +426,7 @@ define([
 				code.push('</div><!-- playlist (end) -->');
 
 				// --- keyframes - left "as-is"
-				keyframes.push( keyframe_ );
+				// keyframes.push( keyframe_ );
 			});
 
 			// -- active part, animations

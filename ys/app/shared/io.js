@@ -33,9 +33,9 @@ Implement "filterCollection" method
 (function(root, factory) {
 		var _modname = 'IO';
 		if (typeof define === "function" && define.amd) { // AMD mode
-			define(["underscore", "json2"], factory);
+			define(["underscore.all", "json2"], factory);
 		} else if (typeof exports === "object") { // CommonJS mode
-			var _ = (typeof window._ === 'undefined') ? require("underscore") : window._;
+			var _ = (typeof window._ === 'undefined') ? require("underscore.all") : window._;
 			var JSON = (typeof window.JSON === 'undefined') ? require("json2") : window.JSON;
 			module.exports = factory(_, JSON);
 		} else {
@@ -85,7 +85,7 @@ Implement "filterCollection" method
 		 * @param  {object}      srcObj Multiple "source" arguments allowed
 		 * @return {object}             Updated tObj
 		 */
-		var extendOptions = function (tObj, srcObj) {
+		var extendOptions = function (tObj, ___) {
 			var 
 				length = arguments.length, 
 				data;
@@ -106,14 +106,17 @@ Implement "filterCollection" method
 		///// VECTOR: args: pathArgs, qryArgs
 		/// args type: rqOptions = {pathArgs, qryArgs, data}, tpArgs
 
-		function endpoint(urn, opts) {
+		function Endpoint(urn, opts, ctx) {
 			var
 				self = {
 					_urn: urn,
 					_pathNodes: urn.split('/'),
-					_argsMap: [],
+					_argsMap: 	[],
 
-					_options: opts || {}
+					_options: 	_.extend({}, opts),
+					_ctx: 		_.extend({}, ctx),
+					// Used in child, clone:
+					factory: 	Endpoint
 				};
 
 			// Parse argument placeholders in URN:
@@ -147,13 +150,15 @@ Implement "filterCollection" method
 						pathBuffer[indexInPath] = value;
 					});
 
-					if (_.size(argsToProcess) > 0)
+					if (_.size(argsToProcess) > 0) {
+						unknownArgs = _.keys(argsToProcess);
 						throw new ArgumentError('Arguments \"' + unknownArgs.join(',') + '\" now allowed for: ' + self._urn);
+					}
 
 					return pathBuffer.join('/');
 				},
 
-				'_rqPromise': function (transport, verb, rqOptions) {
+				'_rqPromise': function (transport, verb, rqOptions, data) {
 					var
 						tpHandler = mandatory(
 							transport[verb], 'Transport does not support verb: ' + verb),
@@ -161,12 +166,12 @@ Implement "filterCollection" method
 						pathArgs	= _a.pathArgs || {},
 						_urn 		= (pathArgs) ? self._resolveUrn(pathArgs) : self._urn,
 
-						o = extendOptions({}, opts, _a);
-
-					if ( ['create', 'update'].indexOf(verb) >=0 && typeof data === 'undefined')
-						throw new RequestError('Request error: "create" and "update" verbs require assigned "requestData" function!');
-					console.log('Calling transport: ', transport._tname, verb, _urn, o);
-					return tpHandler(_urn, o)
+						o = extendOptions({}, self._options, _a);
+					console.log('Going...');
+					// if ( ['create', 'update'].indexOf(verb) >=0 && typeof data === 'undefined')
+					// 	throw new RequestError('Request error: "create" and "update" verbs require assigned "requestData" function!');
+					console.log('Calling transport: ', transport._tname, verb, _urn, o, data);
+					return tpHandler(_urn, o, data)
 				},
 
 				'urn': function () {return self._urn},
@@ -179,12 +184,20 @@ Implement "filterCollection" method
 					return this;
 				},
 
-				'child': function (u, o) {
-					o = deepExtend({}, self._options, o || {});
-					return endpoint(self._urn + '/' + mandatory(u, 'child "urn" missed!'), o)
+				// 'child': function (u, o, ctx) {
+				// 	u = self._urn + '/' + mandatory(u, 'child "urn" missed!');
+				// 	o = extendOptions({}, self._options, o || {});
+				// 	ctx = _.extend({}, self._ctx, ctx);
+				// 	return self.factory(u, o, ctx)
+				// },
+
+				'child': function (u) {
+					u = self._urn + '/' + mandatory(u, 'child "urn" missed!');
+					return self.factory(u, self._options, self._ctx)
 				},
 
-				'clone': function () {return endpoint(self._urn, deepClone(self._options))},
+				// to-do: remove "clone" method ??? 
+				// 'clone': function () {return self.factory(self._urn, deepClone(self._options), self._ctx)},
 
 				/**
 				 * [description]
@@ -196,12 +209,12 @@ Implement "filterCollection" method
 				'fetch': function (transport, rqOptions) {
 					return self._rqPromise(transport, 'fetch', rqOptions)},
 
-				'create': function(transport, rqOptions) {
-					console.log('Calling "create": ', rqOptions);
-					return self._rqPromise(transport, 'create', rqOptions)},
+				'create': function(transport, rqOptions, data) {
+					console.log('Calling "create": ', rqOptions, transport);
+					return self._rqPromise(transport, 'create', rqOptions, data)},
 
-				'update': function(transport, rqOptions) {
-					return self._rqPromise(transport, 'update', rqOptions)},
+				'update': function(transport, rqOptions, data) {
+					return self._rqPromise(transport, 'update', rqOptions, data)},
 
 				'read': function(transport, rqOptions) {
 					return self._rqPromise(transport, 'read', rqOptions)},
@@ -210,329 +223,17 @@ Implement "filterCollection" method
 					return self._rqPromise(transport, 'delete', rqOptions)},
 
 				'query': function(transport, rqOptions) {
-					return self._rqPromise(transport, 'query', rqOptions)},
+					return self._rqPromise(transport, 'query', rqOptions)}
 
-				/**
-				 * [description]
-				 * @method
-				 * @param  {[type]} transport   [description]
-				 * @param  {function} setter      Function or ko.observableArray. If function - it must support protocol: f(value) sets value, f() - returns the current value
-				 * @param  {function} itemFactory Optional factory if the collection item is a custom object
-				 * @param  {[type]} rqOptions   Request options (optional)
-				 * @return {Promise}             [description]
-				 */
-				'loadCollection': function (transport, setter, itemFactory, rqOptions) {
-					var 
-						o = rqOptions || {};
-					mandatory(setter, '"setter" argument is required');
-					itemFactory = itemFactory || function (d) {return d};
-
-					return self.read(transport, o).then(function (response) {
-						var buffer = [];
-						console.log('loadCollection -> response data: ', response);
-						_.each(response, function (itemData, key) {
-							console.log('Loading item: ', itemData);
-							buffer[parseInt(key)] = itemFactory(itemData);
-						});
-						setter(buffer);
-						// in case with knockoutjs observableArray - it returns object which contains result
-						return (typeof setter.peek === 'function') ? setter.peek() : setter(); 
-					})
-				},
-
-				/**
-				 * Stores array in JSON storage (internally it stores object where keys are indices converted to strings)
-				 * About considerations why to use such approach - see https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html
-				 * @method
-				 * @param  {[type]} transport [description]
-				 * @param  {array/function} jsArray   array or function which returns array (or ko.observableArray)
-				 * @param  {[type]} rqOptions [description]
-				 * @return {[type]}           [description]
-				 */
-				'saveCollection': function (transport, jsArray, rqOptions) {
-					var 
-						a = mandatory(jsArray, 'IO.saveCollection error: jsArray is mandatory'),
-						source = (typeof a.peek == 'function') ? a.peek() : a,
-						data = {},
-						o;
-					// Convert array to object in form: {<string>index: value}:
-					_.each(source, function (item, index) {
-						if (!item.toJS) console.log('!!! item has no toJS method:', item);
-						data[index.toString()] = (item.toJS) ? item.toJS() : item;
-					}),
-					o = _.extend({}, rqOptions || {}, {
-						'data': data
-					}); 
-
-					console.log('saveCollection: ', data);
-					
-					return self.create(transport, o)
-				},
-
-				/**
-				 * Loads array from JSON storage (where array stored as object where keys are indices converted to strings)
-				 * @method
-				 * @param  {[type]} transport [description]
-				 * @param  {[type]} key       [description]
-				 * @param  {[type]} model     [description]
-				 * @param  {[type]} rqOptions [description]
-				 * @return {[type]}           [description]
-				 */
-				'loadModel': function (transport, key, model, rqOptions) {
-					var 
-						o = _.extend({}, rqOptions || {}, {
-							'pathArgs': {'key': key}
-						}); 
-
-					mandatory(model, 'IO.load error: target model must be instantiated before load!');
-
-					return self.read(transport, o).then(function (response) {
-						if (typeof model.updateValues === 'function') {
-							model.updateValues(response);
-							console.log('Your model does not provide "updateValues" method')
-						} else { 
-							deepExtend(model, response)
-						}
-						return model;
-					})
-				},
-
-				'saveModel': function (transport, key, model, rqOptions) {
-					var 
-						m = mandatory(model, 'IO.load error: target model must be instantiated before load!'),
-						o = _.extend({}, rqOptions || {}, {
-							'data': (typeof m.toJS === 'function') ? m.toJS() : m,
-							'pathArgs': {'key': key}
-						}); 
-					console.log('saveModel-->', o);
-					return self.create(transport, o)
-				},
-
-				'updateModel': function (transport, key, model, rqOptions) {
-					var 
-						m = mandatory(model, 'IO.load error: target model must be instantiated before load!'),
-						o = _.extend({}, rqOptions || {}, {
-							'data': (typeof m.toJS === 'function') ? m.toJS() : m,
-							'pathArgs': {'key': key}
-						}); 
-					return self.update(transport, o)
-				},
-
-				'remove': function (transport, key, rqOptions) {
-					var 
-						o = _.extend({}, rqOptions || {}, {
-							'pathArgs': {'key': key}
-						}); 
-					return self.delete(transport, o);
-				}
 			});
 
 			// Initialization (optional)
-			if (endpoint.initInstance) {
+			if (Endpoint.initInstance) {
 				// _epNode becomes "this" inside function:
-				endpoint.initInstance.call(self);
+				Endpoint.initInstance.call(self);
 			}
 
 			return self;
-		}
-
-		/**
-		 * Bundle of transport and endpoint
-		 * @method service
-		 * @param  {[type]} urn       [description]
-		 * @param  {[type]} transport [description]
-		 * @param  {[type]} opts      [description]
-		 * @return {[type]}           [description]
-		 */
-		function service (urn, opts) {
-			var 
-				self = endpoint(urn, opts);
-				// save "inherited" methods:
-				// _loadCollection = self.loadCollection,
-				// _saveCollection = self.saveCollection,
-				// _loadModel = self.loadModel,
-				// _saveModel = self.saveModel,
-				// _updateModel = self.updateModel,
-				// _remove = self.remove;
-				// _transport;
-
-			self.transport = function (value) {
-				if (typeof value === 'undefined') return self._transport;
-				self._transport = value;
-				return self;
-			};
-
-			/**
-			 * [init description]
-			 * @method init
-			 * @param  {[type]} config  [description]
-			 * @param  {[type]} appName Optional name (see usage sample in io.firebase)
-			 * @return {[type]}         [description]
-			 */
-			self.init = function (config, appName) {
-				return self._transport.init(config, appName)
-			}
-
-			self.signIn = function (args) {
-				return self._transport.signIn(args)
-			}
-
-			self.signOut = function () {
-				return self._transport.signOut()
-			}
-
-			// self.fetch = function (rqOptions) {
-			// 	return self._rqPromise(_transport, 'fetch', rqOptions)}
-
-			// self.create = function(rqOptions) {
-			// 	return self._rqPromise(_transport, 'create', rqOptions)}
-
-			// self.update = function(rqOptions) {
-			// 	return self._rqPromise(_transport, 'update', rqOptions)}
-
-			// self.read = function(rqOptions) {
-			// 	return self._rqPromise(_transport, 'read', rqOptions)}
-
-			// self.delete = function(rqOptions) {
-			// 	return self._rqPromise(_transport, 'delete', rqOptions)}
-
-			// self.query = function(rqOptions) {
-			// 	return self._rqPromise(_transport, 'query', rqOptions)}
-
-			// self.loadCollection = function (setter, itemFactory, rqOptions) {
-			// 	return _loadCollection(self._transport, setter, itemFactory, rqOptions)}
-
-			// self.saveCollection = function (jsArray, rqOptions) {
-			// 	return _saveCollection(self._transport, jsArray, rqOptions)}
-
-			// self.loadModel = function (key, model, rqOptions) {
-			// 	return _loadModel(self._transport, key, model, rqOptions)}
-
-			// self.saveModel = function (key, model, rqOptions) {
-			// 	return _saveModel(self._transport, key, model, rqOptions)}
-
-			// self.updateModel = function (key, model, rqOptions) {
-			// 	return _updateModel(self._transport, key, model, rqOptions)}
-
-			// self.remove = function (key, rqOptions) {
-			// 	return _remove(self._transport, key, rqOptions)
-			// }
-
-			return _.extend(self, {
-				/**
-				 * [description]
-				 * @method
-				 * @param  {[type]} transport   [description]
-				 * @param  {function} setter      Function or ko.observableArray. If function - it must support protocol: f(value) sets value, f() - returns the current value
-				 * @param  {function} itemFactory Optional factory if the collection item is a custom object
-				 * @param  {[type]} rqOptions   Request options (optional)
-				 * @return {Promise}             [description]
-				 */
-				'loadCollection': function (setter, itemFactory, rqOptions) {
-					var 
-						o = rqOptions || {};
-					mandatory(setter, '"setter" argument is required');
-					itemFactory = itemFactory || function (d) {return d};
-
-					return self.read(self._transport, o).then(function (response) {
-						var buffer = [];
-						console.log('loadCollection -> response data: ', response);
-						_.each(response, function (itemData, key) {
-							console.log('Loading item: ', itemData);
-							buffer[parseInt(key)] = itemFactory(itemData);
-						});
-						setter(buffer);
-						// in case with knockoutjs observableArray - it returns object which contains result
-						return (typeof setter.peek === 'function') ? setter.peek() : setter(); 
-					})
-				},
-
-				/**
-				 * Stores array in JSON storage (internally it stores object where keys are indices converted to strings)
-				 * About considerations why to use such approach - see https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html
-				 * @method
-				 * @param  {array/function} jsArray   array or function which returns array (or ko.observableArray)
-				 * @param  {[type]} rqOptions [description]
-				 * @return {[type]}           [description]
-				 */
-				'saveCollection': function (jsArray, rqOptions) {
-					var 
-						a = mandatory(jsArray, 'IO.saveCollection error: jsArray is mandatory'),
-						source = (typeof a.peek == 'function') ? a.peek() : a,
-						data = {},
-						o;
-					// Convert array to object in form: {<string>index: value}:
-					_.each(source, function (item, index) {
-						if (!item.toJS) console.log('!!! item has no toJS method:', item);
-						data[index.toString()] = (item.toJS) ? item.toJS() : item;
-					}),
-					o = _.extend({}, rqOptions || {}, {
-						'data': data
-					}); 
-
-					console.log('saveCollection: ', data);
-					
-					return self.create(self._transport, o)
-				},
-
-				/**
-				 * Loads array from JSON storage (where array stored as object where keys are indices converted to strings)
-				 * @method
-				 * @param  {[type]} key       [description]
-				 * @param  {[type]} model     [description]
-				 * @param  {[type]} rqOptions [description]
-				 * @return {[type]}           [description]
-				 */
-				'loadModel': function (key, model, rqOptions) {
-					var 
-						o = _.extend({}, rqOptions || {}, {
-							'pathArgs': {'key': key}
-						}); 
-
-					mandatory(model, 'IO.load error: target model must be instantiated before load!');
-
-					return self.read(self._transport, o).then(function (response) {
-						if (typeof model.updateValues === 'function') {
-							model.updateValues(response);
-							console.log('Your model does not provide "updateValues" method')
-						} else { 
-							deepExtend(model, response)
-						}
-						return model;
-					})
-				},
-
-				'saveModel': function (key, model, rqOptions) {
-					var 
-						m = mandatory(model, 'IO.load error: target model must be instantiated before load!'),
-						o = _.extend({}, rqOptions || {}, {
-							'data': (typeof m.toJS === 'function') ? m.toJS() : m,
-							'pathArgs': {'key': key}
-						}); 
-					console.log('saveModel-->', o, o.data);
-					return self.create(self._transport, o)
-				},
-
-				'updateModel': function (key, model, rqOptions) {
-					var 
-						m = mandatory(model, 'IO.load error: target model must be instantiated before load!'),
-						o = _.extend({}, rqOptions || {}, {
-							'data': (typeof m.toJS === 'function') ? m.toJS() : m,
-							'pathArgs': {'key': key}
-						}); 
-					return self.update(self._transport, o)
-				},
-
-				'remove': function (key, rqOptions) {
-					var 
-						o = _.extend({}, rqOptions || {}, {
-							'pathArgs': {'key': key}
-						}); 
-					return self.delete(self._transport, o);
-				}
-
-			});
-
 		}
 
 		Transport.registry = {uriScheme:{}};
@@ -596,19 +297,13 @@ Implement "filterCollection" method
 					}
 				},
 
-				'_dispatchRequest': function(verb, urn, rqOptions) {
+				'_dispatchRequest': function(verb, urn, rqOptions, data) {
 					try {
 						var 
-							_d = rqOptions.data,
-							// extract data, make compatibility with knockoutjs observables:
-							data = (_d) ? 
-								((typeof _d.peek === 'function') ? _.peek() : ((typeof _d === 'function') ? _d() : _d))
-								: void(0),
-
 							mappedMethod = assertDefined(self._methodsMap[verb], 
 								'Verb \"'+verb+'\" is not supported by transport '+self.__tname),
 
-							o = _.extend({}, self.options(), rqOptions, {'data': data}),
+							o = _.extend({}, self.options(), rqOptions),
 
 							qryArgs = popAttr(o, 'qryArgs'),
 
@@ -620,7 +315,7 @@ Implement "filterCollection" method
 							+ (typeof data)
 							+ '\nTypes allowed: '+ self._accepts.join(","));
 
-						return self._request(mappedMethod, uri, o).then(function (rspData) {
+						return self._request(mappedMethod, uri, o, data).then(function (rspData) {
 							return self._decodeData(rspData)
 						})
 					} catch (e) {
@@ -798,16 +493,16 @@ Implement "filterCollection" method
 				 * @param  {object} rqOptions Options (optional) - redefines default settings for transport
 				 * @return {Promise}           Promise object
 				 */
-				'_request': function(method, uri, rqOptions) {
+				'_request': function(method, uri, rqOptions, data) {
 					throw new Error('Not implemented')
 				},
 
-				'create': function(urn, rqOptions) {
-					return self._dispatchRequest('create', urn, rqOptions)
+				'create': function(urn, rqOptions, data) {
+					return self._dispatchRequest('create', urn, rqOptions, data)
 				},
 
-				'update': function(urn, rqOptions) {
-					return self._dispatchRequest('update', urn, rqOptions)
+				'update': function(urn, rqOptions, data) {
+					return self._dispatchRequest('update', urn, rqOptions, data)
 				},
 
 				'read': function(urn, rqOptions) {
@@ -830,11 +525,9 @@ Implement "filterCollection" method
 		// return exported namespace
 		console.log('IO PASSED');
 		return {
-			endpoint: endpoint,
+			Endpoint: Endpoint,
 			Transport: Transport,
 			transport: transport,
-
-			service: service,
 
 			BaseError: BaseError,
 			AuthError: AuthError,

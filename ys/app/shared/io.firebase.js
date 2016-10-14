@@ -19,9 +19,9 @@ To-do:
 (function(root, factory) {
 	// var _modname = 'IO';
 	if (typeof define === "function" && define.amd) { // AMD mode
-		define(["underscore", "shared/io", "firebase"], factory);
+		define(["underscore.all", "shared/io", "firebase"], factory);
 	} else if (typeof exports === "object") { // CommonJS mode
-		var _ = (typeof window._ === 'undefined') ? require("underscore") : window._;
+		var _ = (typeof window._ === 'undefined') ? require("underscore.all") : window._;
 		var IO = (typeof window.IO === 'undefined') ? require("IO") : window.IO;
 		var firebase = (typeof window.firebase === 'undefined') ? require("firebase") : window.firebase;
 		module.exports = factory(_, IO, firebase);
@@ -52,10 +52,9 @@ To-do:
 
 	// note that amplify creates global variable, working through shim
 
-	console.log('IO.FIREBASE - ENTERING', firebase);
 	if (!firebase) {
 		firebase = window.firebase;
-		console.log('GLOBAL FIREBASE: ', firebase);
+		console.log('GLOBAL FIREBASE: ');
 	}
 
 	// Function injects a new factory into IO namespace and returns new extended singleton
@@ -231,7 +230,7 @@ To-do:
 		 * @param  {object} rqOptions Options (optional) - redefines default settings for transport
 		 * @return {Promise}           Promise object
 		 */
-		self._request = function(method, uri, rqOptions) {
+		self._request = function(method, uri, rqOptions, data) {
 			var _error;
 			try {
 				// Check authentication
@@ -241,7 +240,7 @@ To-do:
 				assertDefined(self._svcHandle,
 					'Cannot perform Firebase request before transport.init(fbConfig) call!');
 				console.log('&&&&&&& requesting as: ', self._tname);
-				return self[method](uri, rqOptions)
+				return self[method](uri, rqOptions, data)
 					.catch(function(error) {
 						// Transform Firebase error object to native IO.Error and return a new rejected pomise!:
 						return Promise
@@ -318,6 +317,17 @@ To-do:
 		}
 
 		/**
+		 * Decodes response in method "create"
+		 * @method decodeResponse
+		 * @param  {[type]}       snapshot [description]
+		 * @return {[type]}                [description]
+		 */
+		var decodeResponse = function (snapshot) {
+				// To-do: snapshot->response conversion would be moved into scheme-specific handler of endpoint???
+				return {'metadata': decodeMetadata (snapshot.metadata)}
+			}
+
+		/**
 		 * Create or update resource
 		 * @method _doCreate
 		 * @param  {string} uri   [description]
@@ -327,7 +337,7 @@ To-do:
 		 * @param  {function} onProgress [description]
 		 * @return {firebase.UploadTask}            Interface as firebase.Promise
 		 */
-		self._doCreate = function(uri, rqOptions) {
+		self._doCreate = function(uri, rqOptions, data) {
 			// returns UploadTask which has methods like Promise: then, catch.
 			// additional method: Cancel
 			// chain result with: .then(function(){}).catch(function(error){})
@@ -335,39 +345,24 @@ To-do:
 
 
 			var
-				o = assertDefined(rqOptions,
-					'FirebaseStorage.create() requires "rqOptions" argument!'),
-				data = assertDefined(o.data,
-					'FirebaseStorage.create() requires "rqOptions.data" attribute!'),
-				file = assertDefined(data.uploadData, 
-					'FirebaseStorage.create() requires "rqOptions.data.uploadData" attribute!'),
+				o = rqOptions || {},
+				_d = assertDefined(data,
+					'FirebaseStorage.create() requires "data" argument!'),
+				file = assertDefined(_d.uploadData, 
+					'FirebaseStorage.create() requires "data.uploadData" attribute!'),
 				onProgress = o.onProgress,
-				metadata =  encodeMetadata(data, true),
+				_m = assertDefined(data.metadata, 
+					'FirebaseStorage requires "data.metadata" attribute!'),
+				metadata =  encodeMetadata( _m, true),
 				fname,
 				method,
 				uploadTask;
 
-
-			// var
-			// 	o = assertDefined(rqOptions,
-			// 		'FirebaseStorage.create() requires "rqOptions" argument!'),
-			// 	data = assertDefined(o.data,
-			// 		'FirebaseStorage.create() requires "rqOptions.data" attribute!'),
-			// 	file = assertDefined(data.uploadData, 
-			// 		'FirebaseStorage.create() requires "rqOptions.data.uploadData" attribute!'),
-			// 	onProgress = o.onProgress,
-			// 	metadata =  encodeMetadata(data, true),
-			// 	fname,
-			// 	method,
-			// 	uploadTask;
+			// sanitize "undefined" values:
+			metadata = _.removeUndefinedProps(metadata);
 
 			console.log('passed rqOptions: ', o);
 			console.log('file is File -->', file instanceof File);
-
-			var decodeResponse = function (snapshot) {
-					// To-do: snapshot->response conversion would be moved into scheme-specific handler of endpoint???
-					return decodeMetadata (snapshot.metadata);
-				}
 
 			var progressCallback = function (snapshot) {
 					onProgress(snapshot.bytesTransferred, snapshot.totalBytes);
@@ -377,14 +372,14 @@ To-do:
 			// https://firebase.google.com/docs/storage/web/upload-files#upload_files
 			
 			if (typeof file === 'string'){
-				if (typeof metadata.contentType === 'undefined' || ['base64','base64url'].indexOf(metadata.contentType) > -1) {
+				if (typeof metadata.contentType === 'undefined' || metadata.contentType.match(/base64$/gi) || metadata.contentType.match(/base64url$/gi)) {
 					method = 'putString';
 				} else {
 					throw new FirebaseStorageError('For upload with type "string" contentType attribute must be "base64", "base64url" or undefined!', {code: '400'})
 				}
 			} else if (file instanceof File || file instanceof Blob || file instanceof Uint8Array) {
 				method = 'put';
-				if (file instanceof File)
+				if (file instanceof Blob)
 					metadata['contentType'] = file.type; // {'contentType': file.type}
 			} else {
 				console.warn('Data type: ', typeof file, file, file instanceof File);
@@ -421,10 +416,18 @@ To-do:
 		 * @param  {[type]} rqOptions Request options (Only "customMetadata" attribute used here)
 		 * @return {Promise}           Promise <metadata>
 		 */
-		self._doUpdate = function(uri, rqOptions) {
-			var metadata = encodeMetadata(assertDefined(rqOptions.data),
-				'Update error: rqOptions.data is not defined!') ;
-			return self._svcHandle.ref(uri).updateMetadata(metadata).then(decodeMetadata);
+		self._doUpdate = function(uri, rqOptions, data) {
+			var metadata;
+			mandatory(data,
+				'Update error: "data" is not defined!')
+			metadata = encodeMetadata(mandatory(data.metadata),
+				'Update error: "data.metdata" is not defined!') ;
+
+			// sanitize "undefined" values:
+			metadata = _.removeUndefinedProps(metadata);
+			return self._svcHandle.ref(uri).updateMetadata(metadata).then(function (metadata) {
+				return {'metadata': decodeMetadata(metadata)}
+			});
 		}
 
 		/**
@@ -439,7 +442,9 @@ To-do:
 			return self._svcHandle
 				.ref(uri)
 				.getMetadata()
-				.then(decodeMetadata);
+				.then(function (metadata) {
+					return {'metadata': decodeMetadata (metadata)}
+				});
 		};
 
 		/**
@@ -571,32 +576,37 @@ To-do:
 		 * @param  {function} onError Handler to invoke on error
 		 * @return {firebase.Promise}            description
 		 */
-		self._doCreate = function(uri, rqOptions) {
+		self._doCreate = function(uri, rqOptions, data) {
 			// returns Promise: then, catch.
 			// chain result with: .then(function(){}).catch(function(error){})
 			// More: https://firebase.google.com/docs/reference/js/firebase.storage.UploadTask
-			var
-				o = assertDefined(rqOptions,
-					'FirebaseDB.create() requires "rqOptions" argument!'),
-				data = assertDefined(o['data'],
-					'FirebaseDB.create() requires "rqOptions.data" attribute!');
+			mandatory(data,
+				'FirebaseDB.create() requires "data" argument!');
 
-			console.log('FirebaseDB->_doCreate', o, data);
+			// sanitize "undefined" values:
+			data = _.removeUndefinedProps(data);
+
+			console.log('FirebaseDB->_doCreate', rqOptions, data);
 			return self._svcHandle.ref(uri).set(data);
 		}
 
-		self._doUpdate = function(uri, rqOptions) {
+		self._doUpdate = function(uri, rqOptions, data) {
 			// Allows partial update of properties in existing object.
 			// returns Promise: then, catch.
 			// chain result with: .then(function(){}).catch(function(error){})
 			// More: https://firebase.google.com/docs/reference/js/firebase.storage.UploadTask
-			var
-				o = assertDefined(rqOptions,
-					'FirebaseDB.update() requires "rqOptions" argument!'),
-				data = assertDefined(o['data'],
-					'FirebaseDB.update() requires "rqOptions.data" attribute!');
+			mandatory(data,
+				'FirebaseDB.update() requires "data" argument!');
 
-			return self._svcHandle.ref(uri).update(data);
+			// sanitize "undefined" values:
+			data = _.removeUndefinedProps(data);
+
+			return self._doRead(uri, rqOptions).then(function (snapshot) {
+				return _.deepExtend(snapshot, data)
+			}).then(function (data) {
+				return self._svcHandle.ref(uri).update(data);
+			})
+			// return self._svcHandle.ref(uri).update(data);
 		}
 
 		/**

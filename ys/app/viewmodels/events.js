@@ -160,8 +160,8 @@ define(['knockout', 'jquery'], function(ko, $){
 		// 		// console.log(ko.contextFor(placeholder.get(0)).$index());
 		// 	});
 //----
-			$('#timeline-pool')
-			.delegate(".metaclass-remove", "click", function() {
+			$('#timeline-widget')
+			.on("click", ".metaclass-remove", function() {
 				//retrieve the context
 				var context = ko.contextFor(this),
 					model = context.$root,
@@ -177,7 +177,7 @@ define(['knockout', 'jquery'], function(ko, $){
 			 
 				return false;
 			})
-			.delegate(".metaclass-add", "click", function() {
+			.on("click", ".metaclass-add", function() {
 				//retrieve the context
 				var context = ko.contextFor(this),
 					model = context.$root,
@@ -188,7 +188,7 @@ define(['knockout', 'jquery'], function(ko, $){
 			 
 				return false;
 			})
-			.delegate(".metaclass-insert-first", "click", function() {
+			.on("click", ".metaclass-insert-first", function() {
 				//retrieve the context
 				var context = ko.contextFor(this),
 					model = context.$root,
@@ -199,7 +199,7 @@ define(['knockout', 'jquery'], function(ko, $){
 			 
 				return false;
 			})
-			.delegate(".metaclass-insert", "click", function() {
+			.on("click", ".metaclass-insert", function() {
 				//retrieve the context
 				var context = ko.contextFor(this),
 					slide_obj = context.$data,
@@ -212,8 +212,9 @@ define(['knockout', 'jquery'], function(ko, $){
 			 
 				return false;
 			})
-			.delegate(".metaclass-add-transition", "click", function() {
+			.on("click", ".metaclass-add-transition", function() {
 				//retrieve the context
+				console.log('metaclass-add-transition');
 				var context = ko.contextFor(this),
 					slide = context.$data,
 					model = context.$root; // = context.$index();
@@ -222,7 +223,7 @@ define(['knockout', 'jquery'], function(ko, $){
 
 				return false;
 			})
-			.delegate(".metaclass-remove-transition", "click", function() {
+			.on("click", ".metaclass-remove-transition", function() {
 				//retrieve the context
 				var context = ko.contextFor(this),
 					slide = context.$data,
@@ -236,7 +237,8 @@ define(['knockout', 'jquery'], function(ko, $){
 		// Grid preview pane
 
 		// Selection function: Frame click
-		$('.ctrl-display-grid-preview').delegate('.DDA', 'click', function (event) {
+		$('.ctrl-display-grid-preview')
+		.on("click", '.DDA', function (event) {
 			var element = this,
 				el$ = $(element),
 				domID = el$.attr('id'),

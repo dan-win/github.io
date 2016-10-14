@@ -9,6 +9,8 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="format-detection" content="telephone=no"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Loading...</title>
         
         <link rel="stylesheet" href="../../vendor/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css" />
@@ -51,6 +53,9 @@
 		</script>
 
 		<!-- vendor and extensions -->
+		
+		<!-- Promise polyfill: -->
+		<script type="text/javascript" src="../../vendor/es6-promise.auto.js"></script>
 
 		<script type="text/javascript" src="../../vendor/json2.js"></script>
 		<script type="text/javascript" src="../../vendor/underscore-min.js"></script>
@@ -84,18 +89,38 @@
 		<script type="text/javascript" src="../viewmodels/model-asset.js"></script>
 		<script type="text/javascript" src="../viewmodels/model-timeline.js"></script>
 		<script type="text/javascript" src="../viewmodels/model-display.js"></script>
-		<script type="text/javascript" src="../shared/EndpointsCfg.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-exposition.js"></script>
+
+<!-- 		<script type="text/javascript" src="../viewmodels/model-channel.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-device.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-user.js"></script>
+ -->
+
+		<!-- <script type="text/javascript" src="../shared/EndpointsCfg.js"></script> -->
 		<script type="text/javascript" src="../templates/grids/all.js"></script>
 
 		<script type="text/javascript" src="../viewmodels/events.js"></script>
+
+
+		<script type="text/javascript" src="../viewmodels/storage-reflections.js"></script>
+		<script type="text/javascript" src="../viewmodels/io-config.js"></script>
+
 		<script type="text/javascript" src="../viewmodels/model-composer.js"></script>
 
 		<script type="text/javascript">
 			$(function () {
-				window.modelRoot = new MODULES.model_composer.Composer();
-				ko.applyBindings(window.modelRoot, document.getElementById('view-composer'));
+				var playlistId = _.getQueryVariable('plistId');
+				var data = playlistId ? {'Playlist':{'StorageID':playlistId}} : {}
+				window.modelRoot = new MODULES.model_composer.Composer(data);
+				window.modelRoot.loadPresets().then(function () {
+					ko.applyBindings(window.modelRoot, document.getElementById('view-composer'));
+					window.modelRoot.updatePreview()
+				})
+				.catch(function (reason) {
+					console.error('error on loadPresets: ', reason);
+				});
 				setTimeout(function () {
-					MODULES.model_composer.populate(window.modelRoot);
+					// MODULES.model_composer.populate(window.modelRoot);
 				}, 1000);
 				
 			});
@@ -142,10 +167,15 @@
 										optionsValue: 'CSS'">
 									</select>
 								</div>
-
 								<div class="col-xs-12">
-									<a href="javascript:void(0)" class="btn" role="button">
+									<a href="javascript:void(0)" class="btn" role="button" data-bind="click:$root.savePlaylist">
 										Save playlist
+									</a>
+									<a href="javascript:void(0)" class="btn" role="button" data-bind="click:$root.publish">
+										Publish
+									</a>
+									<a href="javascript:window.close()" class="btn" role="button">
+										Exit
 									</a>
 								</div>
 
@@ -192,34 +222,41 @@
 										optionsValue: 'value'">
 									</select>
 									&nbsp;
-									<a href="javascript:void(0)" id="ffback" class="">
+									<a href="javascript:void(0)" id="rewind" class=""
+										data-bind="click:$root.previewStop, css:$root.pbCssRewind">
 										<span class="glyphicon glyphicon-fast-backward"></span>
 									</a>
 									&nbsp;
-									<a href="javascript:void(0)" id="fback" class="">
+<!-- 									<a href="javascript:void(0)" id="backward" class=""
+										>
 										<span class="glyphicon glyphicon-backward"></span>
 									</a>
 									&nbsp;
-									<a href="javascript:void(0)" id="playback" class="" data-bind="click:$root.previewPlayback">
+ -->									<a href="javascript:void(0)" id="playback" class="" 
+										data-bind="click:$root.previewPlayback, css:$root.pbCssPlayback">
 										<span class="glyphicon glyphicon-play"></span>
 									</a>
 									&nbsp;
-									<a href="javascript:void(0)" id="pause" class="" data-bind="click:$root.previewPause">
+									<a href="javascript:void(0)" id="pause" class="" 
+										data-bind="click:$root.previewPause, css:$root.pbCssPause">
 										<span class="glyphicon glyphicon-pause"></span>
 									</a>
 									&nbsp;
-									<a href="javascript:void(0)" id="stop" class="" data-bind="click:$root.previewStop">
+									<a href="javascript:void(0)" id="stop" class="" 
+										data-bind="click:$root.previewStop, css:$root.pbCssStop">
 										<span class="glyphicon glyphicon-stop"></span>
 									</a>
 									&nbsp;
-									<a href="javascript:void(0)" id="forward" class="">
+<!-- 									<a href="javascript:void(0)" id="forward" class=""
+										data-bind="click:$root.previewForward, css:$root.pbCssForward">
 										<span class="glyphicon glyphicon-forward"></span>
 									</a>
 									&nbsp;
-									<a href="javascript:void(0)" id="fforward" class="">
+ --><!-- 									<a href="javascript:void(0)" id="fforward" class=""
+										>
 										<span class="glyphicon glyphicon-fast-forward"></span>
 									</a>
-								</div>
+ -->								</div>
 							</div>
 						</div>
 					</div>
@@ -421,7 +458,9 @@
 <!-- 				<div class="drop-zone ys-sortable-placeholder mc-beginning" id="timeline-toolbar">
 					<a class="metaclass-insert-first" role="button"  href="javascript:void(0)">Add slide&nbsp;</a>
 				</div>
- -->				<div class="panel-body container-fluid" id="timeline-pool"
+ -->
+				
+ 				<div class="panel-body container-fluid" id="timeline-pool"
 					data-bind="sortable: { 
 									template: 'timeline-row', 
 									data: Items, 
@@ -433,6 +472,7 @@
 										forcePlaceholderSize: true
 									} 
 								}">
+
 				</div> <!-- Timeline -->
 				<div id="debug" style="color:white;"></div>
 			</div>
@@ -536,7 +576,14 @@
 			</div>
 			<div class='col-xs-3 '>
 				<div class='center-block slide-glyph'>
-					<img data-bind='attr:{"src": slide.Asset().Src}, visible:slide.Asset().Src()!==""' width='144px' height='81px' class='center-block'/>
+					<!-- ko if: slide.Asset().Type() === 'Image'-->
+					<img data-bind='attr:{"src": slide.Asset().PreviewSrc}' width='144px' height='81px' class='center-block'/>
+					<!-- /ko -->
+					<!-- ko if: slide.Asset().Type() === 'Video'-->
+					<video preload="auto" width="100%" height="auto" class="embed-responsive-item"> 
+					 <source data-bind="attr:{src: slide.Asset().Src,type: slide.Asset().MimeType}" autostart="false"/> 
+					</video>
+					<!-- /ko -->
 				</div>
 			</div>
 			<div class='col-sm-6 center-block groupbox slide-props' 
@@ -642,8 +689,10 @@
 		<div class="col-xs-5">File Name: </div>		
 		<div class="col-xs-5" data-bind="text: Asset().FileName"></div><div class="clearfix"></div>		
 
-		<div class="col-xs-5">Duration: </div>		
-		<div class="col-xs-5" data-bind="text: Duration"></div><div class="clearfix"></div>		
+		<div class="col-xs-3">Duration: </div>		
+		<div class="col-xs-8">
+			<input type="text" class="form-control" data-bind="value: Duration" style="width:auto;"/>
+		</div><div class="clearfix"></div>		
 	</div>
 
 </script>

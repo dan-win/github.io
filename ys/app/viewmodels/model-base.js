@@ -32,7 +32,7 @@ define(['underscore.all', 'knockout.all'], function(_, ko){
 			FieldA = ko._FieldFactory_(scope, ko.observableArray);
 
 		// Id in remote database (null for a new object):
-		Field( 'StorageID', _.uniqueId, data); // <-- for "default" here - pass function, not a value! 
+		Field( 'StorageID', _.qGUID, data); // <-- for "default" here - pass function, not a value! 
 
 		Field( 'CreatedTime', renderTimestamp, data);  // <-- for "default" here - pass function, not a value!
 		Field( 'ModifiedTime', renderTimestamp, data); // <-- for "default" here - pass function, not a value!
@@ -52,10 +52,12 @@ define(['underscore.all', 'knockout.all'], function(_, ko){
 		}
 
 		scope.toJS = function () {
-			var data = factory({}, scope);
-			_.assertDefined(data, 'IFUpdate.toJS error: factory returns empty object');
-			console.log('toJS result: ', ko.toJS(data));
-			return ko.toJS(data);
+			var _data = factory({}, scope);
+			var _json = ko.toJSON(_data);
+			var _js = JSON.parse(_json);
+			_.assertDefined(_data, 'IFUpdate.toJS error: factory returns empty object');
+			console.log('toJS result: ', _js);
+			return _js;
 		}
 
 		// visible representation of StorageID:

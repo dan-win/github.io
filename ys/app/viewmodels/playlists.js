@@ -1,5 +1,4 @@
 define([
-    'plugins/http', 
     'plugins/router',
     'durandal/app', 
     'knockout', 
@@ -7,7 +6,7 @@ define([
     'jquery', 
     'viewmodels/model-display', 
     'shared/tableview'], 
-function (http, router, app, ko, _, $, ModelLib, TableViewFactory) {
+function (router, app, ko, _, $, ModelLib, TableViewFactory) {
     //Note: This module exports an object.
     //That means that every module that "requires" it will get the same object instance.
     //If you wish to be able to create multiple instances, instead export a function.
@@ -47,10 +46,15 @@ function (http, router, app, ko, _, $, ModelLib, TableViewFactory) {
         // }).waitConfirm();
         console.log('"compose" called...');
         try {
-            router.navigate('composer/' + item.StorageID());
-        } catch (e) {console.log('error in compose: ', e)}
+            window.open('app/appComposer/composer.html?plistId='+item.StorageID.peek());
+            // router.navigate('composer/' + item.StorageID());
+        } catch (e) {console.error('error in compose: ', e)}
         // router.navigate('composer/' + item.StorageID());
 
+    }
+
+    function linkToComposer(item) {
+        return 'app/appComposer/composer.html?plistId=' + item.StorageID.peek()
     }
 
     var options = {
@@ -63,7 +67,8 @@ function (http, router, app, ko, _, $, ModelLib, TableViewFactory) {
         },
         // new handlers (used in view):
         addMethods : {
-            'compose': compose
+            'compose': compose,
+            'linkToComposer': linkToComposer
             // ,'canDeactivate': canDeactivate
         },
         columns : [

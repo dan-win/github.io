@@ -23,6 +23,7 @@
     		est_period = 0;
 
     	self.targetSelector = targetSelector;
+
     	// JSON i/o - ko.mapping?
     	self.objects = []; // for Knockout migration - make it observable
     	self.runners = []; // for Knockout migration - make it observable // <--- obsolete
@@ -33,9 +34,47 @@
     	self.second = 0;
 
     	self.isRunning = false;
+    	self.isPaused = false;
 
 		self.period = data && data.duration/1000 || null; // for Knockout migration - make it observable
 		self.quantum = data && data.quantum || 13; // jQuery default interval for animations update rate, ms
+
+		function playMedia($el) {
+			$el.find('audio,video').each(function (index, el) {
+				if (typeof el.play === 'function') {
+					el.play();
+				}
+			})
+		}
+		function resumeMedia($el) {
+			$el.find('audio.rtl-paused,video.rtl-paused').each(function (index, el) {
+				var $el = $(el);
+				if (typeof el.play === 'function') {
+					el.play();
+					$el.removeClass('rtl-paused')
+				}
+			})
+		}
+		function rewindMedia($el) {
+			$el.find('audio,video').each(function (index, el) {
+				if (typeof el.pause === 'function') {
+					el.pause()
+					el.currentTime = 0
+					$(el).removeClass('rtl-paused')
+				}
+			})
+		}
+		function pauseMedia($el) {
+			$el.find('audio,video').each(function (index, el) {
+				if (typeof el.pause === 'function') {
+					if (!el.paused) { //<- add only media wich actually running now
+						el.pause(); 
+						$(el).addClass('rtl-paused')
+					}
+
+				}
+			})
+		}
 
 		self.clear = function () {
 			for (var i=0, len=self.objects.length, objectSelector; i<len; i++) {
@@ -66,6 +105,7 @@
 				html = self.objects[i][2];
 
 				$(html).appendTo(parentSelector);
+				// $(parentSelector).html(html);
 				$(objectSelector).addClass('meta-anim');
 			}
 		}
@@ -96,9 +136,9 @@
 			var period = (self.period || est_period);
 			console.log('period: ', period, self.period, est_period);
 
-			// resume if paused:
-			if (self.timer && !self.isRunning) {
-				self.isRunning = true;
+			// resume if paused, exit if already running:
+			if (self.timer) {
+				if (self.isPaused) self.resume();
 				return;
 			}
 
@@ -106,22 +146,29 @@
 
 			self.second = 0;
 
+			// install timer for a new playback session:
 			self.timer = setInterval( function () {
+				if (self.isPaused) {
+					return
+					console.log('paused')
+				};
+				// console.log('>>>', self.second)
 
-				if (!self.isRunning) return;
+				// for external "clock" display:
+				$(self.targetSelector).triggerHandler('tick', self.second);
 
 				if (self.timeThresholds[self.second]) {
-					$(targetSelector).triggerHandler('tick_'+self.second+'.playback');
-					// console.log('event fired: ' + 'tick_'+self.second+'.playback');
+					$(self.targetSelector).triggerHandler('tick_'+self.second+'.playback');
 				}
 				self.second = (self.second > period) ? 0 : self.second+1;
 				// console.log(self.second);
 			}, 1000);
 
 			self.isRunning = true;
+			self.isPaused = false;
 		}
 
-
+		// to-do: use also time-scaling for audio and video html5 objects
 		self.runEx = function (multiplier) {
 
 			var period = (self.period || est_period);
@@ -129,9 +176,9 @@
 
 			multiplier = multiplier || 1;
 
-			// resume if paused:
-			if (self.timer && !self.isRunning) {
-				self.isRunning = true;
+			// resume if paused, exit if already running:
+			if (self.timer) {
+				if (self.isPaused) self.resume();
 				return;
 			}
 
@@ -143,56 +190,80 @@
 
 			var lastKey = -1, key;
 
+			// install timer for a new playback session:
 			self.timer = setInterval( function () {
+				try {
+					if (self.isPaused) return;
 
-				if (!self.isRunning) return;
+					// for external "clock" display:
+					$(self.targetSelector).triggerHandler('tick', self.second);
 
-				key = keyframes[self.second];
+					key = keyframes[self.second];
 
-				if (lastKey !== key) {
-					$(targetSelector).triggerHandler('tick_'+key+'.playback');
-					// console.log('event fired: ' + 'tick_'+self.second+'.playback');
-					lastKey = key;
+					if (lastKey !== key) {
+						$(self.targetSelector).triggerHandler('tick_'+key+'.playback tick', [key]);
+						// console.log('event fired: ' + 'tick_'+self.second+'.playback');
+						lastKey = key;
+					}
+
+					self.second = (self.second > period) ? 0 : self.second+multiplier;
+					// console.log(self.second);
+				} catch (e) {
+					console.warn('playback error: ', e)
 				}
-
-				self.second = (self.second > period) ? 0 : self.second+multiplier;
-				// console.log(self.second);
 			}, 1000 * multiplier);
 
 			self.isRunning = true;
+			self.isPaused = false;
 
 		}
 
 		self.stop = function () {
+			rewindMedia($(self.targetSelector));
 			self.isRunning = false;
+			self.isPaused = false;
 			if (self.timer) clearInterval(self.timer);
+			self.timer = null;
 			self.second = 0;
 		}
 
 		self.rewind = function (time) {
 			// to-do: test in composer
 			// find nearest keyframe:
+			self.stop()
 			while (time > 0 && !self.timeThresholds[time]) time--;
 			self.second = time;
-			$(targetSelector).triggerHandler('tick_'+time+'.playback');
+			$(self.targetSelector).triggerHandler('tick_'+time+'.playback');
 		}
 
 		self.pause = function () {
+			pauseMedia($(self.targetSelector))
 			self.isRunning = false;
+			self.isPaused = true;
 		}
 
+		// to-do: resume pause instances of video, audia, etc.
 		self.resume = function () {
-			self.isRunning = true;
+			if (self.isPaused) {
+				resumeMedia($(self.targetSelector))
+				self.isRunning = true;
+				self.isPaused = false;
+			}
 		}
 
 		self.fromJSON = function (data) {
 			// data - json text, parentSelector - optional parameter to render into
-			var js = JSON.parse(data),
-			html = js.scene,
-			motion = js.motion;
+			var js = JSON.parse(data);
+			self.fromJS(js);
+		}
+
+		self.fromJS = function (js) {
+			var html = js.scene,
+				motion = js.motion;
 
 			console.log('JSON:', js );
 
+			self.stop(); // pause the scheduled activity if any
 			self.setScene(html, self.targetSelector);
 
 			for (var i=0, len=motion.length; i<len; i++) {
@@ -208,7 +279,8 @@
 
 		self.setScene = function (html) {
 
-			$(html).appendTo(self.targetSelector)
+			// $(html).appendTo(self.targetSelector)
+			$(self.targetSelector).html(html);
 		}
 
 		self.addBehavior = function (data) {
@@ -250,10 +322,17 @@
 			console.log('visibleMs: ',visibleMs,'; t_presence: ', t_presence, '; est_period: ', est_period);
 
 			$(self.targetSelector)
-				.on('tick_'+(e1)+'.playback', function () {$el[ascentMethod](ascentMs)})
-				.on('tick_'+(e2)+'.playback', function () {$el[visibleMethod](visibleMs)})
-				.on('tick_'+(e3)+'.playback', function () {$el[descentMethod](descentMs)})
-				.on('tick_'+(e4)+'.playback', function () {$el.hide().attr('style', style)});
+				.on('tick_'+(e1)+'.playback', 
+					function () {$el[ascentMethod](ascentMs);
+						// Note that key can be fired on rewind, not only during thr playback: 
+						if (self.isRunning) playMedia($el)
+					})
+				.on('tick_'+(e2)+'.playback', 
+					function () {$el[visibleMethod](visibleMs)})
+				.on('tick_'+(e3)+'.playback', 
+					function () {$el[descentMethod](descentMs)})
+				.on('tick_'+(e4)+'.playback', 
+					function () {$el.hide().attr('style', style); rewindMedia($el)});
 
 			self.timeThresholds[e1] = true;
 			self.timeThresholds[e2] = true;
@@ -261,6 +340,23 @@
 			self.timeThresholds[e4] = true;
 		}
     }
+
+
+    // Transitions
+    Scene.lookups = {}
+    Scene.lookups.ascentMethods = [
+		{Label: "Transparency", MethodName: "hide"},
+		{Label: "Slide Down", MethodName: "slideDown"},
+		{Label: "Slide Up", MethodName: "slideUp"},
+		{Label: "Fade Out", MethodName: "fadeOut"}
+	]
+
+    Scene.lookups.descentMethods = [
+		{Label: "Transparency", MethodName: "hide"},
+		{Label: "Slide Down", MethodName: "slideDown"},
+		{Label: "Slide Up", MethodName: "slideUp"},
+		{Label: "Fade Out", MethodName: "fadeOut"}
+	]
 
     return Scene; // Possibly, sceneMapping will be added (internally) for ko.fromJS/toJS persistence?
 

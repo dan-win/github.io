@@ -1,6 +1,15 @@
 // custom-dialog.js
 define(['plugins/dialog', 'durandal/app', 'knockout'], function (dialog, app, ko) {
 
+	if (typeof Promise === 'undefined') {
+		new Error('Your browser does not support Promise API. Polyfill is necessary!');
+	} else {
+		var _promise = function (action) {
+			// action is a function with 2 args: resolve, reject
+			return new Promise(action);
+		}
+	}
+
 	function assertDefined (value, name) {
 		if (typeof value == 'undefined') 
 			throw new Error('Requied argument "' +name+ '" is "undefined" in "customDialog" options!');
@@ -72,33 +81,55 @@ define(['plugins/dialog', 'durandal/app', 'knockout'], function (dialog, app, ko
 			app.trigger('customDialog:Cancel', {'view': options.viewUrl, 'model': self});
 		}
 
+		var _toPromise = function (action) {
+			return _promise(function (resolve, reject) {
+				var response;
+				try {
+					instance.then(function (response) {
+						resolve(action(response))
+					})
+					// response = instance.then(action);
+					// resolve(response)
+				} catch (e) {
+					reject(e)
+				}
+			})
+		}
+
 		// *** main methods to dispatch dialog:
 		this.waitConfirm = function (changedObservable) {
 			var wrapper = function (result) {
+				console.log('listeners after: ', ko.toJS(changesInfo));
+				console.log('changedObservable >>> ', ko.toJS(changedObservable));
 				try {
-					console.log('listeners after: ', ko.toJS(changesInfo));
 					if (result === 'Ok' && wasChanged) {
 						copyChangedValues();
 						// mark changed flag or call "on confirm" handler function
-						if (changedObservable) changedObservable(true);
+						if (changedObservable) {changedObservable(true)}
 					}
+				} finally {
 					disposeAll();
-				} catch (e) {
-					console.log('error: ', e);
 				}
+				return true;
 			}
 
-			// method handles "Ok" press only 
-			instance.then(wrapper);
+			// // method handles "Ok" press only 
+			// var r = _bindCatch(instance.then(wrapper));
+			// console.log('r->',r)
+			// return r;
+			return _toPromise(wrapper)
 		}
 
 		this.then = function (handler) {
 			// as "traditional" promise interface
 			var wrapper = function (result) {
-				handler(result);
-				disposeAll();
+				try {
+					handler(result)
+				} finally {
+					disposeAll();
+				}
 			}
-			instance.then(wrapper);
+			return _toPromise(wrapper)
 		}
 
 		// intercept when dialog DOM is ready:

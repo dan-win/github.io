@@ -367,6 +367,17 @@
 */	color: red;
 } /*to-do: css animation*/
 
+#frame-player a.disabled {
+   pointer-events: none !important;
+   cursor: default;
+   color: #666666;
+}
+
+#frame-player a:active,
+#frame-player a:focused {
+   color: inherit;
+}
+
 /*  Theme  (begin) */
 #view-composer  {
 	font-size: 12px;

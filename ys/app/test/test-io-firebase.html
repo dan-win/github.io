@@ -63,7 +63,7 @@
 			<div class="col-xs-12">
 				<form class="form-vertical">
 					<h2>Test FirebaseStorage</h2>
-					<input type="text" name="storage-urn" id="storage-urn" value="/test-node/items" class="form-control">
+					<input type="text" name="storage-urn" id="storage-urn" value="/test-node/uploads" class="form-control">
           <form id="image-form" action="#">
 						<input type="file" name="storage-file" id="storage-file" accept="image/*">
 					</form>
@@ -86,11 +86,18 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<form class="form-vertical">
-					<h2>Test FirebaseDB "collection" methods</h2>
-					<input type="text" name="collection-urn" id="collection-urn" value="/test-node/items" class="form-control">
-					<input type="text" name="collection-data" id="collection-data" placeholder="JSON array" value="[1,2,3,4,5]" class="form-control">
-					<button class="btn btn-default" id="btn-save-collection">saveCollection</button>
-					<button class="btn btn-default" id="btn-load-collection">loadCollection</button>
+					<h2>Test "Collection" methods</h2>
+					<input type="text" name="collection-urn" id="collection-urn" value="/test-node/collection" class="form-control">
+					<input type="text" name="collection-item-data" id="collection-item-data" placeholder="JSON array" value='{"prop":1, "comment":"collection item"}' class="form-control">
+					<input type="text" name="collection-item-key" id="collection-item-key" value="id1" class="form-control">
+<!-- 					<button class="btn btn-default" id="btn-save-collection">saveCollection</button>
+ -->					<button class="btn btn-default" id="btn-load-collection">loadCollection</button>
+
+					<button class="btn btn-default" id="btn-save-collection-item">saveItem</button>
+					<button class="btn btn-default" id="btn-update-collection-item">updateItem</button>
+					<button class="btn btn-default" id="btn-load-collection-item">loadItem</button>
+					<button class="btn btn-default" id="btn-remove-collection-item">removeItem</button>
+
 					<hr>
 					<pre id="collection-snapshot-json" class="bg-info"></pre>
 					<div id="collection-response-error" class="alert alert-warning"></div>
@@ -103,10 +110,11 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<form class="form-vertical">
-					<h2>Test FirebaseDB "model" methods</h2>
-					<input type="text" name="model-urn" id="model-urn" value="/test-node/items/:key" class="form-control">
+					<h2>Test "ObjectReflection" methods</h2>
+					<input type="text" name="model-urn" id="model-urn" value="/test-node/models" class="form-control">
 					<input type="text" name="model-data" id="model-data" placeholder="JSON data" value='{"attr1":"some text 1", "attr2": 9}' class="form-control">
-					<input type="text" name="item-key" id="item-key" value="id1" class="form-control">
+					<input type="text" name="model-item-key" id="model-item-key" value="id1" class="form-control">
+					<button class="btn btn-default" id="btn-enum-models">enumModels</button>
 					<button class="btn btn-default" id="btn-save-model">saveModel</button>
 					<button class="btn btn-default" id="btn-update-model">updateModel</button>
 					<button class="btn btn-default" id="btn-load-model">loadModel</button>
@@ -125,8 +133,8 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<form class="form-vertical">
-					<h2>Test Media Service (Combined DB + filestorage)</h2>
-					<input type="text" name="ms-urn" id="ms-urn" value="/media-storage/items" class="form-control">
+					<h2>Test MultiMedia Service (Combined DB + filestorage)</h2>
+					<input type="text" name="ms-urn" id="ms-urn" value="/test-media-storage/items" class="form-control">
           <form id="image-form" action="#">
 						<input type="file" name="ms-file" id="ms-file" accept="image/*">
 					</form>
@@ -178,7 +186,7 @@
 	<script type="text/javascript" src="../../vendor/underscore-min.js"></script>
 	<script type="text/javascript" src="../shared/underscore.ext.js"></script>
 	<script type="text/javascript" src="../../vendor/jquery-1.11.3.min.js"></script>
-	<!-- <script type="text/javascript" src="../../vendor/knockout-3.3.0.js"></script> -->
+	<script type="text/javascript" src="../../vendor/knockout-3.3.0.js"></script>
 	<!-- <script type="text/javascript" src="../../vendor/jquery-ui/jquery-ui.1.11.4.interactions.min.js"></script> -->
 	<!-- <script type="text/javascript" src="../../vendor/knockout-sortable.min.js"></script> -->
 	<!-- <script type="text/javascript" src="../shared/htmltemplate.js"></script> -->
@@ -193,10 +201,11 @@
 
 	<script type="text/javascript" src="../shared/io.js"></script>
 	<script type="text/javascript" src="../shared/node_modules/firebase/firebase.js"></script>
+	<script type="text/javascript" src="../shared/io.middleware.js"></script>
 <!-- <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script> -->
 
 	<script type="text/javascript" src="../shared/io.firebase.js"></script>
-	<script type="text/javascript" src="../shared/io.middleware.js"></script>
+	<!-- <script type="text/javascript" src="../shared/io.middleware.js"></script> -->
 
 <!-- 		<script type="text/javascript" src="../shared/io.extended.js"></script>
 	<script type="text/javascript" src="../shared/io.middleware.js"></script>
@@ -218,7 +227,7 @@
 -->
 	<script type="text/javascript">
 		// Firebase config:
-		var config = {
+		var fbsConfig = {
 			apiKey: "AIzaSyCYwYFEAnnXaVE-rDVUmEr5IXENEd9Ol24",
 			authDomain: "io-firebase-unittest.firebaseapp.com",
 			databaseURL: "https://io-firebase-unittest.firebaseio.com",
@@ -228,7 +237,7 @@
 
 		// Create transport, enproints, init Firebase:
 		var 
-			// epItem = IO.endpoint('/test-node/items'),
+			// epItem = IO.Endpoint('/test-node/items'),
 			// transport = IO.Transport('', {});
 
 			fbDatabase = IO.FirebaseDB('', {}),
@@ -244,6 +253,7 @@
 		function asJSON(data) {
 			if (typeof data === 'undefined') return 'nothing';
 			try {
+				// if (typeof data.toString === 'function') return data.toString()  
 				if (typeof data === 'object') return JSON.stringify(data);
 			} catch (e) {
 				console.warn(e)
@@ -282,8 +292,8 @@
 
 
 		$(function () {
-			fbDatabase.init(config);
-			fbStorage.init(config);
+			fbDatabase.init(fbsConfig);
+			fbStorage.init(fbsConfig);
 			console.log('page loaded: ', Date());
 			// Set status for Auth buttons:
 			// if (transport.isSigned()) {
@@ -350,10 +360,11 @@
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#db-urn').val(),
-						epItem = IO.endpoint(urn),
+						epItem = IO.Endpoint(urn),
+						rqOptions = {},
 						data = JSON.parse($('#data').val().trim());
 					
-					return epItem.create(fbDatabase, {'data': data});
+					return epItem.create(fbDatabase, rqOptions, data);
 				});
 			});
 
@@ -362,7 +373,8 @@
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#db-urn').val(),
-						epItem = IO.endpoint(urn);
+						epItem = IO.Endpoint(urn),
+						rqOptions = {};
 					
 					return epItem.read(fbDatabase, {});
 				});
@@ -373,10 +385,11 @@
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#db-urn').val(),
-						epItem = IO.endpoint(urn),
+						epItem = IO.Endpoint(urn),
+						rqOptions = {},
 						data = JSON.parse($('#data').val().trim());
 					
-					return epItem.update(fbDatabase, {'data': data});
+					return epItem.update(fbDatabase, rqOptions, data);
 				});
 			});
 
@@ -385,9 +398,10 @@
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#db-urn').val(),
-						epItem = IO.endpoint(urn);
+						epItem = IO.Endpoint(urn),
+						rqOptions = {};
 					
-					return epItem.delete(fbDatabase, {});
+					return epItem.delete(fbDatabase, rqOptions);
 				});
 			});
 
@@ -407,19 +421,22 @@
 						file = document.getElementById("storage-file").files[0],
 						// file = usrFile,
 						urn = $('#storage-urn').val().trim() + '/' + file.name,
-						epItem = IO.endpoint(urn),
-						rqData = JSON.parse($("#metadata").val().trim() || '{}');
-
-					rqData['uploadData'] = file;
-
-					console.log('Storage auth: ', fbStorage.isSigned());
-					console.log('File to upload: ', file, 'file is File -->', file instanceof File, 'file is Blob -->', file instanceof Blob, 'file is FileReader -->', file instanceof FileReader);
-					return epItem.create(fbStorage, {'data': rqData, 'onProgress': function (bytesTransferred, totalBytes) {
+						epItem = IO.Endpoint(urn),
+						customMetadata = JSON.parse($("#metadata").val().trim() || '{}'),
+						rqData = {
+							'uploadData': file,
+							'metadata':{}, 
+							'customMetadata': customMetadata
+						},
+						rqOptions = {'onProgress': function (bytesTransferred, totalBytes) {
 							// progress function
 							var progress = (bytesTransferred / totalBytes) * 100;
 							console.log('Upload is ' + progress + '% done');
-						}
-					});
+						}};
+
+					console.log('Storage auth: ', fbStorage.isSigned());
+					console.log('File to upload: ', file, 'file is File -->', file instanceof File, 'file is Blob -->', file instanceof Blob, 'file is FileReader -->', file instanceof FileReader);
+					return epItem.create(fbStorage, rqOptions, rqData);
 				});
 			});
 
@@ -429,9 +446,10 @@
 					var
 						file = document.getElementById("storage-file").files[0],
 						urn = $('#storage-urn').val().trim() + '/' + file.name,
-						epItem = IO.endpoint(urn);
+						epItem = IO.Endpoint(urn),
+						rqOptions = {};
 					
-					return epItem.read(fbStorage, {});
+					return epItem.read(fbStorage, rqOptions);
 				});
 			});
 
@@ -441,10 +459,15 @@
 					var
 						file = document.getElementById("storage-file").files[0],
 						urn = $('#storage-urn').val().trim() + '/' + file.name,
-						epItem = IO.endpoint(urn),
-						metadata = JSON.parse($("#metadata").val().trim() || '{}');
-					
-					return epItem.update(fbStorage, {'data': metadata});
+						epItem = IO.Endpoint(urn),
+						customMetadata = JSON.parse($("#metadata").val().trim() || '{}')
+						rqData = {
+							'metadata':{}, 
+							'customMetadata': customMetadata
+						},
+						rqOptions = {};
+
+					return epItem.update(fbStorage, rqOptions, rqData);
 				});
 			});
 
@@ -454,9 +477,10 @@
 					var
 						file = document.getElementById("storage-file").files[0],
 						urn = $('#storage-urn').val().trim() + '/' + file.name,
-						epItem = IO.endpoint(urn);
+						epItem = IO.Endpoint(urn),
+						rqOptions = {};
 					
-					return epItem.delete(fbStorage, {});
+					return epItem.delete(fbStorage, rqOptions);
 				});
 			});
 
@@ -464,81 +488,191 @@
 
 			// Firebase DB - high level methods ============
 			// Actions - Firebase DB
-			$('#btn-save-collection').click(function (evt) {
-				// saveCollection
-				return handleClick(this, evt, function () {
-					var
-						urn = $('#collection-urn').val(),
-						spItem = IO.service(urn).transport(fbDatabase),
-						data = JSON.parse($('#collection-data').val().trim());
 
-					return spItem.saveCollection(data);
-				});
-			});
+			// No such method now for Collection:
+			// $('#btn-save-collection').click(function (evt) {
+			// 	// saveCollection
+			// 	return handleClick(this, evt, function () {
+			// 		var
+			// 			urn = $('#collection-urn').val(),
+			// 			epItem = IO.Endpoint(urn),
+			// 			svc = IO.Service(epItem, fbDatabase),
+			// 			iCollection = IO.CollectionInterface(svc),
+			// 			data = JSON.parse($('#collection-item-data').val().trim());
+
+			// 		return iCollection.saveCollection(data);
+			// 	});
+			// });
 
 			$('#btn-load-collection').click(function (evt) {
 				// loadCollection
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#collection-urn').val(),
-						spItem = IO.service(urn).transport(fbDatabase),
-						value,
-						setter = function (response) {
-							if (typeof response === 'undefined') return value;
-							value = response;
-						},
-						itemFactory = function (item) {
-							return item;
-						};
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						iCollection = IO.CollectionInterface(svc),
+						value;
 					
-					return spItem.loadCollection(setter, itemFactory);
+					return iCollection.enum();
 				});
 			});
 
+			// collection-item-key
+			$('#btn-save-collection-item').click(function (evt) {
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#collection-urn').val(),
+						key = $('#collection-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						iCollection = IO.CollectionInterface(svc),
+						model = JSON.parse($('#collection-item-data').val().trim());
+					
+					return iCollection.save(key, model);
+				});
+			});
 
+			$('#btn-update-collection-item').click(function (evt) {
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#collection-urn').val(),
+						key = $('#collection-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						iCollection = IO.CollectionInterface(svc),
+						// model = new Model(JSON.parse($('#model-data').val().trim()));
+						model = JSON.parse($('#collection-item-data').val().trim());
+					
+					return iCollection.update(key, model);
+				});
+			});
+
+			$('#btn-load-collection-item').click(function (evt) {
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#collection-urn').val(),
+						key = $('#collection-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						iCollection = IO.CollectionInterface(svc);
+					
+					return iCollection.load(key);
+				});
+			});
+			
+			$('#btn-remove-collection-item').click(function (evt) {
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#collection-urn').val(),
+						key = $('#collection-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						iCollection = IO.CollectionInterface(svc);
+					
+					return iCollection.remove(key);
+				});
+			});
+
+			
+			// ^ End of Collection tests
+
+			// === Model definition for tests ===
+			Model.counter = 0;
 			function Model(data) {
+
+				data = data || {};
+				this.id = ko.observable(++Model.counter);
+				this.attr1 = ko.observable(data.attr1);
+				this.attr2 = ko.observable(data.attr2);
+
 				this.updateValues = function (data) {
-					this.attr1 = data.attr1;
-					this.attr2 = data.attr2;
+					this.attr1(data.attr1);
+					this.attr2(data.attr2);
 				}
+
 				this.toJS = function () {
+					var result = JSON.parse(JSON.stringify(ko.toJS(this)))
+					console.log('Serializing: ', this, result)
+					return result
 					// return {attr1: this.attr1, attr2: this.attr2}
-					var buff = {};
-					for (var name in this) {
-						buff[name] = this[name];
-					}
-					return buff;
+					// var buff = {};
+					// for (var name in this) {
+					// 	buff[name] = this[name];
+					// }
+					// return buff;
 				}
+
 				this.toString = function () {
-					return 'Model{'+this.attr1+', '+this.attr2+'}'
+					return 'Model{id: '+this.id()+', attr1:'+this.attr1()+', attr2:'+this.attr2()+'}'
 				}
-				if (data) this.updateValues(data)
 			}
+			// === ^ End of model ===
+
+			// === Create reflection ===
+			var MdReflection = IO.ObjectReflection(null);
+			MdReflection.toJS(function (obj) {
+				return obj.toJS()
+			})
+			MdReflection.fromJS(function (obj, data) {
+				obj.updateValues(data)
+				return obj;
+			})
+			MdReflection.itemFactory(function (data) {
+				return new Model(data)
+			})
+			MdReflection.makeKey(function (obj) {
+				return obj.id.peek()
+			})
+			// === ^ End of reflection ===
+
+			$('#btn-enum-models').click(function (evt) {
+				// loadModel
+				return handleClick(this, evt, function () {
+					var
+						urn = $('#model-urn').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						oRef = MdReflection.wrap(svc);
+					
+					console.log('oRef >>>', oRef, 'svc>>>', svc);
+					return oRef.enum();
+				});
+			});
+
 
 			$('#btn-save-model').click(function (evt) {
 				// saveModel
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#model-urn').val(),
-						key = $('#item-key').val(),
-						spItem = IO.service(urn).transport(fbDatabase),
+						key = $('#model-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						oRef = MdReflection.wrap(svc),
 						model = new Model(JSON.parse($('#model-data').val().trim()));
 					
-					return spItem.saveModel(key, model);
+					console.log('urn >>>', urn, 'oRef >>>', oRef, 'svc>>>', svc);
+					model.id(parseInt(key));
+					return oRef.save(model);
 				});
 			});
 
 			$('#btn-update-model').click(function (evt) {
-				// saveModel
+				// updateModel
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#model-urn').val(),
-						key = $('#item-key').val(),
-						spItem = IO.service(urn).transport(fbDatabase),
+						key = $('#model-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						oRef = MdReflection.wrap(svc),
 						// model = new Model(JSON.parse($('#model-data').val().trim()));
-						model = JSON.parse($('#model-data').val().trim());
+						model = new Model(JSON.parse($('#model-data').val().trim()));
 					
-					return spItem.updateModel(key, model);
+					console.log('oRef >>>', oRef, 'svc>>>', svc);
+					model.id(parseInt(key));
+					return oRef.update(model);
 				});
 			});
 
@@ -547,11 +681,15 @@
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#model-urn').val(),
-						key = $('#item-key').val(),
-						spItem = IO.service(urn).transport(fbDatabase),
+						key = $('#model-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						oRef = MdReflection.wrap(svc),
 						model = new Model();
 					
-					return spItem.loadModel(key, model);
+					console.log('oRef >>>', oRef, 'svc>>>', svc);
+					model.id(parseInt(key));
+					return oRef.load(model);
 				});
 			});
 			
@@ -560,10 +698,15 @@
 				return handleClick(this, evt, function () {
 					var
 						urn = $('#model-urn').val(),
-						key = $('#item-key').val(),
-						spItem = IO.service(urn).transport(fbDatabase);
+						key = $('#model-item-key').val(),
+						epItem = IO.Endpoint(urn),
+						svc = IO.Service(epItem, fbDatabase),
+						oRef = MdReflection.wrap(svc),
+						model = new Model();
 					
-					return spItem.remove(key);
+					console.log('oRef >>>', oRef, 'svc>>>', svc);
+					model.id(parseInt(key));
+					return oRef.remove(model);
 				});
 			});
 
@@ -576,22 +719,30 @@
 					var
 						file = document.getElementById("ms-file").files[0],
 						// file = usrFile,
-						urn = $('#ms-urn').val().trim() + '/:key',
-						key = file.name,
-						mediaService = IO.MediaService(urn, {}).setDefaultTransports(),
+						urn = $('#ms-urn').val().trim() + '/'+ file.name,
 
-						metadata = JSON.parse($("#ms-metadata").val().trim() || '{}');
+						mediaService = IO.MultiMediaDispatcher(fbDatabase, fbStorage),
+
+						customMetadata = JSON.parse($("#ms-metadata").val().trim() || '{}'),
+						rqData = {
+							'uploadData': file,
+							'metadata': {}, 
+							'customMetadata': customMetadata
+						},
+
+						rqOptions = {
+							'onProgress': function (bytesTransferred, totalBytes) {
+								// progress function
+								var progress = (bytesTransferred / totalBytes) * 100;
+								console.log('Upload is ' + progress + '% done');
+							}
+						};
 
 					console.log('Storage auth: ', fbStorage.isSigned());
-					console.log('urn: ', urn, 'key', key);
+					console.log('urn: ', urn);
 					console.log('File to upload: ', file, 'metadata -->', metadata);
 
-					return mediaService.createBlob(key, file, metadata, {'onProgress': function (bytesTransferred, totalBytes) {
-							// progress function
-							var progress = (bytesTransferred / totalBytes) * 100;
-							console.log('Upload is ' + progress + '% done');
-						}
-					});
+					return mediaService.create(urn, rqOptions, rqData);
 				});
 			});
 
@@ -600,11 +751,11 @@
 				return handleClick(this, evt, function () {
 					var
 						file = document.getElementById("ms-file").files[0],
-						urn = $('#ms-urn').val().trim() + '/:key',
-						key = file.name,
-						mediaService = IO.MediaService(urn, {}).setDefaultTransports();
+						urn = $('#ms-urn').val().trim() + '/'+ file.name,
+
+						mediaService = IO.MultiMediaDispatcher(fbDatabase, fbStorage);
 					
-					return mediaService.loadModel(key, {});
+					return mediaService.read(urn, {});
 				});
 			});
 
@@ -613,12 +764,18 @@
 				return handleClick(this, evt, function () {
 					var
 						file = document.getElementById("ms-file").files[0],
-						urn = $('#ms-urn').val().trim() + '/:key',
-						key = file.name,
-						mediaService = IO.MediaService(urn, {}).setDefaultTransports(),
-						metadata = JSON.parse($("#ms-metadata").val().trim() || '{}');
+						urn = $('#ms-urn').val().trim() + '/'+ file.name,
+
+						mediaService = IO.MultiMediaDispatcher(fbDatabase, fbStorage),
+
+						customMetadata = JSON.parse($("#ms-metadata").val().trim() || '{}'),
+						rqData = {
+							'metadata': {}, 
+							'customMetadata': customMetadata
+						},
+						rqOptions = null;
 					
-					return mediaService.updateModel(key, metadata);
+					return mediaService.update(urn, rqOptions, rqData);
 				});
 			});
 
@@ -627,11 +784,11 @@
 				return handleClick(this, evt, function () {
 					var
 						file = document.getElementById("ms-file").files[0],
-						urn = $('#ms-urn').val().trim() + '/:key',
-						key = file.name,
-						mediaService = IO.MediaService(urn, {}).setDefaultTransports();
+						urn = $('#ms-urn').val().trim() + '/'+ file.name,
+
+						mediaService = IO.MultiMediaDispatcher(fbDatabase, fbStorage);
 					
-					return mediaService.remove(key, {});
+					return mediaService.delete(urn, {});
 				});
 			});
 

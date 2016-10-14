@@ -1,0 +1,157 @@
+<!-- DEVELOPMENT FRAGMENT-->
+<!DOCTYPE html>
+<html>
+	<head>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <title>YS Playback</title>
+
+        <link rel="stylesheet" href="../../vendor/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../../css/starterkit.css" />
+
+        <link rel="stylesheet" href="../../css/fix.css" />
+
+        
+        <!-- COMPOSER: -->
+        <!-- <link rel="stylesheet" href="composer.css" /> -->
+        <!-- <link rel="stylesheet" href="display-grid.css" /> -->
+        <link rel="stylesheet" href="../../css/rtl.css" />
+        <link rel="stylesheet" href="../../css/listview.css" />
+        <link rel="stylesheet" href="../../css/dialogs.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/main.css">
+        <link rel="stylesheet" href="../../css/theme.css" />
+
+		<!-- SCRIPTS -->
+
+<!--
+ 		<script type="text/javascript" src="../../vendor/"></script>
+
+		<script type="text/javascript" src="../shared/"></script>
+
+		<script type="text/javascript" src="../viewmodels/"></script>
+ -->
+
+		<script type="text/javascript">
+			MODULES = {};
+			MODULES.ko_mapping = null;
+		</script>
+
+
+		<script type="text/javascript" src="../shared/config.js"></script>
+
+		<script type="text/javascript">
+			// redefine constants for tet environment:
+			MODULES.config.templatesRoot = '../';
+			MODULES.config.mediaRoot = '../../api/media'
+		</script>
+
+		<!-- vendor and extensions -->
+		
+		<!-- Promise polyfill: -->
+		<script type="text/javascript" src="../../vendor/es6-promise.auto.js"></script>
+
+		<script type="text/javascript" src="../../vendor/json2.js"></script>
+		<script type="text/javascript" src="../../vendor/underscore-min.js"></script>
+		<script type="text/javascript" src="../shared/underscore.ext.js"></script>
+		<script type="text/javascript" src="../../vendor/jquery-1.11.3.min.js"></script>
+		<!-- <script type="text/javascript" src="../../vendor/knockout-3.3.0.js"></script> -->
+		<script type="text/javascript" src="../../vendor/jquery-ui/jquery-ui.1.11.4.interactions.min.js"></script>
+		<!-- <script type="text/javascript" src="../../vendor/knockout-sortable.min.js"></script> -->
+		<!-- <script type="text/javascript" src="../shared/htmltemplate.js"></script> -->
+
+		<!-- my -->
+
+		<script type="text/javascript" src="../shared/message.bus.js"></script>
+		<!-- <script type="text/javascript" src="../shared/ko.ext.js"></script> -->
+
+		<!-- <script type="text/javascript" src="../shared/ui.proxy.js"></script> -->
+
+		<script type="text/javascript" src="../shared/io.js"></script>
+		<script type="text/javascript" src="../../vendor/firebase/firebase.js"></script>
+		<script type="text/javascript" src="../shared/io.firebase.js"></script>
+
+		<!-- <script type="text/javascript" src="../../vendor/amplify-1.1.2/amplify.js"></script> -->
+		<!-- <script type="text/javascript" src="../shared/io.extended.js"></script> -->
+		<script type="text/javascript" src="../shared/io.middleware.js"></script>
+
+		<script type="text/javascript" src="../shared/rtl.js"></script>
+
+<!-- 		<script type="text/javascript" src="../templates/composer/output-snippets.js"></script>
+
+		<script type="text/javascript" src="../viewmodels/model-base.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-asset.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-timeline.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-display.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-exposition.js"></script>
+ -->
+<!-- 		<script type="text/javascript" src="../viewmodels/model-channel.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-device.js"></script>
+		<script type="text/javascript" src="../viewmodels/model-user.js"></script>
+ -->
+
+		<!-- <script type="text/javascript" src="../shared/EndpointsCfg.js"></script> -->
+		<script type="text/javascript" src="../templates/grids/all.js"></script>
+
+		<!-- <script type="text/javascript" src="../viewmodels/events.js"></script> -->
+
+
+		<!-- <script type="text/javascript" src="../viewmodels/storage-reflections.js"></script> -->
+		<!-- <script type="text/javascript" src="../viewmodels/io-config.js"></script> -->
+
+		<!-- <script type="text/javascript" src="../viewmodels/model-composer.js"></script> -->
+
+		<script type="text/javascript">
+			$(function () {
+				// Retrieve url via coockie...
+				// here: from url variable:
+				var exposureId = _.getQueryVariable('xpId');
+				// var exposureId = 'a0gshb39pqp58fdgqvypxj';
+				var epXp = IO.Endpoint('records');
+				var _cfg = MODULES.config;
+				var _dataTsp = IO.Transport.factory(_cfg.storages.db, {}).init(_cfg.storages.config);
+				var srvXp = IO.Service(epXp, _dataTsp);
+				var player = new window.rtl('#display');
+
+				srvXp.signIn().then(function () {
+						srvXp.child(exposureId).read().then(function (response) {
+							console.log('data retrieved:', response);
+							var json = response['json'];
+							console.log('json is:', json);
+							player.fromJSON(json);
+							// player.initScene();
+							player.run();
+
+						})
+						.catch(function (reason) {
+							console.warn('Error occurs: ', reason);
+						});
+				})
+				.catch(function (reason) {
+					console.warn('Auth error??? ', reason);
+				})
+
+				
+			});
+		</script>
+
+
+	</head>
+<body>
+<!-- DEVELOPMENT FRAGMENT-->
+<!-- INCLUDE -->
+		<div id="status" style="position:absolute;margin:0;padding:0;width:100%;height:10%;"></div>
+		<div id="display" style="position:absolute;margin:0;padding:0;width:100%;height:90%;"></div>
+
+<!-- INCLUDE -->
+
+<!-- DEVELOPMENT FRAGMENT-->
+</body>
+</html>
+<!-- DEVELOPMENT FRAGMENT-->
