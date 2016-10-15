@@ -17,7 +17,7 @@
 }
 body {
   font-family: 'Lato', Arial;
-  color: #318628;
+  color: #45BC48;
   -webkit-font-smoothing: antialiased;
 }
 a {
@@ -39,12 +39,12 @@ h6,
 .h4,
 .h5,
 .h6 {
-  color: #318628;
+  color: #45BC48;
 }
 header .navbar-default {
   background: none;
   border: none;
-  padding-top: 20px;
+  padding-top: 40px;
   padding-bottom: 20px;
   -webkit-transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
@@ -53,21 +53,21 @@ header .navbar-default {
   transition: all 0.25s ease-in-out;
 }
 header .navbar-default.navbar-fixed-top {
-  /*background-color: rgba(10,10,10,0.5);*/
+  background-color: rgba(10,10,10,0.5);
   /* Old browsers */
-  background: -moz-linear-gradient(180deg, rgba(57,100,110,0.8) 0%, rgba(255,255,255,0.0) 100%);
+  background: -moz-linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.0) 100%);
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(57,100,110,0.8)), color-stop(100%, rgba(255,255,255,0.0)));
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(10,10,10,0.8)), color-stop(100%, rgba(10,10,10,0.0)));
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(180deg, rgba(57,100,110,0.8) 0%, rgba(255,255,255,0.0) 100%);
+  background: -webkit-linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.0) 100%);
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(180deg, rgba(57,100,110,0.8) 0%, rgba(255,255,255,0.0) 100%);
+  background: -o-linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.0) 100%);
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(180deg, rgba(57,100,110,0.8) 0%, rgba(255,255,255,0.0) 100%);
+  background: -ms-linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.0) 100%);
   /* IE10+ */
-  background: linear-gradient(180deg, rgba(57,100,110,0.8) 0%, rgba(255,255,255,0.0) 100%);
+  background: linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.0) 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=rgba(57,100,110,0.8), endColorstr=rgba(255,255,255,0.0), GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=rgba(10,10,10,0.8), endColorstr=rgba(10,10,10,0.0), GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
 
 }
@@ -84,8 +84,6 @@ header .navbar-default ul.navbar-nav li a {
   -ms-transition: all 0.25s ease-in-out;
   -o-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out;
-  /*Make text readable on a bright backgrounds:*/
-  text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
 }
 header .navbar-default ul.navbar-nav li a:after {
   content: '';
@@ -220,12 +218,12 @@ header .navbar-default.scrolled ul.navbar-nav {
 }
 .section-heading.inverse h1,
 .section-heading.inverse p {
-  color: #ffffff;
-  /*color: #318628;*/
+  /*color: #ffffff;*/
+  color: #45BC48;
 }
 .section-heading.inverse .divider:after {
-  background: #ffffff;
-  /*background: #318628;*/
+  /*background: #ffffff;*/
+  background: #45BC48;
 }
 section#about {
   position: relative;
@@ -321,7 +319,7 @@ section#reviews .review-filtering .review .review-comment h3 {
 }
 section#reviews .review-filtering .review .review-comment p {
   font-size: 16px;
-  color: #777777;
+  color: #999999;
 }
 section#reviews .review-filtering .review .review-comment p span {
   margin-left: 10px;
@@ -396,7 +394,7 @@ section#getApp .slider div h4 {
   padding-bottom: 10px;
 
   /*color: #ffb139;*/
-  /*background-color: #318628;*/
+  /*background-color: #45BC48;*/
   background-color: rgba(5,5,5,0.8);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -497,7 +495,7 @@ section#getApp {
   padding: 70px 0;
 }
 section#getApp .platforms {
-  margin: 5px auto 60px auto;
+  margin: 5px auto 120px auto;
   text-align: center;
 }
 section#getApp .platforms .btn {
@@ -539,7 +537,7 @@ footer {
   text-align: center;
 }
 footer a > img.logo {
-  width: 300px;
+  width: 200px;
 }
 footer .social {
   display: block;
@@ -840,27 +838,27 @@ form textarea.form-control {
   }
 }
 header {
-  background-color: #318628;
-  /*background-image: url(../img/japan-1.png);*/
+  background-color: #45BC48;
+  background-image: url(../img/japan-1.png);
   /*background-image: url(../img/grass2.jpg);*/
   background-size: cover;
   /*#FF9A00*/
   /*#C57700*/
-  /*background: #318628;*/
+  /*background: #45BC48;*/
   /* Old browsers */
-  background: -moz-linear-gradient(0deg, #318628 0%, #65B633 100%);
+  background: -moz-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #318628), color-stop(100%, #65B633));
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #45BC48), color-stop(100%, #89EE78));
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(0deg, #318628 0%, #65B633 100%);
+  background: -webkit-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(0deg, #318628 0%, #65B633 100%);
+  background: -o-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(0deg, #318628 0%, #65B633 100%);
+  background: -ms-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* IE10+ */
-  background: linear-gradient(0deg, #318628 0%, #65B633 100%);
+  background: linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#318628, endColorstr=#65B633, GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#45BC48, endColorstr=#89EE78, GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
 }
 header .navbar-default ul.navbar-nav li a {
@@ -869,41 +867,33 @@ header .navbar-default ul.navbar-nav li a {
 }
 
 header .navbar-default.scrolled ul.navbar-nav li a.getApp {
-  color: rgba(255,255,255,1.0);
+  color: #333333;
 }
 header .navbar-default.scrolled ul.navbar-nav li a.getApp:hover {
-  color: rgba(0,0,0,1.0);
+  color: #333333;
 }
 
-header .navbar-default ul.navbar-nav li a.getApp, 
-.news-layer .btn.btn-primary, 
-section#reviews .btn.btn-primary {
-  color: #ffffff;
-  /*background: #ffffff;*/
-
-
-  background: #65B633;
+header .navbar-default ul.navbar-nav li a.getApp {
+  color: #333333;
+  background: #89EE78;
   /* Old browsers */
-  background: -moz-linear-gradient(180deg, #65B633 0%, #318628 100%);
+  /*background: -moz-linear-gradient(180deg, #FFC263 0%, #e0e0e0 100%);*/
   /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #65B633), color-stop(100%, #318628));
+  /*background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #FFC263), color-stop(100%, #e0e0e0));*/
   /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(180deg, #65B633 0%, #318628 100%);
+  /*background: -webkit-linear-gradient(180deg, #FFC263 0%, #e0e0e0 100%);*/
   /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(180deg, #65B633 0%, #318628 100%);
+  /*background: -o-linear-gradient(180deg, #FFC263 0%, #e0e0e0 100%);*/
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(180deg, #65B633 0%, #318628 100%);
+  /*background: -ms-linear-gradient(180deg, #FFC263 0%, #e0e0e0 100%);*/
   /* IE10+ */
-  background: linear-gradient(180deg, #65B633 0%, #318628 100%);
+  /*background: linear-gradient(180deg, #FFC263 0%, #e0e0e0 100%);*/
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#65B633, endColorstr=#318628, GradientType=1);
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFC263, endColorstr=#e0e0e0, GradientType=1);*/
   /* IE6-9 fallback on horizontal gradient */
 }
-header .navbar-default ul.navbar-nav li a.getApp:hover, 
-.news-layer .btn.btn-primary:hover,
-section#reviews .btn.btn-primary:hover {
-  color: rgba(0,0,0,1.0);
-  text-shadow: none;
+header .navbar-default ul.navbar-nav li a.getApp:hover {
+  color: #555555;
   background: #ffffff;
   /* Old browsers */
   background: -moz-linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
@@ -935,62 +925,59 @@ header .navbar-default ul.navbar-nav li a:hover {
   transition: all 0.25s ease-in-out;
 }
 header .navbar-default.scrolled {
-  border-bottom: 3px solid #65B633;
+  border-bottom: 3px solid #89EE78;
 }
 header .navbar-default.scrolled ul.navbar-nav li a {
-  /*color: #65B633;*/
-  color: #ececec;
+  color: #89EE78;
 }
 header .navbar-default.scrolled ul.navbar-nav li a:hover {
-  /*color: #65B633;*/
-  color: #ffffff;
+  color: #89EE78;
 }
 header .navbar-default.scrolled ul.navbar-nav li a:hover:after {
-  /*background: #65B633;*/
-  background: #ffffff;
+  background: #89EE78;
 }
 header .navbar-default.scrolled .navbar-brand {
   /*background: #-318824;*/ /*old-green*/
   /*background: #25d500;*/
-  background: #318628;
+  background: #45BC48;
 }
 section .section-heading .divider:after {
-  background: #318628;
+  background: #45BC48;
 }
 section#about .about-item i.fa {
-  border: 2px solid #318628;
-  color: #318628;
+  border: 2px solid #45BC48;
+  color: #45BC48;
 }
 section#about .about-item:hover i.fa {
   color: #ffffff;
-  background: #318628;
+  background: #45BC48;
 }
 section#about .about-item:hover h3 {
-  color: #318628;
+  color: #45BC48;
 }
 section#features {
   background: #f6f6f6;
 }
 section#features header h1:after {
-  background: #318628;
+  background: #45BC48;
 }
 section#features .media i.fa {
-  border: 2px solid #318628;
-  color: #318628;
+  border: 2px solid #45BC48;
+  color: #45BC48;
 }
 section#features .media:hover i.fa {
   color: #ffffff;
-  background: #318628;
+  background: #45BC48;
 }
 section#features .media:hover h3 {
-  color: #318628;
+  color: #45BC48;
 }
 section#features .media.active i.fa {
   color: #ffffff;
-  background: #318628;
+  background: #45BC48;
 }
 section#features .media.active .media-heading {
-  color: #318628;
+  color: #45BC48;
 }
 section#reviews {
   background: url("../img/japan-1.png");
@@ -1009,11 +996,10 @@ section#reviews .review-filtering .review .review-comment {
   background: #ffffff;
 }
 section#reviews .review-filtering .review .review-comment h3 {
-  /*color: #318628;*/
-  color: #CB8D5D;
+  color: #45BC48;
 }
 section#reviews .review-filtering .review .review-comment p span i {
-  color: #318628;
+  color: #45BC48;
 }
 section#reviews .review-filtering .review .review-comment:after {
   border-right-color: #ffffff;
@@ -1023,11 +1009,11 @@ section#reviews .review-filtering .slick-dots li button {
   border: 2px solid #ffffff;
 }
 section#reviews .review-filtering .slick-dots li.slick-active button {
-  background: #318628;
+  background: #45BC48;
 }
 section#screens header h1:after,
 section#getApp header h1:after {
-  background: #318628;
+  background: #45BC48;
 }
 section#getApp h2, 
 section#getApp p {
@@ -1059,7 +1045,7 @@ section#getApp .slider .slick-dots li button {
 }
 section#screens .slider .slick-dots li.slick-active button,
 section#getApp .slider .slick-dots li.slick-active button {
-  background: #318628;
+  background: #45BC48;
 }
 section#screens .filter a,
 section#getApp .filter a {
@@ -1069,21 +1055,21 @@ section#getApp .filter a {
 section#screens .filter a:hover,
 section#getApp .filter a:hover {
   color: #ffffff;
-  background: #318628;
-  border-color: #318628;
+  background: #45BC48;
+  border-color: #45BC48;
 }
 section#screens .filter a.active,
 section#getApp .filter a.active {
-  color: #ffffff;
-  background: #318628;
-  border-color: #318628;
+  color: #fffa39;
+  background: #45BC48;
+  border-color: #45BC48;
 }
 /* demo video Section */
 section#demo {
   background: #f6f6f6;
 }
 section#demo header h1:after {
-  background: #318628;
+  background: #45BC48;
 }
 /* Get app Section */
 section#getApp {
@@ -1111,48 +1097,45 @@ section#getApp .platforms .media:hover {
 }
 section#getApp .platforms .media:hover a i,
 section#getApp .platforms .media:hover a div.media-body {
-  color: #318628;
+  color: #45BC48;
 }
 /* support section */
 section#support header h1:after {
-  background: #318628;
+  background: #45BC48;
 }
 section#support .media i.fa {
-  border: 2px solid #318628;
-  color: #318628;
+  border: 2px solid #45BC48;
+  color: #45BC48;
 }
 section#support .media a {
-  color: #318628;
+  color: #45BC48;
 }
 section#support .media:hover i.fa {
   color: #ffffff;
-  background: #318628;
+  background: #45BC48;
 }
 section#support .media:hover h3 {
-  color: #318628;
+  color: #45BC48;
 }
 /* footer section */
-footer, section#reviews, section#getApp, body>header {
+footer {
   /*background-image: url(../img/sunshine4.jpg);*/
   /*background-size: cover;*/
-
-  background: #318628;
-  background-image: url(../img/1.jpg);
-  background-size: cover;
+  /*background: #45BC48;*/
   /* Old browsers */
-  /*background: -moz-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  background: -moz-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* FF3.6+ */
-  /*background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #318628), color-stop(100%, #65B633));*/
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #45BC48), color-stop(100%, #89EE78));
   /* Chrome,Safari4+ */
-  /*background: -webkit-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  background: -webkit-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* Chrome10+,Safari5.1+ */
-  /*background: -o-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  background: -o-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* Opera 11.10+ */
-  /*background: -ms-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  background: -ms-linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* IE10+ */
-  /*background: linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  background: linear-gradient(-45deg, #45BC48 0%, #89EE78 100%);
   /* W3C */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#318628, endColorstr=#65B633, GradientType=1);*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#45BC48, endColorstr=#89EE78, GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
 }
 footer .social a {
@@ -1165,7 +1148,7 @@ footer .social a:hover {
   background: #ffffff;
 }
 footer .social a:hover i {
-  color: #318628;
+  color: #45BC48;
 }
 footer .rights {
   color: #ffffff;
@@ -1180,13 +1163,13 @@ footer .rights a {
   border: 1px solid rgba(0, 0, 0, 0);
 }
 .btn.btn-primary {
-  color: #318628;
-  border-color: #318628;
+  color: #45BC48;
+  border-color: #45BC48;
 }
 .btn.btn-primary:hover {
   color: #ffffff;
-  background: #318628;
-  border-color: #318628;
+  background: #45BC48;
+  border-color: #45BC48;
 }
 .btn.btn-primary.inverse {
   color: #ffffff;
@@ -1194,8 +1177,8 @@ footer .rights a {
 }
 .btn.btn-primary.inverse:hover {
   color: #ffffff;
-  background: #318628;
-  border-color: #318628;
+  background: #45BC48;
+  border-color: #45BC48;
 }
 .btn.btn-default {
   background: #ffffff;
@@ -1220,7 +1203,7 @@ footer .rights a {
   color: #FF9A00;
 }
 form .form-control:focus {
-  border-color: #318628;
+  border-color: #45BC48;
   color: #999999;
 }
 @media screen and (max-width: 640px) {
@@ -1239,7 +1222,7 @@ form .form-control:focus {
     display: none;
   }
   header .navbar-default ul.navbar-nav li a:hover {
-    color: #318628;
+    color: #45BC48;
   }
   header .navbar-default .navbar-collapse {
     background: #FF9A00;
@@ -1251,7 +1234,7 @@ form .form-control:focus {
     color: #ffffff;
   }
   header .navbar-default.scrolled ul.navbar-nav li a:hover {
-    color: #318628;
+    color: #45BC48;
   }
 }
 .pre-loader {
@@ -1292,102 +1275,8 @@ box-shadow: 0px 0px 30px 0px rgba(255,255,255,1);
 */}
 
 section#contacts *.fa {
-  color: #318628;
+  color: #33ab87;
 }
 section#contacts a {
-  color: #318628;
+  color: #33ab87;
 }
-
-/*Override round "bullets" in the slider*/
-.tp-bullets.simplebullets.round .bullet {
-    border: 2px solid rgba(255,255,255,1);
-    border-radius: 50%;
-    /*background: transparent;*/
-    /*background-color: rgba(200,91,95,1.0);*/
-    background-color: #CB8D5D;
-    background-image: none;
-}
-.tp-bullets.simplebullets.round .bullet.selected {
-    /*background-color: rgba(78,0,4,0.9);*/
-    background-color: #4F2200;
-}
-.tp-bullets.simplebullets.round .bullet:hover {
-    background-color: rgba(255,255,255,0.9);
-}
-
-/*News float layer inside slideshow:*/
-.tp-simpleresponsive .tp-caption.news-layer {
-    bottom: 100px;
-    display: block;
-    min-height: 150px;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    background: rgba(255,255,255,0.7);
-    padding: 20px;
-    /*Mage margins for pager buttons on the left/right: */
-    padding-left: 100px;
-    padding-right: 100px;
-    margin: 0;
-    overflow: hidden;  
-}
-.tp-simpleresponsive .tp-caption.news-layer * {
-    color: rgba(0,0,0,0.8);
-    text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
-}
-.news-layer .btn.btn-primary, section#reviews .btn.btn-primary {
-  color: rgba(255,255,255,1.0);
-  border: none;
-}
-/*.news-layer .btn.btn-primary {
-  font-weight: 600;
-  color: rgba(78,0,4,0.9);
-  border-color: rgba(255,255,255,1.0);
-  background: rgba(200,91,95,1.0);
-
-  text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
-}
-*/
-/*Menu coloring*/
-/*header .navbar-default ul.navbar-nav li a:after {
-  color: rgba(255,255,255,0.9);
-}
-header .navbar-default ul.navbar-nav li a::after {
-  border-color: rgba(85,167,76,0.9);
-  color: red;
-}
-header .navbar-default ul.navbar-nav li a:hover {
-  border-color: rgba(85,167,76,0.9);
-}
-*/
-*
-section#getApp, footer, body>header {
-  /*background: #78992e;*/
-  background: url(../img/grass_bokeh.jpg);
-  background-size: cover;
-}
-
-section#reviews {
-  background: url(../img/canvas-sg-04.jpg);
-  background-size: cover; 
-}
-
-footer {
-  text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
-}
-
-section#reviews h1 {
-  color: #318628;
-  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8);
-}
-/*Underline after H1:*/
-section#features .divider:after,
-section#reviews .divider:after {
-  color: #CB8D5D;
-  border-color: #CB8D5D;
-  background-color: #CB8D5D;
-  text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);
-}
-/*footer {
-  background: #78992E;
-}*/
