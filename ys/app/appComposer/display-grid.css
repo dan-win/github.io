@@ -41,6 +41,7 @@ Styles for display partitioning preview control
 	background-color: gray;
 	padding: 2px;
 	border: 1px solid #cccccc;
+	color: #cccccc;
 }
 
 .ctrl-display-grid-preview div.DDA-splitter {
@@ -48,14 +49,18 @@ Styles for display partitioning preview control
 	width: 100%;
 }
 
-.ctrl-display-grid-preview div.DDA:hover {
+.ctrl-display-grid-preview div.DDA:hover,
+.ctrl-display-grid-preview div.DDA.active:hover {
 	border: 1px solid #ffac25;
+	color: #ffffff;
 }
 
-.ctrl-display-grid-preview div.active {
+.ctrl-display-grid-preview div.DDA.active {
 	left: -1px;
 	top:-1px;
 	border: 2px solid #aaaaaa;
+	background-color: #555555;
+	color: #eeeeee;
 	
 	box-shadow:          2px 2px 5px 0px rgba(0, 0, 0, 0.69);
 	-webkit-box-shadow:  2px 2px 5px 0px rgba(0, 0, 0, 0.69);

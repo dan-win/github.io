@@ -77,6 +77,33 @@ define([
 	// 	}
 	// 	return en;
 	// }
+	
+	// Redefine enumGridsGallery: scan embedded <script/> templates
+	var enumGridsGallery = function () {
+		console.log('Running enumeration:::');
+		var $collection = jQuery('[data-template-type="screen-interior"]');
+		var result = [];
+		function decodeTemplate($el) {
+			return {
+				'id': $el.attr('id'),
+				'label': $el.attr('data-label'),
+				'filename': null,
+				'html':$el.html()
+			}
+		}
+		$collection.each(function (el) {
+			var data = decodeTemplate($(this));
+			var arg = {};
+			arg[data.id] = data;
+			// To-do: refctor that:
+			result.push(new libDisplay.GridTemplateInfo(arg, data.id))
+		});
+
+		return result;
+		// if (id == '__moduleId__') continue;
+		// en.push( new GridTemplateInfo(GRID_STORAGE, id) );
+
+	}
 
 	var DialogTextBox = function () {
 		return window.dialogWindow.fromTemplate('dialog-textbox-template')
@@ -718,7 +745,7 @@ define([
 
 			console.log('Starting dialog...');
 			DialogLayout().show(setupDialog).then(function (response) {
-				if(_.isNull(response)) return;
+				if(!response) return;
 				self.ActiveLayer.peek().TemplateInfo(dialogLayoutModel.TemplateInfo.peek());
 				// ko._traverseTree_(self, ['ActiveLayer', 'TemplateInfo']) (dialogLayoutModel.TemplateInfo.peek());
 				console.log('selected template: ', response);

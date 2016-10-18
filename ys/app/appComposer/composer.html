@@ -720,6 +720,7 @@
 </script>
 
 <!-- DIALOGS templates-->
+<!-- String input dialog -->
 <script type="text/html" id="dialog-textbox-template">
 	<!--dialog-textbox.html-->
 	<div class="modal-content">
@@ -750,6 +751,7 @@
 </script>
 
 
+<!-- Layout dialog -->
 <script type="text/html" id="dialog-layout-template">
 	<div class="modal-content">
 		<div class="modal-header">
@@ -790,29 +792,53 @@
 
 <!-- OUTPUT INTERIOR templates-->
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	MODULES.templates_grids_all = {
 		'default': {
-				label:'Default', 
+				label:'Default (Single Frame)', 
 				filename:'default', 
 				media:[], 
 				templateId: 'screen-template-default'},
 		'decorated': {
-				label:'Decorated', 
+				label:'Decorated (4 frames)', 
 				filename: 'decorated', 
-				templateId: 'screen-template-decorated'}
+				templateId: 'screen-template-decorated'},
+		'double-vertical': {
+				label:'Vertical Split (2 frames)', 
+				templateId: 'screen-template-double-v'},
+		'double-horizontal': {
+				label:'Horizontal Split (2 frames)', 
+				templateId: 'screen-template-double-h'}
 	}
 </script>
-
-<script type="text/html" id="screen-template-default">
+ -->
+<script type="text/html" id="screen-template-default" 
+	data-template-type="screen-interior"
+	data-label="Default (Single Frame)">
 	<div class="DDA" id="frame1" style="position:absolute;left:0;top:0;width:100%;height:100%;">Main Frame</div>
 </script>
 
-<script type="text/html" id="screen-template-decorated">
-	<div  id="frame1" class="DDA" style="position:absolute;top:0;left:0;height:60%; width:60%;">Frame #1.1</div>
-	<div  id="frame2"class="DDA" style="position:absolute;top:0;left:60%;height:60%; width:30%;">Frame #1.2</div>
-	<div  id="frame3" class="DDA" style="position:absolute;top:60%;left:0;height:30%; width:60%;">Frame #2.1</div>
-	<div  id="frame4" class="DDA" style="position:absolute;top:60%;left:60%;height:30%; width:30%;">Frame #2.2</div>	
+<script type="text/html" id="screen-template-decorated" 
+	data-template-type="screen-interior"
+	data-label="Decorated (4 frames)">
+	<div  id="frame1" class="DDA" style="position:absolute;top:0;left:0;height:70%; width:70%;">Frame #1.1</div>
+	<div  id="frame2"class="DDA" style="position:absolute;top:0;left:70%;height:70%; width:30%;">Frame #1.2</div>
+	<div  id="frame3" class="DDA" style="position:absolute;top:70%;left:0;height:30%; width:70%;">Frame #2.1</div>
+	<div  id="frame4" class="DDA" style="position:absolute;top:70%;left:70%;height:30%; width:30%;">Frame #2.2</div>	
+</script>
+
+<script type="text/html" id="screen-template-double-v" 
+	data-template-type="screen-interior"
+	data-label="Vertical Split (2 frames)">
+	<div  id="frame1" class="DDA" style="position:absolute;top:0;left:0;height:100%; width:70%;">Frame #1.1</div>
+	<div  id="frame2"class="DDA" style="position:absolute;top:0;left:70%;height:100%; width:30%;">Frame #1.2</div>
+</script>
+
+<script type="text/html" id="screen-template-double-h" 
+	data-template-type="screen-interior"
+	data-label="Horizontal Split (2 frames)">
+	<div  id="frame1" class="DDA" style="position:absolute;top:0;left:0;height:70%; width:100%;">Frame #1.1</div>
+	<div  id="frame2" class="DDA" style="position:absolute;top:70%;left:0%;height:30%; width:100%;">Frame #1.2</div>
 </script>
 
 <!-- INCLUDE -->

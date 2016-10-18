@@ -156,11 +156,13 @@ define([
 		self.filename = _.assertDefined(storage[id]['filename'], 
 			'Error in grid gallery: filename missed for id "'+id+'" ');
 		self.templateId = storage[id].templateId;
+		self.html = storage[id]['html']
 		console.log('gridTemplateInfo >>>', storage[id]);
 	}
 
 	var enumGridsGallery = function () {
 		var en = [];
+		// try to load from embedded templates:
 		for (var id in GRID_STORAGE) {
 			// fix for Durandal's __moduleId__:
 			if (id == '__moduleId__') continue;
@@ -276,6 +278,12 @@ define([
 				templateDomId = _rec.templateId;
 
 			console.log('request: gridTemplateInfo:', gridTemplateInfo);
+			// Try to load directly from gridTemplateInfo (if property "html" exists)
+			if (_rec.html) {
+				console.log(_rec.html)
+				self.HTML(_rec.html);
+				return;
+			}
 			// Try to load from DOM (if template with id "screen-template-<PresetID>" exists")
 			var node = document.getElementById('screen-template-'+_rec.PresetID);
 			if (node) {
@@ -425,7 +433,8 @@ define([
 			self.AspectRatio,
 			], 'Playlist - observe changes');
 
-		ko._observeChanges_('ntf_ViewChanged', [
+		ko._observeChanges_(handleChanged, [
+			'ntf_ViewChanged', 
 			self.AspectRatio,
 			self.Layers,
 			], 'Playlist - observe changes');
