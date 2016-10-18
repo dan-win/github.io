@@ -240,30 +240,33 @@ define(['knockout', 'jquery'], function(ko, $){
 		})
 
 		// Grid preview pane
-
+		$('#layout-palette').on('click', '.DDA', function () {
+			console.log(this)
+		})
 		// Selection function: Frame click
-		$('.ctrl-display-grid-preview')
-		.on("click", '.DDA', function (event) {
-			var element = this,
-				el$ = $(element),
-				domID = el$.attr('id'),
-				context = ko.contextFor(element),
-				model = context.$root,
-				frameObj = ko.dataFor(element);
+		$('#layout-palette')
+			.on("click", '.DDA', function (event) {
+				var element = this,
+					el$ = $(element),
+					domID = el$.attr('id'),
+					context = ko.contextFor(element),
+					model = context.$root,
+					frameObj = ko.dataFor(element);
 
-			console.log('Selection: frameObj ', frameObj);
+				console.log('Selection: frameObj ', frameObj);
 
-			// frameObj = model.ActiveLayer.peek().findFrame({'DomID': domID});
-			if (!frameObj) {
-				console.log('Cannot find frame ',frameObj);
-				throw new Error('Click event: Frame by ID "'+domID+'"" not found! Binding context error?');
-			}
-			model.ActiveFrame(frameObj);
-			// deselect all:
-			// $('.ctrl-display-grid-preview *.DDA').removeClass('active');
-			// select clicked:
-			// el$.addClass('active');
-		});
+				// frameObj = model.ActiveLayer.peek().findFrame({'DomID': domID});
+				if (frameObj) {
+					model.ActiveFrame(frameObj);
+				} else {
+					console.log('Cannot find frame ',frameObj);
+					console.log('Click event: Frame by ID "'+domID+'" not found! Binding context error?');
+				}
+				// deselect all:
+				// $('.ctrl-display-grid-preview *.DDA').removeClass('active');
+				// select clicked:
+				// el$.addClass('active');
+			});
 
 	});
 });

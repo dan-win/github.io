@@ -154,11 +154,16 @@
 							<div class="row">
 								<div class="col-xs-6">Name</div>
 								<div class="col-xs-6">
-									<input
+<!-- 									<input
 										type="text"	
 										class="form-control" 
 										data-bind="
 										value:$root.Playlist().Label"/>
+ -->									
+									<a href="javascript:void(0)" 
+										data-bind="click: $root.showPlaylistNameDialog"
+										class=""><i class="fa fa-pencil"></i></a>
+ 									<span data-bind="text:$root.Playlist().Label" class="ys-label"></span>
 								</div>
 
 								<div class="col-xs-6">Aspect Ratio</div>
@@ -178,6 +183,9 @@
 									</a>
 									<a href="javascript:void(0)" class="btn" role="button" data-bind="click:$root.publish">
 										Publish
+									</a>
+									<a href="javascript:window.close()" target="_blank" class="btn" role="button" data-bind="attr:{href:$root.playerLink}">
+										Play
 									</a>
 									<a href="javascript:window.close()" class="btn" role="button">
 										Exit
@@ -319,11 +327,11 @@
 						<div class="panel-heading"
 							data-bind="component: {
 								name: 'collapsible-titlebar', 
-								params: {title:'Layout',target:'#layout-palette'
+								params: {title:'Layer layout',target:'#layout-palette'
 							}}">
 						</div>
 						<div class="panel-body" id="layout-palette">
-							<div class="line">
+<!-- 							<div class="line">
 								<h2 data-bind="text:$root.Playlist.Label">
 									Playlist #1
 									<span data-bind="if:$root.Changed">*</span>
@@ -334,7 +342,7 @@
 									data-bind="click: $root.showPlaylistNameDialog">
 									(Change name)</a>
 							</div>
-<!-- 							<div class="line">
+ --><!-- 							<div class="line">
 								<table style="width:100%;">
 									<tr>
 										<td style="width:50%;">Resolution:</td>
@@ -359,8 +367,8 @@
 
 								<div 
 									class="ctrl-display-grid-preview" 
-									style="position:relative;width:160px;height:90px;"
-									data-bind="foreach: {data: Frames, as:'frame'}">
+									style="position:relative;width:160px;height:90px;">
+										<!-- ko foreach: {data: Frames, as:'frame'}-->
 										<div data-bind="attr:{
 															id:frame.DomID,
 															class:frame.CSS,
@@ -371,6 +379,7 @@
 												<div class="rtl-container" data-bind="text:frame.Label"></div>
 											</div>
 										</div>
+										<!-- /ko -->
 								</div>
 
 								<div class="line" style="margin-left:auto;margin-right:auto;width:160px;padding:5px;">
@@ -403,7 +412,7 @@
 										<td style="width:50%;text-align:right;">000</td>
 									</tr>
 								</table>										
-								<div class="line" style="text-align:right;">
+<!-- 								<div class="line" style="text-align:right;">
 									<a href="javascript:void(0)" class="btn" role="button" 
 										data-bind="click:function(){
 											$root.updatePreview();
@@ -415,7 +424,7 @@
 										Save frame
 									</a>
 								</div>
-							</div>
+ -->							</div>
 						</div>
 					</div>
 				</div>

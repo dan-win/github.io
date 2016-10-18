@@ -44,6 +44,11 @@
 	overflow-y: auto;
 }
 
+/* playlist palette */
+#playlist-palette>.row>div {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
 /*slide panes*/
 
 #timeline-toolbar > div.row > div:first-child{
@@ -301,7 +306,10 @@
 	cursor: cell;
 }
 
-
+.ys-label {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
 
 /* Controls and widgets*/
 .ctrl-display-grid-preview * {

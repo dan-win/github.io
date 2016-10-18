@@ -62,7 +62,7 @@ define([
 
 		Field( 'DomID', 'frame_'+scope.StorageID(), data);
 		Field( 'Style', 'position:absolute;top:0;left:0;width:100%;height:100%;', data);
-		Field( 'CSS', '', data); // <- "class" attr
+		Field( 'CSS', 'DDA', data); // <- "class" attr
 
 		return scope;
 	}
@@ -345,7 +345,7 @@ define([
 
 		// Init with default interior:
 		// !!!
-		self.TemplateInfo(new GridTemplateInfo (GRID_STORAGE, 'default') );
+		// self.TemplateInfo(new GridTemplateInfo (GRID_STORAGE, 'default') );
 
 	} // Grid constructor
 

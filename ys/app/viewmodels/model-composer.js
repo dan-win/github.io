@@ -271,8 +271,10 @@ define([
 
 		self.ActiveLayer.subscribe(function () {
 			var layer = self.ActiveLayer.peek();
-			if (layer)
+			if (layer) {
 				self.ActiveFrame(layer.Frames.peek()[0]);
+				ko._notify_('ntf_ViewChanged').tell({});
+			}
 			else console.warn('layer undefined?', ko.toJS(self.Playlist().Layers()), 
 				ko.toJS(self.ActiveLayer()));
 		});
@@ -281,13 +283,16 @@ define([
 			var frame = self.ActiveFrame.peek();
 			if (frame)
 				self.ActiveTimeline(frame.Timeline.peek());
+			// Update preview if current mode is for frame only
+			if (self.RenderMode() === 'frame') 
+				ko._notify_('ntf_ViewChanged').tell({});
 			console.log('New ActiveFrame:', frame);
 		});
 
 
 		self.RenderMode = ko._obs_('all');
 		self.EnumRenderModes = [
-			{'label':'Timeline', 'value':'frame'},
+			{'label':'Frame', 'value':'frame'},
 			{'label':'Layer', 'value':'layer'},
 			{'label':'All', 'value':'all'},
 		];
@@ -331,6 +336,10 @@ define([
 			return 'embed-responsive-4by3'
 		})
 
+		self.playerLink = ko.pureComputed(function () {
+			return '../test/test-player.html?xpId='+self.Playlist().StorageID();
+		})
+
 		// *** Notifications chain ***
 		self.PlayerState.subscribe(function (newValue) {
 			console.log('Player state (composer):', self.PlayerState.peek())
@@ -371,7 +380,8 @@ define([
 
 		function handleNewLayer() {
 			// to-do: this can be done in the same manner as for "ActiveLayer.subscribe..."
-			self.ActiveFrame(self.ActiveLayer().Frames.peek()[0])
+			self.ActiveFrame(self.ActiveLayer().Frames.peek()[0]);
+			self.updatePreview();
 		}
 
 		// <--- playlist is a complex object with a "Changed" property, subscribe to it: 
