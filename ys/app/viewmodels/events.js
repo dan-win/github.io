@@ -234,6 +234,11 @@ define(['knockout', 'jquery'], function(ko, $){
 				return false;
 			});
 
+		//
+		$('#preview-display').on('tick', function (evt, args) {
+			console.log('+++', evt.data, args);
+		})
+
 		// Grid preview pane
 
 		// Selection function: Frame click
@@ -246,11 +251,13 @@ define(['knockout', 'jquery'], function(ko, $){
 				model = context.$root,
 				frameObj = ko.dataFor(element);
 
-				console.log('Selection: frameObj ', frameObj);
+			console.log('Selection: frameObj ', frameObj);
 
 			// frameObj = model.ActiveLayer.peek().findFrame({'DomID': domID});
-			if (!frameObj) 
+			if (!frameObj) {
+				console.log('Cannot find frame ',frameObj);
 				throw new Error('Click event: Frame by ID "'+domID+'"" not found! Binding context error?');
+			}
 			model.ActiveFrame(frameObj);
 			// deselect all:
 			// $('.ctrl-display-grid-preview *.DDA').removeClass('active');

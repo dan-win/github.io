@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>dialog.Window test</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<!-- 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ -->	<meta name="format-detection" content="telephone=no"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- Web Application Manifest -->
+	<link rel="manifest" href="manifest.json">
+    
+	<link rel="stylesheet" href="../../vendor/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../vendor/font-awesome/css/font-awesome.min.css" />
+	<!-- <link rel="stylesheet" href="../../css/starterkit.css" /> -->
+
+	<!-- <link rel="stylesheet" href="../../css/fix.css" /> -->
+
+<!--  	<style type="text/css">
+ 		/*Hide alerts by default*/
+ 		.alert{
+ 			logger: none;
+ 		}
+ 	</style>
+ -->
+</head>
+<body>
+
+
+	<div class="container">
+
+	<!-- STATIC MODAL-->
+		<!-- Modal -->
+		<div class="modal fade" id="myStaticModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Modal title - static element</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		        	<input type="text" name="a1", id="a1"/>
+		        	<input type="text" name="a1", id="a2"/>
+		        	<input type="text" name="a1", id="a3"/>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" data-dialog-control="Ok">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+
+	<!-- END OF STATIC MODAL-->
+
+
+		<div class="row">
+			<div class="col-xs-12">
+				<!-- <form class="form-vertical"> -->
+					<h2>Test dialog</h2>
+					<button class="btn btn-active" id="btn-test-dialog">Run plain dialog</button>
+					<button class="btn btn-active" id="btn-test-ko-dialog">Run dialog witj KnockoutJS bindings</button>
+				<!-- </form> -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div id="logger" class="alert alert-info">Text</div>
+				<div>Attribute 1 of Model: <span data-bind="text:attr1"></span></div>
+				<div>Attribute 2 of Model: <span data-bind="text:attr2"></span></div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- SCRIPTS -->
+
+<!--
+		<script type="text/javascript" src="../../vendor/"></script>
+
+	<script type="text/javascript" src="../shared/"></script>
+
+	<script type="text/javascript" src="../viewmodels/"></script>
+-->
+
+	<!-- vendor and extensions -->
+
+	<!-- <script type="text/javascript" src="../../vendor/json2.js"></script> -->
+	<!-- <script type="text/javascript" src="../../vendor/underscore-min.js"></script> -->
+	<!-- <script type="text/javascript" src="../shared/underscore.ext.js"></script> -->
+	<script type="text/javascript" src="../../vendor/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../../vendor/knockout-3.3.0.js"></script>
+
+	<!-- <script type="text/javascript" src="../../vendor/bootstrap/js/bootstrap.min.js"></script> -->
+
+ 	<!-- <script type="text/javascript" src="../../vendor/bootstrap/js/bs-modals-only.js"></script> -->
+
+
+	<script type="text/javascript" src="../shared/dialog.window.js"></script>
+
+	<script type="text/javascript">
+
+		// Create test model:
+
+		Model.counter = 0;
+		function Model(data) {
+
+			data = data || {};
+
+			this.id = ko.observable(++Model.counter);
+			this.attr1 = ko.observable(data.attr1 || 'Str1');
+			this.attr2 = ko.observable(data.attr2 || 'Str2');
+
+		}
+
+		var model = Model();
+
+		// === ^ End of model ===
+
+
+
+		function message(text) {
+			$('#logger').html(text)
+		}
+
+		function runDialog() {
+			try {
+				dialogWindow
+					// .fromElement('myStaticModal')
+					.fromTemplate('dialogTemplate')
+					.show({title: 'My Dynamic Title', a1: 'text1', a2:100, a3:true})
+					.then(function (result) {
+						console.log('Resolved: ', result);
+					})
+					.catch(function (reason) {
+						console.warn('Rejected: ', reason);
+					});
+
+			} catch (e) {
+				console.error('!!!', e);
+			}
+		}
+
+		$(function () {
+
+			ko.applyBindings(model);
+
+			console.log('Started...')
+			message('Started...')
+				// runDialog();
+				// $('#myStaticModal').modal();
+
+				// dialogWindow()
+				// .then(function (result) {
+				// 	console.log(result)
+				// })
+				// .catch(function (reason) {
+				// 	console.warn('Error: ', reason)
+				// })
+
+
+
+//-------------
+			$('#btn-test-ko-dialog').on('click', function (evt) {
+				dialogWindow
+					// .fromElement('myStaticModal')
+					.fromTemplate('dialogTemplateKo')
+					.show(function (el) {
+						ko.applyBindings(model, el)
+					})
+					.then(function (result) {
+						console.log('Resolved: ', result);
+					})
+					.catch(function (reason) {
+						console.warn('Rejected: ', reason);
+					});				
+			})
+
+			$('#btn-test-dialog').on('click', function (evt) {
+				runDialog();
+				console.log(document.body)
+				message('!!!' + evt)
+					// $('#myStaticModal').modal();
+				// return false;
+			})
+
+		});
+	</script>
+
+
+	<!-- Dialog template: -->
+	<script type="text/html" id="dialogTemplate">
+		<!-- Modal -->
+	  	<!-- to-do: decrease template to this level-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" data-dialog-value="title">Note: here is data-dialog-value="title" allows to change the text dynamically!</h4>
+	      </div>
+	      <div class="modal-body">
+
+	        <form>
+	        	<input type="text" id="a1"/>
+	        	<input type="text" id="a2"/>
+	        	<input type="text" id="a3"/>
+	        </form>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" data-dialog-control="Ok">Save changes</button>
+	      </div>
+	    </div>
+	</script>
+
+
+
+
+	<!-- Dialog template Ko: -->
+	<script type="text/html" id="dialogTemplateKo">
+		<!-- Modal -->
+	  	<!-- to-do: decrease template to this level-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	      </div>
+	      <div class="modal-body">
+
+	        <form>
+	        	<div id="a1" data-bind="text:id"></div>
+	        	<input type="text" id="a2" data-bind="value:attr1"/>
+	        	<input type="text" id="a3" data-bind="value:attr2"/>
+	        </form>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" data-dialog-control="Ok">Save changes</button>
+	      </div>
+	    </div>
+	</script>
+
+</body>
+</html>

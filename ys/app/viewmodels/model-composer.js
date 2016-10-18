@@ -37,7 +37,8 @@ define([
 		'components/dialog-textbox',
 		// 'viewmodels/dialogs-composer',
 
- 		'shared/htmltemplate' // <-- used for timeline rendering.
+ 		'shared/htmltemplate', // <-- used for timeline rendering.
+		'shared/dialog.window' // <- defines global variable
  		// 'ntfbus', // <-- only to reflect dependency, it's aleady instantiated in "jquery-loader"
  		// 'dialog' // binding for html
  		// 'json2'
@@ -63,6 +64,27 @@ define([
 		Timeline = libTimeline.timelineMapping,
 
 		AssetCollection = libAsset.AssetCollection;
+
+	// Redefine enumeration to use the embedded registry:
+	// var enumGridsGallery = function () {
+	// 	if (!MODULES || !MODULES.templates_grids_all) return libDisplay.enumGridsGallery();
+	// 	var en = [];
+	// 	GRID_STORAGE = MODULES.templates_grids_all;
+	// 	for (var id in GRID_STORAGE) {
+	// 		// fix for Durandal's __moduleId__:
+	// 		if (id == '__moduleId__') continue;
+	// 		en.push( new libDisplay.GridTemplateInfo(GRID_STORAGE, id) );
+	// 	}
+	// 	return en;
+	// }
+
+	var DialogTextBox = function () {
+		return window.dialogWindow.fromTemplate('dialog-textbox-template')
+	}
+
+	var DialogLayout = function () {
+		return window.dialogWindow.fromTemplate('dialog-layout-template')
+	}
 
     // IO (!)
 
@@ -203,11 +225,14 @@ define([
 		// Actual asset objects for drag-n-drop palette
 		// create dependencies with children
 
-		console.log('enumGridsGallery: ', enumGridsGallery());
+		// console.log('enumGridsGallery: ', enumGridsGallery());
 
 		self.AssetGallery = new AssetCollection(); // to-do: loading funcs
 
-		self.GridGallery = ko._obsA_( enumGridsGallery() ); // actual set of grids in gallery  
+		// self.GridGallery = ko._obsA_( enumGridsGallery() ); // actual set of grids in gallery  
+		self.GridGallery = ko.pureComputed(function () {
+			return enumGridsGallery();
+		});
 
 		self.TimelinesGallery = ko._obsA_([]);
 
@@ -229,6 +254,7 @@ define([
 			var frame = self.ActiveFrame.peek();
 			if (frame)
 				self.ActiveTimeline(frame.Timeline.peek());
+			console.log('New ActiveFrame:', frame);
 		});
 
 
@@ -269,6 +295,14 @@ define([
 			var status = self.PlayerState();
 			return (['stPlayback', 'stPause', 'stForward'].indexOf(status) > -1) ? '' : 'disabled'
 		})
+		self.previewDisplayCss = ko.pureComputed(function () {
+			if (self.Playlist().AspectRatio()==='16by9') 
+				return 'embed-responsive-16by9'
+			if (self.Playlist().AspectRatio()==='4by3') 
+				return 'embed-responsive-4by3'
+			// default:
+			return 'embed-responsive-4by3'
+		})
 
 		// *** Notifications chain ***
 		self.PlayerState.subscribe(function (newValue) {
@@ -308,6 +342,11 @@ define([
 			self.updatePreview();
 		}
 
+		function handleNewLayer() {
+			// to-do: this can be done in the same manner as for "ActiveLayer.subscribe..."
+			self.ActiveFrame(self.ActiveLayer().Frames.peek()[0])
+		}
+
 		// <--- playlist is a complex object with a "Changed" property, subscribe to it: 
 		ko._observeChanges_(handleChanged, [
 			'ntf_PlaylistChanged',
@@ -321,6 +360,10 @@ define([
 			self.Playlist,
 			self.RenderMode
 			], 'Composer: view changed');
+
+		ko._observeChanges_(handleNewLayer, [
+			'ntf_GridLoaded'
+			], 'Composer: new layer loaded');
 
 		// to-do: review this code:
 		// If entire workspace reloaded from stream:
@@ -424,8 +467,8 @@ define([
 
 		self.previewStop = function () {
 			// sourceObject - ActiveFrame or ActiveLayer or Playlist
-			playerObject.stop();
-			// playerObject.rewind(0);
+			// playerObject.stop();
+			playerObject.rewind(0);
 			self.PlayerState('stStop');
 
 			console.log("Stopped...");
@@ -659,39 +702,65 @@ define([
 
 		// Dialogs
 		self.showLayoutDialog = function () {
+			// Data model for dialog:
+			var dialogLayoutModel = {
+				TemplateInfo: ko._obs_(null), // no default sel value
+				Gallery: ko._obsA_(enumGridsGallery()), 
+				TemplateID: function () {
+					var TemplateInfo = this.TemplateInfo(); // <-- do not hide this into nested funcs (dependency will be lost)
+					if (TemplateInfo) return TemplateInfo.PresetID;
+					return null;
+				}
+			};
+			var setupDialog = function (el) {
+				ko.applyBindings(dialogLayoutModel, el);
+			}
+
 			console.log('Starting dialog...');
-			DialogLayout.show(self).then(function (response) {
+			DialogLayout().show(setupDialog).then(function (response) {
 				if(_.isNull(response)) return;
-				ko._traverseTree_(self, ['ActiveLayer', 'TemplateInfo']) (response);
+				self.ActiveLayer.peek().TemplateInfo(dialogLayoutModel.TemplateInfo.peek());
+				// ko._traverseTree_(self, ['ActiveLayer', 'TemplateInfo']) (dialogLayoutModel.TemplateInfo.peek());
 				console.log('selected template: ', response);
+			})
+			.catch(function (reason) {
+				console.warn('Error changing data ', reason)
 			});
 		};
 
 		self.showPlaylistNameDialog = function () {
-			var options = {
+			var data = {
 				title: 'Change Playlist Name', 
-				value: self.Playlist().Label()
+				StrBuffer: self.Playlist().Label()
 			};
 
 			console.log('Starting dialog...');
-			DialogTextBox.show(options).then(function (response) {
-				if(_.isNull(response)) return;
-				self.Playlist().Label(response);
-				console.log('New values : ', response);
+			DialogTextBox().show(data).then(function (response) {
+				if(response) {
+					self.Playlist().Label(response.StrBuffer);
+					console.log('New values : ', response);
+				}
+			})
+			.catch(function (reason) {
+				console.warn('Error changing data ', reason)
 			});
+			return false;
 		};
 
 		self.showFrameNameDialog = function () {
-			var options = {
+			var data = {
 				title: 'Change Frame Name', 
-				value: self.ActiveFrame().Label()
+				StrBuffer: self.ActiveFrame().Label()
 			};
 
 			console.log('Starting dialog...');
-			DialogTextBox.show(options).then(function (response) {
-				if(_.isNull(response)) return;
-				self.ActiveFrame().Label(response);
+			DialogTextBox().show(data).then(function (response) {
+				if(!response) return;
+				self.ActiveFrame().Label(response.StrBuffer);
 				console.log('New values: ', response);
+			})
+			.catch(function (reason) {
+				console.warn('Error changing data ', reason)
 			});
 		};
 

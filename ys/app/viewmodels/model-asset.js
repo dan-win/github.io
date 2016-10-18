@@ -226,6 +226,7 @@ define([
 		self.PreviewSrc = ko.pureComputed(function (argument) {
 			var Src = self.Src();
 			var GlyphSrc = self.GlyphSrc();
+			if (self.Type.peek() === 'Video') return ('img/dummy.png');
 			return (GlyphSrc.length > 0) ? GlyphSrc : Src;
 		})
 

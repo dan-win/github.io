@@ -26,6 +26,9 @@ define([
 		Timeline = libTimeline.Timeline,
 		StructTimeline = libTimeline.StructTimeline;
 
+
+	console.log('GRID_STORAGE', GRID_STORAGE);
+
 	/*////////////////////////////////////////////////////////
 	//
 	// Frame (elementary region on display for screen splitting).
@@ -152,6 +155,8 @@ define([
 		self.Media = storage[id]['media'] || [];
 		self.filename = _.assertDefined(storage[id]['filename'], 
 			'Error in grid gallery: filename missed for id "'+id+'" ');
+		self.templateId = storage[id].templateId;
+		console.log('gridTemplateInfo >>>', storage[id]);
 	}
 
 	var enumGridsGallery = function () {
@@ -266,13 +271,29 @@ define([
 
 		self.loadFromPreset = function (gridTemplateInfo) {
 			var 
-				filename = gridTemplateInfo && gridTemplateInfo.filename || null;
-			if (!gridTemplateInfo) {
-				return; // do not change html, it can contain custom changes;
-			}
-			require(['text!templates/grids/'+filename+'.html'], function (html){
+				_rec = gridTemplateInfo || {},
+				filename =  _rec.filename,
+				templateDomId = _rec.templateId;
+
+			console.log('request: gridTemplateInfo:', gridTemplateInfo);
+			// Try to load from DOM (if template with id "screen-template-<PresetID>" exists")
+			var node = document.getElementById('screen-template-'+_rec.PresetID);
+			if (node) {
+				var html = node.innerHTML;
 				self.HTML(html);
-			});
+				return;
+			}
+			// Otherwise: try to load from file:
+			if (filename) {
+				if (typeof require === 'function') {
+					require(['text!templates/grids/'+filename+'.html'], function (html){
+						self.HTML(html);
+					})
+					return;
+				} 
+				throw new Error('Cannot load screen template from file - "require" function is not defined')
+			}
+			throw new Error('Cannot find screen template: '+gridTemplateInfo.Label);
 		}
 
 		// private ---
@@ -307,11 +328,16 @@ define([
 			}
 
 			// grid.selectedItem( lastcell ); // last frame selected by default
-			_TRACE_('_parseGridInterior: Grid parsed and item selected: ===>', lastcell);
+			console.log('_parseGridInterior: Grid parsed and item selected: ===>', lastcell);
 
 			// Update frame objects:
 			self.Frames( cells );
+			ko._notify_('ntf_GridLoaded').tell({sender: self});
 		}
+
+		// Init with default interior:
+		// !!!
+		self.TemplateInfo(new GridTemplateInfo (GRID_STORAGE, 'default') );
 
 	} // Grid constructor
 
@@ -446,6 +472,7 @@ define([
 	];
 
 	// --- last row (export symbols)
+	
 	return {
 		Playlist: Playlist,
 		StructPlaylist: StructPlaylist,

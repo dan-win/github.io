@@ -46,6 +46,7 @@
 
 		<script type="text/javascript" src="../shared/config.js"></script>
 
+
 		<script type="text/javascript">
 			// redefine constants for tet environment:
 			MODULES.config.templatesRoot = '../';
@@ -73,6 +74,8 @@
 
 		<script type="text/javascript" src="../shared/ui.proxy.js"></script>
 
+		<script type="text/javascript" src="../shared/dialog.window.js"></script>
+
 		<script type="text/javascript" src="../shared/io.js"></script>
 		<script type="text/javascript" src="../../vendor/firebase/firebase.js"></script>
 		<script type="text/javascript" src="../shared/io.firebase.js"></script>
@@ -84,6 +87,8 @@
 		<script type="text/javascript" src="../shared/rtl.js"></script>
 
 		<script type="text/javascript" src="../templates/composer/output-snippets.js"></script>
+
+		<script type="text/javascript" src="../templates/grids/all.js"></script>
 
 		<script type="text/javascript" src="../viewmodels/model-base.js"></script>
 		<script type="text/javascript" src="../viewmodels/model-asset.js"></script>
@@ -200,18 +205,10 @@
 							<div id='playback-indicator'>
 								<i class="glyphicon" data-bind="css: $root.PlaybackIndicator"></i>
 							</div>
-							<!-- 16:9 aspect ratio -->
-							<!-- ko if: $root.Playlist().AspectRatio()==='16by9'-->
+							<!-- Selectable aspect ratio (16:9 or 4:3) -->
 							<div class="embed-responsive embed-responsive-16by9" 
-								id="preview-display">
+								id="preview-display" data-bind="css:$root.previewDisplayCss">
 							</div>								
-							<!-- /ko -->
-							<!-- 4:3 aspect ratio -->
-							<!-- ko if: $root.Playlist().AspectRatio()==='4by3'-->
-							<div class="embed-responsive embed-responsive-4by3" 
-								id="preview-display">
-							</div>								
-							<!-- /ko -->
 							<div style="margin:10px;">
 								<div id="player-toolbar" style="text-align:center;">
 
@@ -337,7 +334,7 @@
 									data-bind="click: $root.showPlaylistNameDialog">
 									(Change name)</a>
 							</div>
-							<div class="line">
+<!-- 							<div class="line">
 								<table style="width:100%;">
 									<tr>
 										<td style="width:50%;">Resolution:</td>
@@ -357,7 +354,7 @@
 									</tr>
 								</table>
 							</div>
-							<div class="line" data-bind="with:$root.ActiveLayer">
+ -->							<div class="line" data-bind="with:$root.ActiveLayer">
 								<!-- Screen Layout / Partitioning -->
 
 								<div 
@@ -369,7 +366,7 @@
 															class:frame.CSS,
 															style:frame.Style
 															},
-														css: {'active': frame === $root.ActiveFrame}">
+														css: {'active': frame === $root.ActiveFrame()}">
 											<div class="rtl-frame">
 												<div class="rtl-container" data-bind="text:frame.Label"></div>
 											</div>
@@ -720,6 +717,102 @@
 
 	</div>
 
+</script>
+
+<!-- DIALOGS templates-->
+<script type="text/html" id="dialog-textbox-template">
+	<!--dialog-textbox.html-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close metaclass-dialog-close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h4 class="modal-title" id="title" data-dialog-value="title">
+			<!-- TITLE -->
+				Edit value
+			<!-- TITLE -->
+			</h4>
+		</div>
+		<form>
+			<div class="modal-body">
+			<!-- BODY -->
+				<input type="text" id="StrBuffer"/>
+			<!-- BODY -->
+			</div>
+			<div class="modal-footer">
+			<!-- FOOTER -->
+				<button class="btn btn-default" data-dialog-control="Ok">Save changes</button>
+				<button class="btn btn-default" data-dialog-control="Cancel">Close</button>
+			<!-- FOOTER -->
+			</div>
+		</form>
+	</div><!-- /.modal-content -->	
+</script>
+
+
+<script type="text/html" id="dialog-layout-template">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close metaclass-dialog-close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h4 class="modal-title" data-dialog-value="title">
+			<!-- TITLE -->
+				Select layout
+			<!-- TITLE -->
+			</h4>
+		</div>
+		<form class="metaclass-dialog-form">
+			<div class="modal-body">
+			<!-- BODY -->
+				<select size="7"  
+					data-bind="options: Gallery,
+								optionsText:'Label',
+								optionsValue:$data,
+								value: TemplateInfo,
+								valueAllowUnset: true">
+				</select>
+				<div>Selected: <span data-bind="text:TemplateID()"></span></div>
+				<!--
+				<pre data-bind="text: ko.toJSON($component.dialogview, null, 2)"></pre>
+				-->
+			<!-- BODY -->
+			</div>
+			<div class="modal-footer">
+			<!-- FOOTER -->
+				<button class="btn btn-default" data-dialog-control="Ok">Save changes</button>
+				<button class="btn btn-default" data-dialog-control="Cancel">Close</button>
+			<!-- FOOTER -->
+			</div>
+		</form>
+	</div><!-- /.modal-content -->	
+</script>
+
+<!-- OUTPUT INTERIOR templates-->
+
+<script type="text/javascript">
+	MODULES.templates_grids_all = {
+		'default': {
+				label:'Default', 
+				filename:'default', 
+				media:[], 
+				templateId: 'screen-template-default'},
+		'decorated': {
+				label:'Decorated', 
+				filename: 'decorated', 
+				templateId: 'screen-template-decorated'}
+	}
+</script>
+
+<script type="text/html" id="screen-template-default">
+	<div class="DDA" id="frame1" style="position:absolute;left:0;top:0;width:100%;height:100%;">Main Frame</div>
+</script>
+
+<script type="text/html" id="screen-template-decorated">
+	<div  id="frame1" class="DDA" style="position:absolute;top:0;left:0;height:60%; width:60%;">Frame #1.1</div>
+	<div  id="frame2"class="DDA" style="position:absolute;top:0;left:60%;height:60%; width:30%;">Frame #1.2</div>
+	<div  id="frame3" class="DDA" style="position:absolute;top:60%;left:0;height:30%; width:60%;">Frame #2.1</div>
+	<div  id="frame4" class="DDA" style="position:absolute;top:60%;left:60%;height:30%; width:30%;">Frame #2.2</div>	
 </script>
 
 <!-- INCLUDE -->
