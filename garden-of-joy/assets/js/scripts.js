@@ -148,11 +148,11 @@ var appMaster = {
         // run Placeholdem on all elements with placeholders
         Placeholdem(document.querySelectorAll('[placeholder]'));
     }
-
 }; // AppMaster
 
 
 $(document).ready(function() {
+
 
     appMaster.smoothScroll();
 
@@ -167,5 +167,8 @@ $(document).ready(function() {
     appMaster.scrollMenu();
 
     appMaster.placeHold();
+
+    // fix "visible" loading process:
+    $('.tp-banner.loading').removeClass('loading');
 
 });
