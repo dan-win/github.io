@@ -1,0 +1,371 @@
+/*
+theme.css
+
+Custom colors, etc...
+ */
+
+
+section#screens .slider div h4,
+section#getApp .slider div h4 {
+  /*color: #ffb139;*/
+  color: #ffffff;
+}
+section#screens .slider .slick-dots li button,
+section#getApp .slider .slick-dots li button {
+  background: #999999;
+}
+section#screens .slider .slick-dots li.slick-active button,
+section#getApp .slider .slick-dots li.slick-active button {
+  background: #318628;
+}
+section#screens .filter a,
+section#getApp .filter a {
+  border: 2px solid #cccccc;
+  color: #999999;
+}
+section#screens .filter a:hover,
+section#getApp .filter a:hover {
+  color: #ffffff;
+  background: #318628;
+  border-color: #318628;
+}
+section#screens .filter a.active,
+section#getApp .filter a.active {
+  color: #ffffff;
+  background: #318628;
+  border-color: #318628;
+}
+/* demo video Section */
+section#demo {
+  background: #f6f6f6;
+}
+section#demo header h1:after {
+  background: #318628;
+}
+/* Get app Section */
+section#getApp {
+  background: url("../img/japan-1.png");
+  background-size: cover;
+}
+section#getApp header {
+  color: #ffffff;
+}
+section#getApp header h1:after {
+  background: #ffffff;
+}
+section#getApp .platforms .media {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+section#getApp .platforms .media a i {
+  color: #ffffff;
+}
+section#getApp .platforms .media a div.media-body {
+  color: #ffffff;
+}
+section#getApp .platforms .media:hover {
+  background: #ffffff;
+}
+section#getApp .platforms .media:hover a i,
+section#getApp .platforms .media:hover a div.media-body {
+  color: #318628;
+}
+/* support section */
+section#support header h1:after {
+  background: #318628;
+}
+section#support .media i.fa {
+  border: 2px solid #318628;
+  color: #318628;
+}
+section#support .media a {
+  color: #318628;
+}
+section#support .media:hover i.fa {
+  color: #ffffff;
+  background: #318628;
+}
+section#support .media:hover h3 {
+  color: #318628;
+}
+/* footer section */
+footer, section#reviews, section#getApp, body>header {
+  /*background-image: url(../img/sunshine4.jpg);*/
+  /*background-size: cover;*/
+
+  background: #318628;
+  background-image: url(../img/1.jpg);
+  background-size: cover;
+  /* Old browsers */
+  /*background: -moz-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  /* FF3.6+ */
+  /*background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #318628), color-stop(100%, #65B633));*/
+  /* Chrome,Safari4+ */
+  /*background: -webkit-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  /* Chrome10+,Safari5.1+ */
+  /*background: -o-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  /* Opera 11.10+ */
+  /*background: -ms-linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  /* IE10+ */
+  /*background: linear-gradient(0deg, #318628 0%, #65B633 100%);*/
+  /* W3C */
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#318628, endColorstr=#65B633, GradientType=1);*/
+  /* IE6-9 fallback on horizontal gradient */
+}
+footer .social a {
+  border: 2px solid #ffffff;
+}
+footer .social a i {
+  color: #ffffff;
+}
+footer .social a:hover {
+  background: #ffffff;
+}
+footer .social a:hover i {
+  color: #318628;
+}
+footer .rights {
+  color: #ffffff;
+}
+footer .rights a {
+  color: #ffffff;
+  font-weight: 300;
+  text-decoration: none;
+}
+.navbar-toggle {
+  background-color: #CCC;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+.btn.btn-primary {
+  color: #318628;
+  border-color: #318628;
+}
+.btn.btn-primary:hover {
+  color: #ffffff;
+  background: #318628;
+  border-color: #318628;
+}
+.btn.btn-primary.inverse {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.btn.btn-primary.inverse:hover {
+  color: #ffffff;
+  background: #318628;
+  border-color: #318628;
+}
+.btn.btn-default {
+  background: #ffffff;
+  /* Old browsers */
+  background: -moz-linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #ffffff), color-stop(100%, #cccccc));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+  /* IE10+ */
+  background: linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#cccccc, GradientType=1);
+  /* IE6-9 fallback on horizontal gradient */
+  color: #FF9A00;
+}
+.btn.btn-default:hover {
+  color: #FF9A00;
+}
+form .form-control:focus {
+  border-color: #318628;
+  color: #999999;
+}
+@media screen and (max-width: 640px) {
+  header .navbar-default .navbar-toggle:hover,
+  header .navbar-default .navbar-toggle:focus {
+    background: none;
+  }
+  header .navbar-default ul.navbar-nav li a {
+    color: #ffffff;
+    border-bottom: 1px solid #376fa4;
+  }
+  header .navbar-default ul.navbar-nav li a.getApp {
+    color: #ffffff;
+  }
+  header .navbar-default ul.navbar-nav li a:after {
+    display: none;
+  }
+  header .navbar-default ul.navbar-nav li a:hover {
+    color: #318628;
+  }
+  header .navbar-default .navbar-collapse {
+    background: #FF9A00;
+  }
+  header .navbar-default.scrolled {
+    background: #FF9A00;
+  }
+  header .navbar-default.scrolled ul.navbar-nav li a {
+    color: #ffffff;
+  }
+  header .navbar-default.scrolled ul.navbar-nav li a:hover {
+    color: #318628;
+  }
+}
+.pre-loader {
+  background: #123305;
+}
+
+/*Additions*/
+header img.photo {
+  max-width: 350px;
+  height: auto;
+  /*min-width: 120px;*/
+  border-left-style: solid;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+
+/*  border-left-color: #FF9A00; 
+  border-top-color: #FF9A00;
+  border-right-color: #FF9A00;
+  border-bottom-color: #FF9A00;
+*/
+  border-left-color: #efefef; 
+  border-top-color: #efefef;
+  border-right-color: #efefef;
+  border-bottom-color: #efefef;
+
+  border-left-width: 3px; 
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-bottom-width: 3px;
+
+  /*border 3px #FFC263 solid;*/
+  border-radius: 7px;
+
+/*-webkit-box-shadow: 0px 0px 30px 0px rgba(255,255,255,1);
+-moz-box-shadow: 0px 0px 30px 0px rgba(255,255,255,1);
+box-shadow: 0px 0px 30px 0px rgba(255,255,255,1);
+*/}
+
+section#contacts *.fa {
+  color: #318628;
+}
+section#contacts a {
+  color: #318628;
+}
+
+/*Override round "bullets" in the slider*/
+.tp-bullets.simplebullets.round .bullet {
+    border: 2px solid rgba(255,255,255,1);
+    border-radius: 50%;
+    /*background: transparent;*/
+    /*background-color: rgba(200,91,95,1.0);*/
+    background-color: #CB8D5D;
+    background-image: none;
+}
+.tp-bullets.simplebullets.round .bullet.selected {
+    /*background-color: rgba(78,0,4,0.9);*/
+    background-color: #4F2200;
+}
+.tp-bullets.simplebullets.round .bullet:hover {
+    background-color: rgba(255,255,255,0.9);
+}
+
+/*News float layer inside slideshow:*/
+.news-layer {
+    bottom: 100px;
+    display: block;
+    min-height: 150px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    background: rgba(255,255,255,0.7);
+    padding: 20px;
+    /*Mage margins for pager buttons on the left/right: */
+    padding-left: 100px;
+    padding-right: 100px;
+    margin: 0;
+    overflow: hidden;  
+}
+.news-layer * {
+    color: rgba(0,0,0,0.8);
+    text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
+}
+.news-layer .btn.btn-primary, section#reviews .btn.btn-primary {
+  color: rgba(255,255,255,1.0);
+  border: none;
+}
+/*.news-layer .btn.btn-primary {
+  font-weight: 600;
+  color: rgba(78,0,4,0.9);
+  border-color: rgba(255,255,255,1.0);
+  background: rgba(200,91,95,1.0);
+
+  text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
+}
+*/
+/*Menu coloring*/
+/*header .navbar-default ul.navbar-nav li a:after {
+  color: rgba(255,255,255,0.9);
+}
+header .navbar-default ul.navbar-nav li a::after {
+  border-color: rgba(85,167,76,0.9);
+  color: red;
+}
+header .navbar-default ul.navbar-nav li a:hover {
+  border-color: rgba(85,167,76,0.9);
+}
+*/
+
+section#getApp, footer {
+  /*background: #78992e;*/
+  background: url(../img/grass_bokeh.jpg);
+  background-size: cover;
+}
+
+body > header {
+  background: #123305;
+}
+
+section#reviews {
+  background: url(../img/canvas-sg-04.jpg);
+  background-size: cover; 
+}
+
+footer {
+  text-shadow: 0px 0px 5px rgba(100, 100, 100, 0.8);
+}
+
+section#reviews h1 {
+  color: #318628;
+  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8);
+}
+/*Underline after H1:*/
+section#features .divider:after,
+section#reviews .divider:after {
+  color: #CB8D5D;
+  border-color: #CB8D5D;
+  background-color: #CB8D5D;
+  text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);
+}
+/*footer {
+  background: #78992E;
+}*/
+
+/*Style for debugging - customer can define slide by number*/
+.slide-number {
+	font-size: 30px;
+	/*line-height: 30px;*/
+	/*padding: 15px; */
+	color: #ffffff;
+	background-color: #000000;
+	border-radius: 10px;
+	border: #ffffff 2px solid;
+}
+
+/*in subpages*/
+.info-module {
+	background: rgb(18,51,5);
+	color: #cecece;
+}

@@ -24,6 +24,8 @@
 	<link rel="stylesheet" href="assets/js/rs-plugin/css/settings.css">
 
 	<link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="stylesheet" href="assets/css/fix.css">
+	<link rel="stylesheet" href="assets/css/theme.css">
 
 
 	<script type="text/javascript" src="assets/js/modernizr.custom.32033.js"></script>
@@ -86,29 +88,27 @@
 
 		
 		<!--RevSlider-->
-		<div class="tp-banner-container">
-			<div class="tp-banner" >
+		<div class="tp-banner-container loading">
+			<!-- 
+			Note: ".tp-banner can override img behaviour with attributes: 
+			data-slide-img-bgfit,  data-slide-img-bgposition
+			-->
+			<div class="tp-banner" data-slide-img-bgfit="cover" data-slide-img-bgposition="center bottom">
 				<ul>
 					<!-- SLIDE  -->
 					<li data-transition="fade" data-slotamount="7" data-masterspeed="1500" >
+
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							1
+						</div>
+
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/slide0.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/slide0.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 						<!-- LAYERS -->
 						<!-- LAYER NR. 1 -->
-
-						<!-- Embedded image: -->
-<!-- 						<div class="tp-caption lfl fadeout hidden-xs"
-							data-x="left"
-							data-y="bottom"
-							data-hoffset="30"
-							data-voffset="-70"
-							data-speed="500"
-							data-start="700"
-							data-easing="Power4.easeOut">
-							<img src="assets/img/slides/slide02.jpg" alt="" class="photo">
-						</div>
- -->
-
 
  						<div class="tp-caption sfb hidden-xs news-layer" data-speed="1000" data-start="1000" data-easing="Power4.easeOut">
  							<div class="container">
@@ -128,46 +128,23 @@
  							</div>
  						</div>
 
-<!-- 						<div class="tp-caption small_white_bold sfb fadeout hidden-xs" style="background-color: rgba(0,125,0,0.7)" data-x="right" data-y="center" data-hoffset="0" data-voffset="50" data-speed="1000" data-start="700" data-easing="Power4.easeOut">
-							<h1>Кедр на Вашем участке</h1>
-							<hr/>
-							<p>Элитные алтайские кедры придадут неповторимый колорит для Вашего участка.<br/>
-							Это одно из растений, которое применяется в искусстве бонсаи, <br/>и знатоки этого искусства не случайно выбирают кедровую сосну как символ японского сада.</p>
-							<hr/>
-							<p>
-								<a href="#news" class="btn btn-primary inverse btn-lg">Узнать больше...</a>
-							</p>
-						</div>
-
-						<div class="tp-caption small_white_bold sfb fadeout" data-x="left" data-y="center" data-hoffset="0" data-voffset="50" data-speed="1000" data-start="1500" data-easing="Power4.easeOut">
-							<img src="assets/img/misc/pine-tree.png" alt="" style="width:300px;height:auto;">
-						</div>
- -->
 					</li>
 
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							2
+						</div>
+
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img00.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img00.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 						<!-- LAYERS -->
 						<!-- LAYER NR. 1 -->
 						<!-- Embedded image: -->
-<!-- 						<div class="tp-caption customin customout hidden-xs"
-							data-x="right"
-							data-y="center"
-							data-hoffset="0"
-							data-customin="x:50;y:150;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.5;scaleY:0.5;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:50% 50%;"
-						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-							data-voffset="50"
-							data-speed="1000"
-							data-start="700"
-							data-easing="Power4.easeOut">
-							<img src="assets/img/slides/slide-img02.jpg" alt=""  class="photo">
-						</div>
-						<div class="tp-caption lfb visible-xs" data-x="center" data-y="center" data-hoffset="0" data-voffset="400" data-speed="1000" data-start="1200" data-easing="Power4.easeOut">
-							<a href="#" class="btn btn-primary inverse btn-lg">Purchase</a>
-						</div>
- -->
 
 						<div class="tp-caption sfb hidden-xs news-layer" data-speed="1000" data-start="1000" data-easing="Power4.easeOut">
 						   <p><i>Напейся, и ты будешь счастлив несколько часов;
@@ -177,93 +154,204 @@
 							– Китайская мудрость</p>
 						</div>
 
-<!-- 						<div class="tp-caption small_white_bold sfb hidden-xs" data-x="left" data-y="bottom" data-hoffset="0" data-voffset="-50" data-speed="1000" data-start="1000" data-easing="Power4.easeOut" style="background-color:rgba(49,134,40,0.8); padding: 20px;">
-						   <p><i>БЫЛО ТАК: Напейся, и ты будешь счастлив несколько часов;
-						   <br/>влюбись, и ты будешь счастлив несколько лет; 
-						   <br/>посади сад, и ты будешь счастлив всю жизнь.</i>
-						   <br/><br/>
-							– Китайская мудрость</p>
-						</div>
- -->
 					<!-- SLIDE 3 -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							3
+						</div>
+
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img01.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img01.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 						<!-- LAYERS -->
 						<!-- LAYER NR. 1 -->
 						<!-- Embedded image: -->
-<!-- 						<div class="tp-caption customin customout hidden-xs"
-							data-x="right"
-							data-y="center"
-							data-hoffset="0"
-							data-customin="x:50;y:150;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.5;scaleY:0.5;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:50% 50%;"
-						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-							data-voffset="50"
-							data-speed="1000"
-							data-start="700"
-							data-easing="Power4.easeOut">
-							<img src="assets/img/slides/slide-img03.jpg" alt=""  class="photo">
-						</div>
- -->
-
-
-
-<!-- 						<div class="tp-caption lfb visible-xs" data-x="center" data-y="center" data-hoffset="0" data-voffset="400" data-speed="1000" data-start="1200" data-easing="Power4.easeOut">
-							<a href="#" class="btn btn-primary inverse btn-lg">Purchase</a>
-						</div>
-
-						
-						<div class="tp-caption mediumlarge_light_white sfl hidden-xs" data-x="left" data-y="center" data-hoffset="0" data-voffset="-50" data-speed="1000" data-start="1000" data-easing="Power4.easeOut">
-						   Powerful Responsive
-						</div>
-						<div class="tp-caption mediumlarge_light_white sft hidden-xs" data-x="left" data-y="center" data-hoffset="0" data-voffset="0" data-speed="1000" data-start="1200" data-easing="Power4.easeOut">
-						   App Landing Page
-						</div>
-						<div class="tp-caption small_light_white sfb hidden-xs" data-x="left" data-y="center" data-hoffset="0" data-voffset="80" data-speed="1000" data-start="1600" data-easing="Power4.easeOut">
-						   <p>Nulla pretium libero interdum, tempus lorem non, rutrum diam. <br> Quisque pellentesque diam sed pulvinar lobortis. Vestibulum ante <br>ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
-						</div>
-
-						<div class="tp-caption lfl hidden-xs" data-x="left" data-y="center" data-hoffset="0" data-voffset="160" data-speed="1000" data-start="1800" data-easing="Power4.easeOut">
-							<a href="#" class="btn btn-primary inverse btn-lg">Purchase</a>
-						</div>
- -->						
 						
 					</li>
 
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							4
+						</div>
+
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img02.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img02.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 					</li>					
 					
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							5
+						</div>
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img03.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img03.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 					</li>					
 					
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							6
+						</div>
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img04.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img04.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 					</li>					
 					
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							7
+						</div>
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img05.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img05.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 					</li>					
 
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							8
+						</div>
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img06.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img06.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 					</li>					
 					
 					<!-- SLIDE 2-A -->
 					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							9
+						</div>
 						<!-- MAIN IMAGE -->
-						<img src="assets/img/slides/img07.jpg"  alt=""  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+						<img src="assets/img/slides/img07.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							10
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img08.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							11
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img09.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							12
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img10.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							13
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img11.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							14
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img12.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							15
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img13.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							16
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img14.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							17
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img15.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
+					</li>					
+					
+					<!-- SLIDE 2-A -->
+					<li data-transition="zoomout" data-slotamount="7" data-masterspeed="1000" >
+						<!-- NUMBER of slide-->
+						<div class="tp-caption sfb hidden-xs slide-number" 
+                            data-x="right" data-y="bottom" data-hoffset="0" data-voffset="-20"
+                            data-speed="500" data-start="700" data-easing="Power4.easeOut">
+							18
+						</div>
+						<!-- MAIN IMAGE -->
+						<img src="assets/img/slides/img16.jpg"  alt=""  data-bgfit="contain" data-bgposition="left bottom" data-bgrepeat="no-repeat">
 					</li>					
 					
 					
@@ -687,6 +775,9 @@
 
 	</div>
 	<script src="assets/js/jquery-1.11.1.min.js"></script>
+
+	<script src="assets/js/preprocess.dom.js"></script>
+
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/slick.min.js"></script>
 	<script src="assets/js/placeholdem.min.js"></script>

@@ -1,0 +1,21 @@
+/*
+fix.css
+
+Override behaviour of plugins. etc...
+
+*/
+.pre-loader {
+	display: block;
+	position: fixed;
+	left: 0;
+	top:0;
+	width: 100%;
+	height: 100%;
+
+}
+.tp-banner>ul>li>img {
+	display: none;
+}
+.tp.banner-container.loading >* {
+	/*visibility: hidden;*/
+}
