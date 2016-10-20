@@ -154,7 +154,8 @@ header .navbar-default .navbar-brand {
 header .navbar-default .navbar-brand img.logo{
   vertical-align: bottom;
 }
-header .navbar-default.scrolled {
+header .navbar-default.scrolled,
+header .navbar-default.frozen {
   /*background: rgba(255, 255, 255, 0.8);*/
   background: rgba(10, 10, 10, 0.8);
   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
@@ -167,14 +168,17 @@ header .navbar-default.scrolled {
   -o-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out;
 }
-header .navbar-default.scrolled .navbar-brand {
+header .navbar-default.scrolled .navbar-brand, 
+header .navbar-default.frozen .navbar-brand {
   padding: 5px 10px;
 }
-header .navbar-default.scrolled .navbar-brand img {
+header .navbar-default.scrolled .navbar-brand img, 
+header .navbar-default.frozen .navbar-brand img {
   width: auto;
   max-height: 53px;
 }
-header .navbar-default.scrolled ul.navbar-nav {
+header .navbar-default.scrolled ul.navbar-nav,
+header .navbar-default.frozen ul.navbar-nav {
   padding-top: 15px;
 }
 .scrollpoint {
@@ -760,14 +764,17 @@ form textarea.form-control {
   header .navbar-default .navbar-collapse {
     border-color: transparent;
   }
-  header .navbar-default.scrolled .navbar-collapse {
+  header .navbar-default.scrolled .navbar-collapse,
+  header .navbar-default.frozen .navbar-collapse {
     border-color: transparent;
   }
-  header .navbar-default.scrolled ul.navbar-nav {
+  header .navbar-default.scrolled ul.navbar-nav,
+  header .navbar-default.frozen ul.navbar-nav {
     padding-top: 0;
     margin: 0;
   }
-  header .navbar-default.scrolled .navbar-toggle {
+  header .navbar-default.scrolled .navbar-toggle,
+  header .navbar-default.frozen .navbar-toggle {
     margin-top: 11px;
     margin-right: 20px;
     background: none;
@@ -868,10 +875,12 @@ header .navbar-default ul.navbar-nav li a {
   background: none;
 }
 
-header .navbar-default.scrolled ul.navbar-nav li a.getApp {
+header .navbar-default.scrolled ul.navbar-nav li a.getApp,
+header .navbar-default.frozen ul.navbar-nav li a.getApp {
   color: rgba(255,255,255,1.0);
 }
-header .navbar-default.scrolled ul.navbar-nav li a.getApp:hover {
+header .navbar-default.scrolled ul.navbar-nav li a.getApp:hover,
+header .navbar-default.frozen ul.navbar-nav li a.getApp:hover {
   color: rgba(0,0,0,1.0);
 }
 
@@ -934,22 +943,27 @@ header .navbar-default ul.navbar-nav li a:hover {
   -o-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out;
 }
-header .navbar-default.scrolled {
+header .navbar-default.scrolled,
+header .navbar-default.frozen {
   border-bottom: 3px solid #65B633;
 }
-header .navbar-default.scrolled ul.navbar-nav li a {
+header .navbar-default.scrolled ul.navbar-nav li a,
+header .navbar-default.frozen ul.navbar-nav li a {
   /*color: #65B633;*/
   color: #ececec;
 }
-header .navbar-default.scrolled ul.navbar-nav li a:hover {
+header .navbar-default.scrolled ul.navbar-nav li a:hover,
+header .navbar-default.frozen ul.navbar-nav li a:hover {
   /*color: #65B633;*/
   color: #ffffff;
 }
-header .navbar-default.scrolled ul.navbar-nav li a:hover:after {
+header .navbar-default.scrolled ul.navbar-nav li a:hover:after,
+header .navbar-default.frozen ul.navbar-nav li a:hover:after {
   /*background: #65B633;*/
   background: #ffffff;
 }
-header .navbar-default.scrolled .navbar-brand {
+header .navbar-default.scrolled .navbar-brand,
+header .navbar-default.frozen .navbar-brand {
   /*background: #-318824;*/ /*old-green*/
   /*background: #25d500;*/
   background: #318628;
@@ -1052,4 +1066,15 @@ section#getApp .slider div.slick-slide {
 .info-module {
   padding: 25px;
   margin: 0px;
+}
+
+section.story {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+section.story .divider {
+
+}
+section.story p {
+  color: #333333;
 }
