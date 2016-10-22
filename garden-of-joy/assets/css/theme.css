@@ -369,3 +369,8 @@ section#reviews .divider:after {
 	background: rgb(18,51,5);
 	color: #cecece;
 }
+
+/*Hide numbers on production*/
+.slide-number {
+	display: none;
+}
